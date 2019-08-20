@@ -26,10 +26,11 @@ class _ListMirrorCategoryState extends State<ListMirrorCategory> {
   Widget build(BuildContext context) {
 
     listBlocCategory.getList();
+    listBloc.getList();
     loadCategoryList(listBlocCategory.getList());
 
     final content = StreamBuilder<List<Map>>(
-        stream: listBlocCategory.lists,
+        stream: listBloc.lists,
         builder: (BuildContext context, AsyncSnapshot snapshot){
           switch(snapshot.connectionState){
             case ConnectionState.none:
@@ -42,7 +43,6 @@ class _ListMirrorCategoryState extends State<ListMirrorCategory> {
                 return Text('Erro: ${snapshot.error}');
               }
               else{
-                //loadCategoryList(snapshot.data);
                 return HomeListCategoryPage(shoppListCategory: snapshot.data);
               }
               break;

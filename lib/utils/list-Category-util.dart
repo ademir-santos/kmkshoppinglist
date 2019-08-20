@@ -18,14 +18,26 @@ setcategoryList(int refIdShoppList, String listName, Map category){
     });    
 }
 
-loadCategoryList(Future<List<Map<dynamic,dynamic>>> snapshotList) async{
+loadCategoryList(Future<List<Map<dynamic,dynamic>>> futureList) async{
   ShoppingListCategoryTempModel shoppingListCategoryTempModel = ShoppingListCategoryTempModel();
   
-  snapshotList.asStream((snap){
+  futureList.asStream().forEach((mapList){
+    for(int i = 0; i < mapList.length; i++){
+      Map map = mapList[i];
+      
+      shoppingListCategoryTempModel.insert({
+        'refid_category': map['recid'],
+        'category': map['category'],
+        'checked': 0
+      });
+    }
+  });
+
+  /*snapshotList.asStream((snap) {
       shoppingListCategoryTempModel.insert({
         'refid_category': snap['recid'],
         'category': snap['category'],
         'checked': 0
       });
-  });
+  });*/
 }
