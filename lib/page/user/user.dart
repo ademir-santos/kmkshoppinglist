@@ -1,25 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:kmkshoppinglist/page/home/home-list-bloc.dart';
-import 'package:kmkshoppinglist/page/home/home-list.dart';
 import 'package:kmkshoppinglist/page/layout-base/layout.dart';
+import 'package:kmkshoppinglist/page/user/user-list-bloc.dart';
+import 'package:kmkshoppinglist/page/user/user-list.dart';
 
-class HomePage extends StatefulWidget{
-  static String tag = 'home-page';
-
-  HomePage({Key key, this.title}) : super(key: key);
-
-  final String title;
-  static int refId = 0;
-  static String listName;
-
+class UserPage extends StatefulWidget {
+  static final tag = 'user-page';
 
   @override
-  _HomePageState createState() => _HomePageState();
+  _UserPageState createState() => _UserPageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _UserPageState extends State<UserPage> {
+  UserListBloc listBloc = UserListBloc();
 
-  HomeListBloc listBloc = HomeListBloc();
 
   @override
   void dispose() {
@@ -27,10 +20,8 @@ class _HomePageState extends State<HomePage> {
     super.dispose();
   }
 
-
   @override
   Widget build(BuildContext context) {
-
     final content = StreamBuilder<List<Map>>(
       stream: listBloc.lists,
       builder: (BuildContext context, AsyncSnapshot snapshot){
@@ -39,19 +30,19 @@ class _HomePageState extends State<HomePage> {
           case ConnectionState.waiting:
             return const Center(child: CircularProgressIndicator());
             break;
-           default:
+          default:
             if(snapshot.hasError){
               print(snapshot.hasError);
               return Text('Erro: ${snapshot.error}');
             }
             else{
-              return HomeListPage(shoppList: snapshot.data);
+              return UserListPage(user: snapshot.data);
             }
             break;
         }
       },
     );
 
-    return Layout.getContent(context, content, true, HomePage.tag);
+    return Layout.getContent(context, content, true, UserPage.tag);
   }
 }

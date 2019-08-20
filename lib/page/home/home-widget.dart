@@ -1,71 +1,128 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:kmkshoppinglist/page/home/home-list.dart';
+import 'package:kmkshoppinglist/models/UserShoppingListModel.dart';
+import 'package:kmkshoppinglist/page/home/home.dart';
 import 'package:kmkshoppinglist/page/layout-base/layout-widget.dart';
 
-class HomeWidget extends StatelessWidget {
-  
-  
-  
-  @override
-  Widget build(BuildContext context) {
-    return null;
+class HomeWidget {
+
+  static setShoppList(BuildContext ctx, String shoppList){
+
+    UserShoppingListModel userShoppingListModel = UserShoppingListModel();
+
+    userShoppingListModel.insert({
+      'list_name': shoppList.toUpperCase(),
+      'created': DateTime.now().toString(),
+      'refid_user': 1
+    }).then((recId){
+      Navigator.of(ctx).pop();
+      Navigator.of(ctx).popAndPushNamed(HomePage.tag);
+    });    
   }
 
-  static void getShoppList() {
+  //Formulario para criar categoria
+  static List<Widget> getAction(context) {
+    TextEditingController _sh = TextEditingController();
+    List<Widget> items = List<Widget>();
 
-    Widget value = ListView.builder(
-      itemCount: 15,
-      itemBuilder: (BuildContext context, int pos) {
-        return Slidable(
-          actionPane: SlidableDrawerActionPane(),
-          actionExtentRatio: 0.25,
-          child: Container(
-            color: Colors.white70,
-            child: ListTile(
-              leading: CircleAvatar(
-                backgroundColor: LayoutWidget.primary(),
-                child: Text('$pos'),
-                foregroundColor: Colors.white,
-              ),
-              title: Text('Tile n°$pos'),
-              subtitle: Text('Informações de produto'),
+    Widget valueDialog = showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext ctx) {
+        return AlertDialog(
+          title: Text('Cadastro de lista de compra'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                TextFormField(
+                  controller: _sh,
+                  autofocus: true,
+                  decoration: InputDecoration(
+                    hintText: 'Nome da lista',
+                  ),
+                )
+              ],
             ),
           ),
           actions: <Widget>[
-            IconSlideAction(
-              caption: 'Arquivar',
-              icon: Icons.archive,
-              color: Colors.amberAccent,
-              onTap: (){ print('Arquivar'); },
+            FlatButton(
+              color: LayoutWidget.primary(),
+              child: Text('Salva', style: TextStyle(color: LayoutWidget.light())),
+              onPressed: (){
+                print(_sh.text);
+                setShoppList(ctx, _sh.text);
+                Navigator.of(ctx).popAndPushNamed(HomePage.tag);
+              },
             ),
 
-            IconSlideAction(
-              caption: 'Compartilhar',
-              icon: Icons.share,
-              color: Colors.indigo,
-              onTap: (){ print('Arquivar'); },
-            ),
+            FlatButton(
+              color: LayoutWidget.danger(),
+              child: Text('Cancelar', style: TextStyle(color: LayoutWidget.light())),
+              onPressed: (){
+                Navigator.of(ctx).pop();
+              },
+            )
           ],
-
-          secondaryActions: <Widget>[
-            IconSlideAction(
-              caption: 'Mais',
-              color: Colors.black45,
-              icon: Icons.more_horiz,
-              onTap: () { print('Mais'); },
-            ),
-            IconSlideAction(
-              caption: 'Excluir',
-              color: Colors.red,
-              icon: Icons.delete,
-              onTap: () { print('Excluir'); },
-            ),
-          ],
-        ); 
+        );
       },
-    );
+    ) as Widget;
 
-    HomeListPage.shoppList.add(value);
+    items.add(valueDialog);
+
+    return items;
+  }
+
+  static void showEditDialog(BuildContext context, Map shoppList){
+    TextEditingController _sh = TextEditingController();
+
+    _sh.text = shoppList['list_name'];
+
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext ctx) {
+        final inputLitName = TextFormField(
+          controller: _sh,
+          autofocus: true,
+          decoration: InputDecoration(
+            hintText: 'Lista de compra',
+            contentPadding: EdgeInsets.fromLTRB(20, 10, 20, 10)
+          ),
+        );
+
+        return AlertDialog(
+          title: Text('Editar lista'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                inputLitName
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            FlatButton(
+              color: LayoutWidget.primary(),
+              child: Text('Salva', style: TextStyle(color: LayoutWidget.light())),
+              onPressed: (){
+                UserShoppingListModel userShoppingListModel = UserShoppingListModel();
+                userShoppingListModel.update({
+                  'list_name': _sh.text.toUpperCase()
+                }, shoppList['recid']).then((saved){
+                  Navigator.of(ctx).pop();
+                  Navigator.of(ctx).pushReplacementNamed(HomePage.tag);
+                });
+              },
+            ),
+
+            FlatButton(
+              color: LayoutWidget.danger(),
+              child: Text('Cancelar', style: TextStyle(color: LayoutWidget.light())),
+              onPressed: (){
+                Navigator.of(ctx).pop();
+              },
+            )
+          ],
+        );
+      }
+    );
   }
 }

@@ -1,31 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:kmkshoppinglist/page/category/category-list.dart';
 import 'package:kmkshoppinglist/page/category/category.dart';
 import 'package:kmkshoppinglist/page/layout-base/layout-widget.dart';
+import 'package:kmkshoppinglist/models/CategoryModel.dart';
 
-class CategoryWidget extends StatelessWidget {
-  
-  @override
-  Widget build(BuildContext context) {
-    return null;
-  }
+class CategoryWidget {
 
   //Adiciona categoria na lista
-  static setCategory(String cat) {
-    CategoryListPage.category.add(
-      ListTile(
-        leading: CircleAvatar(
-          backgroundColor: LayoutWidget.primary(),
-          child: Text('C'),
-          foregroundColor: Colors.white,
-        ),
-        title: Text(cat),
-        trailing: Icon(Icons.more_vert),
-        onTap: () {
-          
-        },
-      ),
-    );
+  static setCategory(BuildContext ctx, String cat) {
+    String category = cat.substring(0,1).toUpperCase()+cat.substring(1);
+    CategoryModel categoryModel = CategoryModel();
+
+    categoryModel.insert({
+      'categorys': category
+    }).then((recId){
+      Navigator.of(ctx).pop();
+      Navigator.of(ctx).popAndPushNamed(CategoryPage.tag);
+    });
   }
 
   //Formulario para criar categoria
@@ -56,9 +46,7 @@ class CategoryWidget extends StatelessWidget {
               color: LayoutWidget.primary(),
               child: Text('Salva', style: TextStyle(color: LayoutWidget.light())),
               onPressed: (){
-                print(_c1.text);
-                CategoryWidget.setCategory(_c1.text);
-                Navigator.of(ctx).popAndPushNamed(CategoryPage.tag);
+                CategoryWidget.setCategory(ctx, _c1.text);
               },
             ),
 
@@ -77,5 +65,59 @@ class CategoryWidget extends StatelessWidget {
     items.add(value);
 
     return items;
-  }   
+  }
+
+  static void showEditDialog(BuildContext context, Map category){
+    TextEditingController _c = TextEditingController();
+    _c.text = category['categorys'];
+
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext ctx) {
+        final input = TextFormField(
+          controller: _c,
+          autofocus: true,
+          decoration: InputDecoration(
+            hintText: 'Categoria',
+            contentPadding: EdgeInsets.fromLTRB(20, 10, 20, 10)
+          ),
+        );
+
+        return AlertDialog(
+          title: Text('Editar Categoria'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                input
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            FlatButton(
+              color: LayoutWidget.primary(),
+              child: Text('Salva', style: TextStyle(color: LayoutWidget.light())),
+              onPressed: (){
+                CategoryModel categoryModel = CategoryModel();
+                categoryModel.update({
+                  'categorys': _c.text.substring(0,1).toUpperCase()+_c.text.substring(1)
+                }, category['recid']).then((saved){
+                  Navigator.of(ctx).pop();
+                  Navigator.of(ctx).pushReplacementNamed(CategoryPage.tag);
+                });
+              },
+            ),
+
+            FlatButton(
+              color: LayoutWidget.danger(),
+              child: Text('Cancelar', style: TextStyle(color: LayoutWidget.light())),
+              onPressed: (){
+                Navigator.of(ctx).pop();
+              },
+            )
+          ],
+        );
+      }
+    );
+  }
 }

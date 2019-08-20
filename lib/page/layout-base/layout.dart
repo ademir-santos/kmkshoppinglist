@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:kmkshoppinglist/page/category/category-widget.dart';
 import 'package:kmkshoppinglist/page/category/category.dart';
 import 'package:kmkshoppinglist/page/home/home.dart';
 import 'package:kmkshoppinglist/page/layout-base/layout-widget.dart';
+import 'package:kmkshoppinglist/page/user/user.dart';
 
 class Layout {
   static BuildContext scaffoldContext;
@@ -11,43 +11,57 @@ class Layout {
 
   static Scaffold getContent(BuildContext context, content, [bool showbottom = false, String page = 'home-page']) {
 
-    dynamic floatbottom;
-
     if(showbottom == true) {
-        floatbottom = FloatingActionButton(
-          onPressed:(){
-            CategoryWidget.getAction(context);
-          },
-
-          tooltip: 'Increment',
-          child: Icon(Icons.add),
-      ); // This trailing com
+      LayoutWidget.activeButtom(page, context);
     }
 
     return Scaffold(
+      appBar: LayoutWidget.getAppBar(page),
       drawer: Drawer(
         child: ListView(
           children: <Widget>[
+            new UserAccountsDrawerHeader(
+              accountName: new Text('Ademir Santos'),
+              accountEmail: new Text('ademirap.santos@outlook.com'),
+              currentAccountPicture: new CircleAvatar(
+                backgroundColor: Colors.white,
+                child: Text('A'),
+              ),
+            ),
             ListTile(
               leading: Icon(Icons.home),
               title: Text('Principal'),
+              trailing: new Icon(Icons.arrow_back),
               onTap: (){
-                Navigator.of(context).pushNamed(HomePage.tag);
+                Navigator.of(context).pop();
+                Navigator.of(context).pushReplacementNamed(HomePage.tag);
               },
             ),
+            Divider(),
             ListTile(
-              leading: Icon(Icons.shop),
-              title: Text('Categoria de produto'),
+              leading: Icon(Icons.loyalty),
+              title: Text('Categoria / produto'),
+              trailing: new Icon(Icons.arrow_back),
               onTap: (){
-                Navigator.of(context).pushNamed(CategoryPage.tag);
+                Navigator.of(context).pop();
+                Navigator.of(context).pushReplacementNamed(CategoryPage.tag);
+              },
+            ),
+            Divider(),
+            ListTile(
+              leading: Icon(Icons.account_circle),
+              title: Text('Usuários'),
+              trailing: new Icon(Icons.arrow_back),
+              onTap: (){
+                Navigator.of(context).pop();
+                Navigator.of(context).pushReplacementNamed(UserPage.tag);
               },
             )
           ],
         ),
       ),
-      appBar: LayoutWidget.getAppBar(page),
       body: content,
-      floatingActionButton: floatbottom,
+      floatingActionButton: LayoutWidget.floatbottom,
     );
   }
 }

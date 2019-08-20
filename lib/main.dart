@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:kmkshoppinglist/page/category/category.dart';
 import 'package:kmkshoppinglist/page/home/home.dart';
+import 'package:kmkshoppinglist/page/home/list-utils/list-mirror-category.dart';
+import 'package:kmkshoppinglist/page/home/list-utils/mirror-category.dart';
 import 'package:kmkshoppinglist/page/layout-base/layout-widget.dart';
+import 'package:kmkshoppinglist/page/product/product.dart';
+import 'package:kmkshoppinglist/page/user/user.dart';
 
 void main() => runApp(KMKShoppingList());
 
@@ -9,7 +13,11 @@ class KMKShoppingList extends StatelessWidget {
   
   final routes = <String, WidgetBuilder> {
     HomePage.tag: (context) => HomePage(),
-    CategoryPage.tag: (context) => CategoryPage()
+    ListMirrorCategory.tag: (context) => ListMirrorCategory(),
+    MirrorCategory.tag: (context) => MirrorCategory(),
+    CategoryPage.tag: (context) => CategoryPage(),
+    ProductPage.tag: (context) => ProductPage(),
+    UserPage.tag: (context) => UserPage()
   };
 
   @override
