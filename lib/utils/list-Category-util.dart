@@ -27,7 +27,7 @@ loadCategoryList(Stream<List<Map>> futureList) async{
     for(var map in mapList){
       String category = map['categorys'].toString();
 
-      if(category.isEmpty){
+      if(category.isNotEmpty){
         exists = await shoppingListCategoryTempModel.getItemExist(category);
 
         if(exists){
