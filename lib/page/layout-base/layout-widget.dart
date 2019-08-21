@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kmkshoppinglist/page/category/category-widget.dart';
 import 'package:kmkshoppinglist/page/home/home-widget.dart';
-import 'package:kmkshoppinglist/page/home/list-utils/mirror-category.dart';
 
 class LayoutWidget extends StatelessWidget {
   

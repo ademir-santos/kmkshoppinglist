@@ -39,7 +39,7 @@ class ShoppingListCategoryTempModel extends AbstractDataBase {
   @override
   Future<Map> getItem(dynamic where) async{
     Database db = await this.getDb();
-    List<Map> categoryTable = await db.rawQuery('SELECT TOP 1* FROM shopplist_category_temp WHERE recid = $where LIMIT');
+    List<Map> categoryTable = await db.rawQuery('SELECT TOP 1* FROM shopplist_category_temp WHERE ? = $where LIMIT');
 
     Map result = Map();
 
@@ -82,5 +82,17 @@ class ShoppingListCategoryTempModel extends AbstractDataBase {
     int rows = await db.delete('shopplist_category_temp');
 
     return (rows != 0);
+  }
+
+  Future<bool> getItemExist(dynamic where) async{
+    Database db = await this.getDb();
+
+    List<Map> categoryTable = await db.rawQuery('SELECT TOP 1 recid FROM shopplist_category_temp WHERE categorys = $where LIMIT');
+
+    if(categoryTable.isNotEmpty){
+      return true; 
+    }
+
+    return false;
   }
 }

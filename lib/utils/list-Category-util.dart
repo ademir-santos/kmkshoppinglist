@@ -9,7 +9,7 @@ setcategoryList(int refIdShoppList, String listName, Map category){
       'refid_shopplist': refIdShoppList,
       'list_name': listName,
       'refid_category': category['recid'],
-      'category': category['category'],
+      'category': category['categorys'],
       'checked': 1,
       'created': DateTime.now().toString()
     }).then((recId){
@@ -20,14 +20,24 @@ setcategoryList(int refIdShoppList, String listName, Map category){
 
 loadCategoryList(Stream<List<Map>> futureList) async{
   ShoppingListCategoryTempModel shoppingListCategoryTempModel = ShoppingListCategoryTempModel();
+  bool exists = false;
 
   await for(var mapList in futureList){
+
     for(var map in mapList){
-      shoppingListCategoryTempModel.insert({
-          'refid_category': map['recid'],
-          'category': map['category'],
-          'checked': 0
-      });
+      String category = map['categorys'].toString();
+
+      if(category.isEmpty){
+        exists = await shoppingListCategoryTempModel.getItemExist(category);
+
+        if(exists){
+          shoppingListCategoryTempModel.insert({
+            'refid_category': map['recid'],
+            'categorys': map['categorys'],
+            'checked': 0
+          });
+        }
+      }
     }
   }
 }
