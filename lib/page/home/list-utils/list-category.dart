@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:kmkshoppinglist/models/ShoppingListCategoryModel.dart';
+import 'package:kmkshoppinglist/models/ShoppingListCategoryTempModel.dart';
 import 'package:kmkshoppinglist/page/home/home.dart';
 import 'package:kmkshoppinglist/page/home/list-utils/list-category-bloc-temp.dart';
 import 'package:kmkshoppinglist/page/layout-base/layout-widget.dart';
@@ -20,10 +21,10 @@ class ListCategoryPage extends StatefulWidget {
 
 class ListCategoryPageState extends State<ListCategoryPage> {
   
+  ShoppingListCategoryTempModel shoppingListCategoryTempModel = ShoppingListCategoryTempModel();
   @override
   Widget build(BuildContext context) {
     ShoppingListCategoryModel shoppingListCategoryModel = ShoppingListCategoryModel();
-    //shoppingListCategoryModel.list(HomePage.refId);
 
     if (widget.listCategorys.isEmpty) {
       return ListView(children: <Widget>[
@@ -64,15 +65,9 @@ class ListCategoryPageState extends State<ListCategoryPage> {
       itemCount: filteredList.length,
       itemBuilder: (BuildContext context, int i) {
         
-
         Map item = filteredList[i];
-        Map listSh = Map();
-        //listSh =  listShop[i].length == 0? Map() : listShop[i];
-
-        shoppingListCategoryModel.list(HomePage.refId).then((listShop) {
-          listSh.addAll(listShop.asMap());
-        });
-        
+        int checked = item['checked'];
+        //listSh =  listShop[i].length == 0? Map() : listShop[i];     
 
         /*String itemUnit = unity.keys.first;
         unity.forEach((name, precision) {
@@ -91,14 +86,15 @@ class ListCategoryPageState extends State<ListCategoryPage> {
           child: ListTile(
             leading: GestureDetector(
               child: Icon(
-                ((listSh['checked'] == 1) ? Icons.check_box : Icons.check_box_outline_blank),
-                color: ((listSh['checked'] == 0) ? LayoutWidget.info() : LayoutWidget.success()),
+                ((checked == 1) ? Icons.check_box : Icons.check_box_outline_blank),
+                color: ((checked == 0) ? LayoutWidget.info() : LayoutWidget.success()),
                 size: 42
               ),
               onTap: () {
-                if((listSh['checked'] == 1)){
-
-                    shoppingListCategoryModel.update({ 'checked': !(listSh['checked'] == 1) }, listSh['recid']).then((bool updated) {
+                checked = item['checked'];
+                if((checked == 0)){
+                    int recid = item['recid'];
+                    shoppingListCategoryTempModel.update({ 'checked': 1 }, recid).then((bool updated) {
                     if (updated) {
                       widget.listCategoryBlocTemp.getList();
                     }
@@ -106,7 +102,12 @@ class ListCategoryPageState extends State<ListCategoryPage> {
                 }
                 else
                 {
-                  setcategoryList(HomePage.refId, HomePage.listName, item);
+                  int recid = item['recid'];
+                  shoppingListCategoryTempModel.update({ 'checked': 0 }, recid).then((updated) {
+                    if (updated) {
+                      widget.listCategoryBlocTemp.getList();
+                    }
+                  });
                   //ListCategoryWidget listNew = ListCategoryWidget();
 
                   //widget.listShopBloc.setValue();
