@@ -15,7 +15,7 @@ class HomeWidget {
       'refid_user': 1
     }).then((recId){
       Navigator.of(ctx).pop();
-      Navigator.of(ctx).popAndPushNamed(HomePage.tag);
+      Navigator.of(ctx).pushReplacementNamed(HomePage.tag);
     });    
   }
 
@@ -48,9 +48,7 @@ class HomeWidget {
               color: LayoutWidget.primary(),
               child: Text('Salva', style: TextStyle(color: LayoutWidget.light())),
               onPressed: (){
-                print(_sh.text);
                 setShoppList(ctx, _sh.text);
-                Navigator.of(ctx).popAndPushNamed(HomePage.tag);
               },
             ),
 

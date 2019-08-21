@@ -1,10 +1,9 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:intl/intl.dart';
 import 'package:kmkshoppinglist/models/UserShoppingListModel.dart';
 import 'package:kmkshoppinglist/page/home/home-widget.dart';
-import 'package:kmkshoppinglist/page/home/list-utils/list-mirror-category.dart';
+import 'package:kmkshoppinglist/page/home/list-home/list-mirror-category.dart';
 import 'package:kmkshoppinglist/utils/application.dart';
 import 'package:kmkshoppinglist/page/home/home.dart';
 import 'package:kmkshoppinglist/page/layout-base/layout-widget.dart';
@@ -69,6 +68,7 @@ class HomeListPageState extends State<HomeListPage> {
                       onTap: (){
                         HomePage.listName = shoppList['list_name'];
                         HomePage.refId = shoppList['recid'];
+                        Navigator.of(context).pop();
                         Navigator.of(context).pushNamed(ListMirrorCategory.tag);
                       }
                     )

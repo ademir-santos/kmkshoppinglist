@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:kmkshoppinglist/page/category/category.dart';
 import 'package:kmkshoppinglist/page/home/home.dart';
-import 'package:kmkshoppinglist/page/home/list-utils/list-mirror-category.dart';
-import 'package:kmkshoppinglist/page/home/list-utils/mirror-category.dart';
+import 'package:kmkshoppinglist/page/home/list-category/mirror-category.dart';
+import 'package:kmkshoppinglist/page/home/list-home/list-mirror-category.dart';
 import 'package:kmkshoppinglist/page/layout-base/layout-widget.dart';
 import 'package:kmkshoppinglist/page/product/product.dart';
 import 'package:kmkshoppinglist/page/user/user.dart';

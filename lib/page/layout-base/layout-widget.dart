@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:kmkshoppinglist/page/category/category-widget.dart';
 import 'package:kmkshoppinglist/page/home/home-widget.dart';
+import 'package:kmkshoppinglist/page/home/home.dart';
+import 'package:kmkshoppinglist/page/home/list-category/mirror-category.dart';
 
 class LayoutWidget extends StatelessWidget {
   
@@ -51,7 +53,7 @@ class LayoutWidget extends StatelessWidget {
     }
   }
 
-  static void activeButtom(String page, BuildContext context){
+  static FloatingActionButton activeButtom(String page, BuildContext context){
     floatbottom = null;
     
     switch (page) {
@@ -76,16 +78,21 @@ class LayoutWidget extends StatelessWidget {
       case 'list-mirror-category':
         floatbottom = FloatingActionButton(
           onPressed:(){
-            Navigator.of(context).pushNamed(page);
+            //Navigator.of(context).pop();
+            MirrorCategory.listName = HomePage.listName;
+            MirrorCategory.refIdList = HomePage.refId;
+            Navigator.of(context).pushNamed(MirrorCategory.tag);
           },
           tooltip: 'Increment',
           child: Icon(Icons.add),
-        ); 
-        break;  
+        );
+        break;
       default:
         floatbottom = null;
         break;
     }
+
+    return floatbottom;
   }
 
   Widget buildInfo() {

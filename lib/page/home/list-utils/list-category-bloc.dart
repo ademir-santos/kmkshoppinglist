@@ -9,6 +9,10 @@ class ListCategoryBloc {
   static int refIdList;
   static String listName;
 
+  ListCategoryBloc(int refIdList, String listName){
+    setValue(refIdList, listName);
+  }
+
   final _controller = StreamController<List<Map>>.broadcast();
 
   ShoppingListCategoryModel shoppingListCategoryModel = ShoppingListCategoryModel();
@@ -23,8 +27,16 @@ class ListCategoryBloc {
     _controller.sink.add(await shoppingListCategoryModel.list(refIdList));
   }
 
+  getListName(){
+    return listName;
+  }
+
+  getListId(){
+    return refIdList;
+  }
+
   setValue(int refIdList, String listName){
-     refIdList = refIdList;
+    refIdList = refIdList;
     listName = listName;
   }
 }

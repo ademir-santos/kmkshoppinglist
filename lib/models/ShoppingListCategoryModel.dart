@@ -53,6 +53,7 @@ class ShoppingListCategoryModel extends AbstractDataBase {
   @override
   Future<int> insert(Map<String, dynamic> values) async{
     Database db = await this.getDb();
+
     int newRecId = await db.insert('shopplist_category', values);
 
     return newRecId;
@@ -61,8 +62,13 @@ class ShoppingListCategoryModel extends AbstractDataBase {
   @override
   Future<bool> update(Map<String, dynamic> values, where) async{
     Database db = await this.getDb();
-
-    int rows = await db.update('shopplist_category', values, where: 'recid = ?', whereArgs: [where]);
+    int rows = 0;
+    
+      bool exists = await getItemExist(values['categorys'].toString());
+    
+      if(exists){
+        rows = await db.update('shopplist_category', values, where: 'recid = ?', whereArgs: [where]);
+      }
 
     return (rows != 0);
   }
@@ -73,6 +79,31 @@ class ShoppingListCategoryModel extends AbstractDataBase {
 
     int rows = await db.delete('shopplist_category', where: 'recid = ?', whereArgs: [recId]);
 
+    return (rows != 0);
+  }
+
+    Future<bool> getItemExist(dynamic where) async{
+    Database db = await this.getDb();
+
+    List<Map> categoryTable = await db.query('shopplist_category', where: 'categorys = ?', whereArgs: [where], limit: 1);
+
+    if(categoryTable.isEmpty){
+      return true; 
+    }
+
+    return false;
+  }
+
+  Future<bool> updateTemp(Map<String, dynamic> values, where) async{
+    Database db = await this.getDb();
+    int rows = 0;
+
+    bool exists = await getItemExist(values['categorys'].toString());
+    
+    if(exists){
+      rows = await db.update('shopplist_category_temp', values, where: 'recid = ?', whereArgs: [where]);
+    }
+    
     return (rows != 0);
   }
 }
