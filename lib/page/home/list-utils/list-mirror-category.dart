@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:kmkshoppinglist/page/category/category-list-bloc.dart';
 import 'package:kmkshoppinglist/page/home/home.dart';
 import 'package:kmkshoppinglist/page/home/list-utils/list-category-bloc-temp.dart';
+import 'package:kmkshoppinglist/page/home/list-utils/list-category-bloc.dart';
 import 'package:kmkshoppinglist/page/home/list-utils/list-home-category.dart';
 import 'package:kmkshoppinglist/page/home/list-utils/mirror-category.dart';
 import 'package:kmkshoppinglist/page/layout-base/layout-widget.dart';
-import 'package:kmkshoppinglist/utils/list-Category-util.dart';
 
 class ListMirrorCategory extends StatefulWidget {
   
@@ -17,19 +16,15 @@ class ListMirrorCategory extends StatefulWidget {
 
 class _ListMirrorCategoryState extends State<ListMirrorCategory> {
 
-  ListCategoryBlocTemp listBloc = ListCategoryBlocTemp();
-  CategoryListBloc listBlocCategory = CategoryListBloc();
+  ListCategoryBloc listBloc = new ListCategoryBloc();
+  ListCategoryBlocTemp listBlocTemp = new ListCategoryBlocTemp();
   
   
 
   @override
   Widget build(BuildContext context) {
 
-    listBlocCategory.getList();
-    
-    loadCategoryList(listBlocCategory.lists);
-
-    listBloc.getList();
+    listBlocTemp.getList();
 
     final content = StreamBuilder<List<Map>>(
         stream: listBloc.lists,

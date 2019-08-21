@@ -6,11 +6,6 @@ import 'package:kmkshoppinglist/models/ShoppingListCategoryModel.dart';
 
 class ListCategoryBloc {
 
-  ListCategoryBloc(int refIdList, String listName){
-    getList(refIdList);
-    setValue(refIdList, listName);
-  }
-  
   static int refIdList;
   static String listName;
 

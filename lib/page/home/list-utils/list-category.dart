@@ -1,21 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:kmkshoppinglist/models/ShoppingListCategoryModel.dart';
-import 'package:kmkshoppinglist/page/category/category-list-bloc.dart';
 import 'package:kmkshoppinglist/page/home/home.dart';
 import 'package:kmkshoppinglist/page/home/list-utils/list-category-bloc-temp.dart';
-import 'package:kmkshoppinglist/page/home/list-utils/list-category-bloc.dart';
 import 'package:kmkshoppinglist/page/home/list-utils/list-category-widget.dart';
 import 'package:kmkshoppinglist/page/layout-base/layout-widget.dart';
 import 'package:kmkshoppinglist/utils/list-Category-util.dart';
 
 class ListCategoryPage extends StatefulWidget {
 
-  final List<Map> categorys;
+  final List<Map> listCategorys;
   final String filter;
-  final ListCategoryBlocTemp listShoppBloc;
+  final ListCategoryBlocTemp listCategoryBloc;
 
-  const ListCategoryPage({Key key, this.categorys, this.filter, this.listShoppBloc}) : super(key: key);
+  const ListCategoryPage({Key key, this.listCategorys, this.filter, this.listCategoryBloc}) : super(key: key);
 
   @override
   ListCategoryPageState createState() => ListCategoryPageState();
@@ -28,7 +26,7 @@ class ListCategoryPageState extends State<ListCategoryPage> {
     ShoppingListCategoryModel shoppingListCategoryModel = ShoppingListCategoryModel();
     //shoppingListCategoryModel.list(HomePage.refId);
 
-    if (widget.categorys.isEmpty) {
+    if (widget.listCategorys.isEmpty) {
       return ListView(children: <Widget>[
         ListTile(title: Text('Nenhum registro...'))
       ]);
@@ -41,12 +39,12 @@ class ListCategoryPageState extends State<ListCategoryPage> {
       listShop.addAll(listShop.asMap().);
     });*/
 
-    widget.listShoppBloc.getList();
+    widget.listCategoryBloc.getList();
 
     //for(Map m in shoppingListCategoryModel.list(HomePage.refId))
 
     if (widget.filter.isNotEmpty) {
-      for (dynamic cat in widget.categorys) {
+      for (dynamic cat in widget.listCategorys) {
 
         // Check if theres this filter in the current item
         String name = cat['categorys'].toString();
@@ -55,7 +53,7 @@ class ListCategoryPageState extends State<ListCategoryPage> {
         }
       }
     } else {
-      filteredList.addAll(widget.categorys);
+      filteredList.addAll(widget.listCategorys);
     }
 
     if (filteredList.isEmpty) {
@@ -106,7 +104,7 @@ class ListCategoryPageState extends State<ListCategoryPage> {
 
                     shoppingListCategoryModel.update({ 'checked': !(listSh['checked'] == 1) }, listSh['recid']).then((bool updated) {
                     if (updated) {
-                      widget.listShoppBloc.getList();
+                      widget.listCategoryBloc.getList();
                     }
                   });
                 }

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:kmkshoppinglist/page/category/category-list-bloc.dart';
 import 'package:kmkshoppinglist/page/home/list-utils/list-category-bloc-temp.dart';
 import 'package:kmkshoppinglist/page/home/list-utils/list-category.dart';
 import 'package:kmkshoppinglist/page/layout-base/layout-widget.dart';
 import 'package:kmkshoppinglist/page/layout-base/layout.dart';
 import 'package:kmkshoppinglist/utils/application.dart';
+import 'package:kmkshoppinglist/utils/list-Category-util.dart';
 
 class MirrorCategory extends StatefulWidget {
   
@@ -19,19 +21,23 @@ class _MirrorCategoryState extends State<MirrorCategory> {
 
   String filterText = "";
 
-  final ListCategoryBlocTemp listShoppBloc = ListCategoryBlocTemp();
+  ListCategoryBlocTemp listCategoryBloc = ListCategoryBlocTemp();
+  CategoryListBloc listBlocCategory = CategoryListBloc();
   
-  List<Map> category; 
+  
 
   @override
   void dispose() {
-    listShoppBloc.dipose();
+    listCategoryBloc.dipose();
     super.dispose();
   }
   
   @override
   Widget build(BuildContext context) {
-    //loadCategoryList(listBloc.lists);
+    listBlocCategory.getList();
+    
+    loadCategoryList(listBlocCategory.lists);
+    listCategoryBloc.getList();
     
     final content = SingleChildScrollView(
       child: Column(
@@ -75,7 +81,7 @@ class _MirrorCategoryState extends State<MirrorCategory> {
           Container(
             height: MediaQuery.of(context).size.height - 249,
             child: StreamBuilder<List<Map>>(
-              stream: listShoppBloc.lists,
+              stream: listCategoryBloc.lists,
               builder: (BuildContext context, AsyncSnapshot snapshot) {
                 switch (snapshot.connectionState) {
                   case ConnectionState.none:
@@ -89,9 +95,9 @@ class _MirrorCategoryState extends State<MirrorCategory> {
                     } else {
 
                       return ListCategoryPage(
-                        categorys: snapshot.data,
+                        listCategorys: snapshot.data,
                         filter: filterText,
-                        listShoppBloc: listShoppBloc
+                        listCategoryBloc: listCategoryBloc
                       );
 
                     }
@@ -116,7 +122,7 @@ class _MirrorCategoryState extends State<MirrorCategory> {
             ),
             height: 80,
             child: StreamBuilder<List<Map>>(
-              stream: listShoppBloc.lists,
+              stream: listCategoryBloc.lists,
               builder: (BuildContext context, AsyncSnapshot snapshot) {
                 switch (snapshot.connectionState) {
                   case ConnectionState.none:
