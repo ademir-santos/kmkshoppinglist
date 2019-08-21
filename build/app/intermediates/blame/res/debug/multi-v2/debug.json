@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "C:\\KMK\\K.M.K\\Projetos\\Visual_Studio_Code\\kmkshoppinglist\\build\\app\\intermediates\\res\\merged\\debug\\values_values.arsc.flat",
+            "outputFile": "C:\\Users\\ademi\\source\\repos\\kmkshoppinglist\\build\\app\\intermediates\\res\\merged\\debug\\values_values.arsc.flat",
             "map": [
                 {
-                    "source": "C:\\KMK\\K.M.K\\Projetos\\Visual_Studio_Code\\kmkshoppinglist\\android\\app\\src\\main\\res\\values\\styles.xml",
+                    "source": "C:\\Users\\ademi\\source\\repos\\kmkshoppinglist\\android\\app\\src\\main\\res\\values\\styles.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",

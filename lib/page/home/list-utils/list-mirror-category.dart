@@ -26,8 +26,10 @@ class _ListMirrorCategoryState extends State<ListMirrorCategory> {
   Widget build(BuildContext context) {
 
     listBlocCategory.getList();
+    
+    loadCategoryList(listBlocCategory.lists);
+
     listBloc.getList();
-    loadCategoryList(listBlocCategory.getList());
 
     final content = StreamBuilder<List<Map>>(
         stream: listBloc.lists,
