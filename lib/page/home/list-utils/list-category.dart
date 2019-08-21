@@ -3,7 +3,6 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:kmkshoppinglist/models/ShoppingListCategoryModel.dart';
 import 'package:kmkshoppinglist/page/home/home.dart';
 import 'package:kmkshoppinglist/page/home/list-utils/list-category-bloc-temp.dart';
-import 'package:kmkshoppinglist/page/home/list-utils/list-category-widget.dart';
 import 'package:kmkshoppinglist/page/layout-base/layout-widget.dart';
 import 'package:kmkshoppinglist/utils/list-Category-util.dart';
 
@@ -11,9 +10,9 @@ class ListCategoryPage extends StatefulWidget {
 
   final List<Map> listCategorys;
   final String filter;
-  final ListCategoryBlocTemp listCategoryBloc;
+  final ListCategoryBlocTemp listCategoryBlocTemp;
 
-  const ListCategoryPage({Key key, this.listCategorys, this.filter, this.listCategoryBloc}) : super(key: key);
+  const ListCategoryPage({Key key, this.listCategorys, this.filter, this.listCategoryBlocTemp}) : super(key: key);
 
   @override
   ListCategoryPageState createState() => ListCategoryPageState();
@@ -33,13 +32,12 @@ class ListCategoryPageState extends State<ListCategoryPage> {
     }
     
     List<Map> filteredList = List<Map>();
-    List<Map> listShop = List<Map>();
 
     /*shoppingListCategoryModel.list(HomePage.refId).then((listShop) {
       listShop.addAll(listShop.asMap().);
     });*/
 
-    widget.listCategoryBloc.getList();
+    widget.listCategoryBlocTemp.getList();
 
     //for(Map m in shoppingListCategoryModel.list(HomePage.refId))
 
@@ -98,13 +96,11 @@ class ListCategoryPageState extends State<ListCategoryPage> {
                 size: 42
               ),
               onTap: () {
-                ListCategoryWidget listCategoryWidget = ListCategoryWidget();
-
                 if((listSh['checked'] == 1)){
 
                     shoppingListCategoryModel.update({ 'checked': !(listSh['checked'] == 1) }, listSh['recid']).then((bool updated) {
                     if (updated) {
-                      widget.listCategoryBloc.getList();
+                      widget.listCategoryBlocTemp.getList();
                     }
                   });
                 }

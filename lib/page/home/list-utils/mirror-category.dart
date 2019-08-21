@@ -21,14 +21,14 @@ class _MirrorCategoryState extends State<MirrorCategory> {
 
   String filterText = "";
 
-  ListCategoryBlocTemp listCategoryBloc = ListCategoryBlocTemp();
+  ListCategoryBlocTemp listCategoryBlocTemp = ListCategoryBlocTemp();
   CategoryListBloc listBlocCategory = CategoryListBloc();
   
   
 
   @override
   void dispose() {
-    listCategoryBloc.dipose();
+    listCategoryBlocTemp.dipose();
     super.dispose();
   }
   
@@ -37,7 +37,7 @@ class _MirrorCategoryState extends State<MirrorCategory> {
     listBlocCategory.getList();
     
     loadCategoryList(listBlocCategory.lists);
-    listCategoryBloc.getList();
+    listCategoryBlocTemp.getList();
     
     final content = SingleChildScrollView(
       child: Column(
@@ -81,7 +81,7 @@ class _MirrorCategoryState extends State<MirrorCategory> {
           Container(
             height: MediaQuery.of(context).size.height - 249,
             child: StreamBuilder<List<Map>>(
-              stream: listCategoryBloc.lists,
+              stream: listCategoryBlocTemp.lists,
               builder: (BuildContext context, AsyncSnapshot snapshot) {
                 switch (snapshot.connectionState) {
                   case ConnectionState.none:
@@ -97,7 +97,7 @@ class _MirrorCategoryState extends State<MirrorCategory> {
                       return ListCategoryPage(
                         listCategorys: snapshot.data,
                         filter: filterText,
-                        listCategoryBloc: listCategoryBloc
+                        listCategoryBlocTemp: listCategoryBlocTemp
                       );
 
                     }
@@ -122,7 +122,7 @@ class _MirrorCategoryState extends State<MirrorCategory> {
             ),
             height: 80,
             child: StreamBuilder<List<Map>>(
-              stream: listCategoryBloc.lists,
+              stream: listCategoryBlocTemp.lists,
               builder: (BuildContext context, AsyncSnapshot snapshot) {
                 switch (snapshot.connectionState) {
                   case ConnectionState.none:
