@@ -10,6 +10,9 @@ class ListMirrorCategory extends StatefulWidget {
   
   static final tag = 'list-mirror-category';
   final GlobalKey formKey = GlobalKey();
+  final listName = HomePage.listName;
+  final ListCategoryBloc listBloc = ListCategoryBloc(HomePage.refId, HomePage.listName);
+  final ListCategoryBlocTemp listBlocTemp = ListCategoryBlocTemp();
 
   @override
   _ListMirrorCategoryState createState() => _ListMirrorCategoryState();
@@ -19,21 +22,14 @@ class _ListMirrorCategoryState extends State<ListMirrorCategory> {
 
   String filterText = "";
 
-  ListCategoryBloc listBloc = new ListCategoryBloc(HomePage.refId, HomePage.listName);
-  ListCategoryBlocTemp listBlocTemp = new ListCategoryBlocTemp();
-  
-  
-
   @override
   Widget build(BuildContext context) {
 
-    listBlocTemp.getList();
+    widget.listBlocTemp.getList();
 
-    loadCategoryList(listBlocTemp.lists);
+    loadCategoryList(widget.listBlocTemp.lists);
 
-    listBloc.getList(HomePage.refId);
-
-    listBlocTemp.getList();
+    widget.listBloc.getList(HomePage.refId);
 
     final content = SingleChildScrollView(
       child: Column(
@@ -42,7 +38,7 @@ class _ListMirrorCategoryState extends State<ListMirrorCategory> {
             width: MediaQuery.of(context).size.width,
             color: Color.fromRGBO(230, 230, 230, 0.5),
             padding: EdgeInsets.only(left: 15, top: 10),
-            child: Text('Lista: ' + listBloc.getListName(), style: TextStyle(
+            child: Text('Lista: ' + widget.listName ?? widget.listBloc.getListName(), style: TextStyle(
               fontSize: 16,
               color: LayoutWidget.primary()
             )),
@@ -77,7 +73,7 @@ class _ListMirrorCategoryState extends State<ListMirrorCategory> {
           Container(
             height: MediaQuery.of(context).size.height - 249,
             child: StreamBuilder<List<Map>>(
-              stream: listBloc.lists,
+              stream: widget.listBloc.lists,
               builder: (BuildContext context, AsyncSnapshot snapshot) {
                 switch (snapshot.connectionState) {
                   case ConnectionState.none:
@@ -93,7 +89,7 @@ class _ListMirrorCategoryState extends State<ListMirrorCategory> {
                       return HomeListCategoryPage(
                         listCategorys: snapshot.data,
                         filter: filterText,
-                        listCategoryBloc: listBloc
+                        listCategoryBloc: widget.listBloc
                       );
                     }
                 }

@@ -68,7 +68,7 @@ class HomeListPageState extends State<HomeListPage> {
                       onTap: (){
                         HomePage.listName = shoppList['list_name'];
                         HomePage.refId = shoppList['recid'];
-                        //Navigator.of(context).pop();
+                        Navigator.of(context).pop();
                         Navigator.of(context).pushNamed(ListMirrorCategory.tag);
                       }
                     )
