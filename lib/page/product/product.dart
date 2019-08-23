@@ -46,7 +46,7 @@ class _ProductPageState extends State<ProductPage> {
     );
     
     return Scaffold(
-      appBar: LayoutWidget.getAppBar(ProductPage.tag),
+      appBar: LayoutWidget.getAppBar(ProductPage.tag, context),
       body: content
     );
     //return Layout.getContent(context, content, false, ProductPage.tag);

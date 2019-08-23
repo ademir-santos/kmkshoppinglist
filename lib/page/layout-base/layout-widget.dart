@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' as prefix0;
 import 'package:kmkshoppinglist/page/category/category-widget.dart';
 import 'package:kmkshoppinglist/page/home/home-widget.dart';
 import 'package:kmkshoppinglist/page/home/home.dart';
 import 'package:kmkshoppinglist/page/home/list-category/mirror-category.dart';
+import 'package:kmkshoppinglist/page/home/list-home/list-mirror-category.dart';
 
 class LayoutWidget extends StatelessWidget {
   
@@ -13,7 +15,7 @@ class LayoutWidget extends StatelessWidget {
     return null;
   }
 
-  static AppBar getAppBar(String page) {
+  static AppBar getAppBar(String page, BuildContext ctx) {
     switch (page) {
       case 'home-page':
         return AppBar(
@@ -38,11 +40,31 @@ class LayoutWidget extends StatelessWidget {
       case 'list-mirror-category':
         return AppBar(
           title: Text(' Lista de Categoria'),
+          actions: <Widget>[
+            GestureDetector(
+              onTap: () {
+                Navigator.of(ctx).pop();
+                Navigator.of(ctx).pushReplacementNamed(HomePage.tag);
+              },
+              child: Icon(Icons.arrow_back),
+            ),
+            Padding(padding: EdgeInsets.only(right: 20))
+          ],          
         );
         break;
       case 'mirror-category':
         return AppBar(
           title: Text(' Selecionar de Categoria'),
+          actions: <Widget>[
+            GestureDetector(
+              onTap: () {
+                Navigator.of(ctx).pop();
+                Navigator.of(ctx).pushReplacementNamed(ListMirrorCategory.tag);
+              },
+              child: Icon(Icons.arrow_back),
+            ),
+            Padding(padding: EdgeInsets.only(right: 20))
+          ],   
         );
         break;  
       default:
@@ -81,7 +103,8 @@ class LayoutWidget extends StatelessWidget {
             //Navigator.of(context).pop();
             MirrorCategory.listName = HomePage.listName;
             MirrorCategory.refIdList = HomePage.refId;
-            Navigator.of(context).pushNamed(MirrorCategory.tag);
+            prefix0.Navigator.of(context).pop();
+            Navigator.of(context).pushReplacementNamed(MirrorCategory.tag);
           },
           tooltip: 'Increment',
           child: Icon(Icons.add),

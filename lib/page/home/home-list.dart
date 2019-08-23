@@ -69,7 +69,7 @@ class HomeListPageState extends State<HomeListPage> {
                         HomePage.listName = shoppList['list_name'];
                         HomePage.refId = shoppList['recid'];
                         Navigator.of(context).pop();
-                        Navigator.of(context).pushNamed(ListMirrorCategory.tag);
+                        Navigator.of(context).pushReplacementNamed(ListMirrorCategory.tag);
                       }
                     )
                   ),

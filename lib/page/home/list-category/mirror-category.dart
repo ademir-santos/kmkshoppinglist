@@ -212,7 +212,7 @@ class _MirrorCategoryState extends State<MirrorCategory> {
     );
 
     return Scaffold(
-      appBar: LayoutWidget.getAppBar(MirrorCategory.tag),
+      appBar: LayoutWidget.getAppBar(MirrorCategory.tag, context),
       body: content
     );
   }

@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:kmkshoppinglist/page/home/home.dart';
 import 'package:kmkshoppinglist/page/home/list-home/list-home-category.dart';
@@ -6,44 +7,37 @@ import 'package:kmkshoppinglist/page/home/list-utils/list-category-bloc.dart';
 import 'package:kmkshoppinglist/page/layout-base/layout-widget.dart';
 import 'package:kmkshoppinglist/utils/list-Category-util.dart';
 
-class ListMirrorCategory extends StatefulWidget {
-  
+class ListMirrorCategory extends StatelessWidget {
+
   static final tag = 'list-mirror-category';
   final GlobalKey formKey = GlobalKey();
   final listName = HomePage.listName;
   final ListCategoryBloc listBloc = ListCategoryBloc(HomePage.refId, HomePage.listName);
   final ListCategoryBlocTemp listBlocTemp = ListCategoryBlocTemp();
-
-  @override
-  _ListMirrorCategoryState createState() => _ListMirrorCategoryState();
-}
-
-class _ListMirrorCategoryState extends State<ListMirrorCategory> {
-
   String filterText = "";
-
+  
   @override
   Widget build(BuildContext context) {
 
-    widget.listBlocTemp.getList();
+    listBlocTemp.getList();
 
-    loadCategoryList(widget.listBlocTemp.lists);
+    loadCategoryList(listBlocTemp.lists);
 
-    widget.listBloc.getList(HomePage.refId);
+    listBloc.getList(HomePage.refId);
 
     final content = SingleChildScrollView(
       child: Column(
         children: <Widget> [
-          Container(
+                    Container(
             width: MediaQuery.of(context).size.width,
             color: Color.fromRGBO(230, 230, 230, 0.5),
             padding: EdgeInsets.only(left: 15, top: 10),
-            child: Text('Lista: ' + widget.listName ?? widget.listBloc.getListName(), style: TextStyle(
+            child: Text('Lista: ' + listName ?? listBloc.getListName(), style: TextStyle(
               fontSize: 16,
               color: LayoutWidget.primary()
             )),
           ),
-          Container(
+                    Container(
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
@@ -60,20 +54,17 @@ class _ListMirrorCategoryState extends State<ListMirrorCategory> {
                       ),
                     ),
                     onChanged: (text) {
-                      setState(() {
-                        filterText = text;
-                      });
+                      filterText = text;
                     },
                   ),
                 ),
               ]
             )
           ),
-
-          Container(
+                    Container(
             height: MediaQuery.of(context).size.height - 249,
             child: StreamBuilder<List<Map>>(
-              stream: widget.listBloc.lists,
+              stream: listBloc.lists,
               builder: (BuildContext context, AsyncSnapshot snapshot) {
                 switch (snapshot.connectionState) {
                   case ConnectionState.none:
@@ -89,7 +80,7 @@ class _ListMirrorCategoryState extends State<ListMirrorCategory> {
                       return HomeListCategoryPage(
                         listCategorys: snapshot.data,
                         filter: filterText,
-                        listCategoryBloc: widget.listBloc
+                        listCategoryBloc: listBloc
                       );
                     }
                 }
@@ -98,30 +89,11 @@ class _ListMirrorCategoryState extends State<ListMirrorCategory> {
           ),
         ]
       )
+      
     );
-    /*StreamBuilder<List<Map>>(
-        stream: listBloc.lists,
-        builder: (BuildContext ctx, AsyncSnapshot snapshot){
-          switch(snapshot.connectionState){
-            case ConnectionState.none:
-            case ConnectionState.waiting:
-              return const Center(child: CircularProgressIndicator());
-              break;
-            default:
-              if(snapshot.hasError){
-                print(snapshot.hasError);
-                return Text('Erro: ${snapshot.error}');
-              }
-              else{
-                return HomeListCategoryPage(shoppListCategory: snapshot.data);
-              }
-              break;
-          }
-        },
-      );  */ 
 
     return Scaffold(
-      appBar: LayoutWidget.getAppBar(ListMirrorCategory.tag),
+      appBar: LayoutWidget.getAppBar(ListMirrorCategory.tag, context),
       body: content,
       floatingActionButton: LayoutWidget.activeButtom(ListMirrorCategory.tag, context)
     );

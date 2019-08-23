@@ -16,7 +16,7 @@ class Layout {
     }
 
     return Scaffold(
-      appBar: LayoutWidget.getAppBar(page),
+      appBar: LayoutWidget.getAppBar(page, context),
       drawer: Drawer(
         child: ListView(
           children: <Widget>[
