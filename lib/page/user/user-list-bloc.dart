@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:kmkshoppinglist/models/UserModel.dart';
+import 'package:kmkshoppinglist/dao/UserDao.dart';
 
 class UserListBloc{
 
@@ -10,7 +10,7 @@ class UserListBloc{
 
   final _controller = StreamController<List<Map>>.broadcast();
 
-  UserModel userModel = UserModel();
+  UserDao userDao = UserDao();
 
   get lists => _controller.stream;
 
@@ -19,6 +19,6 @@ class UserListBloc{
   }
 
   getList() async{
-    _controller.sink.add(await userModel.list(0));
+    _controller.sink.add(await userDao.list(0));
   }
 }

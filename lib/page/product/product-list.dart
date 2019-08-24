@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:kmkshoppinglist/models/ProductModel.dart';
+import 'package:kmkshoppinglist/dao/ProductDao.dart';
 import 'package:kmkshoppinglist/page/category/category.dart';
 import 'package:kmkshoppinglist/page/layout-base/layout-widget.dart';
 import 'package:kmkshoppinglist/page/product/product-widget.dart';
@@ -19,7 +19,7 @@ class ProductListPage extends StatefulWidget {
 class _ProductListPageState extends State<ProductListPage> {
 
   List<Widget> value = List<Widget>();
-  ProductModel productModel = ProductModel();
+  ProductDao productDao = ProductDao();
 
   @override
   Widget build(BuildContext context) {
@@ -118,7 +118,7 @@ class _ProductListPageState extends State<ProductListPage> {
                         icon: Icons.delete,
                         color: Colors.red,
                         onTap: () {
-                          productModel.delete(product['recid']).then((deleted){
+                          productDao.delete(product['recid']).then((deleted){
                             if(deleted) {
                               Navigator.of(context).pushReplacementNamed(ProductPage.tag);
                             }

@@ -1,8 +1,6 @@
 import 'dart:async';
 
-import 'package:kmkshoppinglist/models/ShoppingListCategoryModel.dart';
-
-
+import 'package:kmkshoppinglist/Dao/ShoppingListCategoryDao.dart';
 
 class ListCategoryBloc {
 
@@ -15,7 +13,7 @@ class ListCategoryBloc {
 
   final _controller = StreamController<List<Map>>.broadcast();
 
-  ShoppingListCategoryModel shoppingListCategoryModel = ShoppingListCategoryModel();
+  ShoppingListCategoryDao shoppingListCategoryModel = ShoppingListCategoryDao();
 
   get lists => _controller.stream;
 

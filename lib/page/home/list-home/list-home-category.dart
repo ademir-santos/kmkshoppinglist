@@ -61,9 +61,7 @@ class HomeListCategoryPageState extends State<HomeListCategoryPage> {
               trailing: Icon(Icons.arrow_forward_ios),
             )
           );
-        }
-
-        
+        } 
       );
   }
 }

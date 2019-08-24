@@ -1,29 +1,32 @@
-
 import 'package:flutter/material.dart';
 import 'package:kmkshoppinglist/page/home/home.dart';
 import 'package:kmkshoppinglist/page/home/list-home/list-home-category.dart';
-import 'package:kmkshoppinglist/page/home/list-utils/list-category-bloc-temp.dart';
 import 'package:kmkshoppinglist/page/home/list-utils/list-category-bloc.dart';
 import 'package:kmkshoppinglist/page/layout-base/layout-widget.dart';
-import 'package:kmkshoppinglist/utils/list-Category-util.dart';
+import 'package:kmkshoppinglist/utils/application.dart';
 
-class ListMirrorCategory extends StatelessWidget {
+class ListMirrorCategory extends StatefulWidget {
 
   static final tag = 'list-mirror-category';
+
   final GlobalKey formKey = GlobalKey();
+
   final listName = HomePage.listName;
+
   final ListCategoryBloc listBloc = ListCategoryBloc(HomePage.refId, HomePage.listName);
-  final ListCategoryBlocTemp listBlocTemp = ListCategoryBlocTemp();
+
   String filterText = "";
+
+  @override
+  _ListMirrorCategoryState createState() => _ListMirrorCategoryState();
+}
+
+class _ListMirrorCategoryState extends State<ListMirrorCategory> {
   
   @override
   Widget build(BuildContext context) {
 
-    listBlocTemp.getList();
-
-    loadCategoryList(listBlocTemp.lists);
-
-    listBloc.getList(HomePage.refId);
+    widget.listBloc.getList(HomePage.refId);
 
     final content = SingleChildScrollView(
       child: Column(
@@ -32,7 +35,7 @@ class ListMirrorCategory extends StatelessWidget {
             width: MediaQuery.of(context).size.width,
             color: Color.fromRGBO(230, 230, 230, 0.5),
             padding: EdgeInsets.only(left: 15, top: 10),
-            child: Text('Lista: ' + listName ?? listBloc.getListName(), style: TextStyle(
+            child: Text('Lista: ' + widget.listName ?? widget.listBloc.getListName(), style: TextStyle(
               fontSize: 16,
               color: LayoutWidget.primary()
             )),
@@ -54,7 +57,7 @@ class ListMirrorCategory extends StatelessWidget {
                       ),
                     ),
                     onChanged: (text) {
-                      filterText = text;
+                      widget.filterText = text;
                     },
                   ),
                 ),
@@ -64,7 +67,7 @@ class ListMirrorCategory extends StatelessWidget {
                     Container(
             height: MediaQuery.of(context).size.height - 249,
             child: StreamBuilder<List<Map>>(
-              stream: listBloc.lists,
+              stream: widget.listBloc.lists,
               builder: (BuildContext context, AsyncSnapshot snapshot) {
                 switch (snapshot.connectionState) {
                   case ConnectionState.none:
@@ -79,14 +82,116 @@ class ListMirrorCategory extends StatelessWidget {
 
                       return HomeListCategoryPage(
                         listCategorys: snapshot.data,
-                        filter: filterText,
-                        listCategoryBloc: listBloc
+                        filter: widget.filterText,
+                        listCategoryBloc: widget.listBloc
                       );
                     }
                 }
               },
             ),
           ),
+          Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(10),
+                topRight: Radius.circular(10)
+              ),
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: <Color>[
+                  Color.fromRGBO(100, 150, 255, 0.3),
+                  Color.fromRGBO(255, 150, 240, 0.3)
+                ]
+              ),
+            ),
+            height: 80,
+            child: StreamBuilder<List<Map>>(
+              stream: widget.listBloc.lists,
+              builder: (BuildContext context, AsyncSnapshot snapshot) {
+                switch (snapshot.connectionState) {
+                  case ConnectionState.none:
+                  case ConnectionState.waiting:
+                    return const Center(child: Text('Carregando...'));
+                    break; // Useless after return
+                  default:
+                    if (snapshot.hasError) {
+                      print(snapshot.error);
+                      return Text('Error: ${snapshot.error}');
+                    } else {
+
+                      // Recupera os itens
+                      List<Map> items = snapshot.data;
+
+                      // Total de itens
+                      int qtdTotal = items.length;
+
+                      // Total de itens marcados
+                      int qtdChecked = 0;
+
+                      // Valor total quando todos os items estiverem marcados
+                      double subTotal = 0.0;
+
+                      // Valor total de items marcados
+                      double vlrTotal = 0.0;
+
+                      for (Map item in items) {
+                        double vlr = 0.00;
+                        if((item['value_total'] != null 
+                          && item['quantity_total'] != null)
+                          && (item['value_total'] > 0
+                          && item['quantity_total'] > 0))
+                          vlr = currencyToFloat(item['value_total']) * item['quantity_total'];
+
+                        subTotal += vlr;
+                        
+                        if (item['checked'] == 1) {
+                          qtdChecked++;
+                          vlrTotal += vlr;
+                        }
+                      }
+                      bool isClosed = (subTotal == vlrTotal);  
+                      return Row(children: <Widget>[
+                        Container(
+                          width: MediaQuery.of(context).size.width/2,
+                          padding: EdgeInsets.all(10),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: <Widget>[
+                              Column(children: <Widget>[Text('Categorias'), Text(qtdTotal.toString() ?? 0, textScaleFactor: 1.2)]),
+                              Column(children: <Widget>[Text('Carrinho'), Text(qtdChecked.toString(), textScaleFactor: 1.2)]),
+                              Column(children: <Widget>[Text('Faltando'), Text((qtdTotal - qtdChecked).toString(), textScaleFactor: 1.2)]),
+                            ],
+                          ),
+                        ),
+                        Container(
+                          color: Color.fromRGBO(0, 0, 0, 0.04),
+                          width: MediaQuery.of(context).size.width/2,
+                          padding: EdgeInsets.only(left: 10, top: 10),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Text('Sub: '+ doubleToCurrency(subTotal), style: TextStyle(
+                                fontSize: 18,
+                                color: LayoutWidget.dark(0.6),
+                                fontWeight: FontWeight.bold
+                              )),
+                              SizedBox(height: 5),
+                              Text('Total: '+ doubleToCurrency(vlrTotal), style: TextStyle(
+                                fontSize: 22,
+                                color: isClosed ? LayoutWidget.success() : LayoutWidget.info(),
+                                fontWeight: FontWeight.bold
+                              ))
+                            ],
+                          ),
+                        )                        
+                      ]);
+                    }   
+                }
+              }
+            )
+          )
         ]
       )
       

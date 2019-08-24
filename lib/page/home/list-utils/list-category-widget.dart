@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kmkshoppinglist/models/ShoppingListCategoryModel.dart';
+import 'package:kmkshoppinglist/Dao/ShoppingListCategoryDao.dart';
 import 'package:kmkshoppinglist/page/category/category-list-bloc.dart';
 import 'package:kmkshoppinglist/page/layout-base/layout-widget.dart';
 
@@ -10,7 +10,7 @@ class ListCategoryWidget {
   
   static void setShoppList(BuildContext ctx, int refIdShoppList, String listName, Map category){
 
-    ShoppingListCategoryModel shoppingListCategoryModel = ShoppingListCategoryModel();
+    ShoppingListCategoryDao shoppingListCategoryModel = ShoppingListCategoryDao();
 
     shoppingListCategoryModel.insert({
       'refid_shopplist': refIdShoppList,

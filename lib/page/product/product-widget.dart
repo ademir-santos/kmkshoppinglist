@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kmkshoppinglist/models/ProductModel.dart';
+import 'package:kmkshoppinglist/dao/ProductDao.dart';
 import 'package:kmkshoppinglist/page/category/category.dart';
 import 'package:kmkshoppinglist/page/layout-base/layout-widget.dart';
 import 'package:kmkshoppinglist/page/product/product.dart';
@@ -8,12 +8,12 @@ class ProductWidget {
 
   static setCategory(BuildContext ctx, String prod, String brand,String unitmeas, int refidcat, String cat) {
     
-    ProductModel productModel = ProductModel();
+    ProductDao productDao = ProductDao();
 
     String product = prod.substring(0,1).toUpperCase()+prod.substring(1);
     brand = brand.toUpperCase();
     
-    productModel.insert({
+    productDao.insert({
       'products': product,
       'unit_measurement': unitmeas.toUpperCase(),
       'brand': brand,
@@ -145,8 +145,8 @@ class ProductWidget {
               color: LayoutWidget.primary(),
               child: Text('Salva', style: TextStyle(color: LayoutWidget.light())),
               onPressed: (){
-                ProductModel productModel = ProductModel();
-                productModel.update({
+                ProductDao productDao = ProductDao();
+                productDao.update({
                   'products': _p.text.substring(0,1).toUpperCase()+_p.text.substring(1),
                   'unit_measurement': _u.text.toUpperCase(),
                   'brand': _b.text.toUpperCase(),

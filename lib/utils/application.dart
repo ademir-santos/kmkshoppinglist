@@ -118,8 +118,28 @@ double currencyToFloat(String value){
 String doubleToCurrency(double value){
   NumberFormat nf = NumberFormat.compactCurrency(locale: 'pt-BR', symbol: 'R\$');
 
+  //if(value == 0.0 || value == null)
+    //return 'R\$ 0,00';
+
   return nf.format(value ?? 0.00);
 }
 
 Map<String, int> unity = Map.from({ 'Un': 0, 'Kg': 3 });
+
+bool validateDouble(double value){
+  if(value != null 
+      && value > 0
+      && value > 0.0)
+    return true;
+
+  return false;
+}
+
+bool validateInt(int value){
+  if(value != null 
+      && value > 0)
+    return true;
+
+  return false;
+}
 

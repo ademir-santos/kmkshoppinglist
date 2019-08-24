@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:kmkshoppinglist/models/ProductModel.dart';
+import 'package:kmkshoppinglist/dao/ProductDao.dart';
 
 class ProductListBloc{
 
@@ -10,7 +10,7 @@ class ProductListBloc{
 
   final _controller = StreamController<List<Map>>.broadcast();
 
-  ProductModel productModel = ProductModel();
+  ProductDao productDao = ProductDao();
 
   get lists => _controller.stream;
 
@@ -19,6 +19,6 @@ class ProductListBloc{
   }
 
   getList(int refIdCategory) async{
-    _controller.sink.add(await productModel.list(refIdCategory));
+    _controller.sink.add(await productDao.list(refIdCategory));
   }
 }

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kmkshoppinglist/models/UserShoppingListModel.dart';
+import 'package:kmkshoppinglist/dao/UserShoppingListDao.dart';
 import 'package:kmkshoppinglist/page/home/home.dart';
 import 'package:kmkshoppinglist/page/layout-base/layout-widget.dart';
 
@@ -7,9 +7,9 @@ class HomeWidget {
 
   static setShoppList(BuildContext ctx, String shoppList){
 
-    UserShoppingListModel userShoppingListModel = UserShoppingListModel();
+    UserShoppingListDao userShoppingListDao = UserShoppingListDao();
 
-    userShoppingListModel.insert({
+    userShoppingListDao.insert({
       'list_name': shoppList.toUpperCase(),
       'created': DateTime.now().toString(),
       'refid_user': 1
@@ -101,8 +101,8 @@ class HomeWidget {
               color: LayoutWidget.primary(),
               child: Text('Salva', style: TextStyle(color: LayoutWidget.light())),
               onPressed: (){
-                UserShoppingListModel userShoppingListModel = UserShoppingListModel();
-                userShoppingListModel.update({
+                UserShoppingListDao userShoppingListDao = UserShoppingListDao();
+                userShoppingListDao.update({
                   'list_name': _sh.text.toUpperCase()
                 }, shoppList['recid']).then((saved){
                   Navigator.of(ctx).pop();

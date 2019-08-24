@@ -1,11 +1,13 @@
-import 'package:kmkshoppinglist/models/ShoppingListCategoryModel.dart';
-import 'package:kmkshoppinglist/models/ShoppingListCategoryTempModel.dart';
+import 'package:flutter/material.dart';
+import 'package:kmkshoppinglist/dao/ShoppingListCategoryDao.dart';
+import 'package:kmkshoppinglist/dao/ShoppingListCategoryTempDao.dart';
+import 'package:kmkshoppinglist/page/home/home.dart';
 
 setcategoryList(int refIdShoppList, String listName, Map category){
 
-  ShoppingListCategoryModel shoppingListCategoryModel = ShoppingListCategoryModel();
+  ShoppingListCategoryDao shoppingListCategoryDao = ShoppingListCategoryDao();
 
-  return shoppingListCategoryModel.insert({
+  return shoppingListCategoryDao.insert({
     'refid_shopplist': refIdShoppList,
     'list_name': listName,
     'refid_category': category['recid'],
@@ -19,31 +21,40 @@ setcategoryList(int refIdShoppList, String listName, Map category){
 }
 
 loadCategoryListTemp(Stream<List<Map>> futureList) async{
-  ShoppingListCategoryTempModel shoppingListCategoryTempModel = ShoppingListCategoryTempModel();
+  ShoppingListCategoryTempDao shoppingListCategoryTempDao = ShoppingListCategoryTempDao();
   bool exists = false;
 
   await for(var mapList in futureList){
+    if(mapList.isNotEmpty){
+      for(var map in mapList){
+        String category = map['categorys'].toString();
+        int refId = HomePage.refId;
 
-    for(var map in mapList){
-      String category = map['categorys'].toString();
+        if(category.isNotEmpty){
+          exists = await shoppingListCategoryTempDao.getItemExist(refId, category);
 
-      if(category.isNotEmpty){
-        exists = await shoppingListCategoryTempModel.getItemExist(category);
-
-        if(exists){
-          shoppingListCategoryTempModel.insert({
-            'refid_category': map['recid'],
-            'categorys': map['categorys'],
-            'checked': 0
-          });
+          if(!exists){
+            shoppingListCategoryTempDao.insert({
+              'refid_shopplist': HomePage.refId,
+              'list_name': HomePage.listName,
+              'refid_category': map['recid'],
+              'categorys': map['categorys'],
+              'checked': 0,
+              'quantity_total': 0,
+              'value_total': 0.00
+            });
+          }
         }
       }
+    }
+    else{
+      return;
     }
   }
 }
 
 loadCategoryList(Stream<List<Map>> futureList) async{
-  ShoppingListCategoryModel shoppingListCategoryModel = ShoppingListCategoryModel();
+  ShoppingListCategoryDao shoppingListCategoryDao = ShoppingListCategoryDao();
   bool exists = false;
 
   await for(var mapList in futureList){
@@ -51,15 +62,29 @@ loadCategoryList(Stream<List<Map>> futureList) async{
     if(mapList.isNotEmpty){
       for(var map in mapList){
         String category = map['categorys'].toString();
+        int checked = map['checked'];
+        int refId = map['refid_shopplist'];
 
         if(category.isNotEmpty){
-          exists = await shoppingListCategoryModel.getItemExist(category);
+          exists = await shoppingListCategoryDao.getItemExist(refId, category);
 
-          if(exists){
-            shoppingListCategoryModel.insert({
+          if(checked == 0 && exists){
+            int recId = await shoppingListCategoryDao.getRecIdCategory(refId, category);
+            shoppingListCategoryDao.delete(recId).then((delete){ 
+              shoppingListCategoryDao.list(HomePage.refId);
+            });
+          }
+          else if(checked > 0 && !exists){
+            shoppingListCategoryDao.insert({
+              'refid_shopplist': HomePage.refId,
+              'list_name': HomePage.listName,
               'refid_category': map['recid'],
               'categorys': map['categorys'],
               'checked': map['checked'],
+              'quantity_total': 0,
+              'value_total': 0.00
+            }).then((recid){
+              shoppingListCategoryDao.list(HomePage.refId);
             });
           }
         }

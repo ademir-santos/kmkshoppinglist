@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:kmkshoppinglist/page/category/category.dart';
 import 'package:kmkshoppinglist/page/layout-base/layout-widget.dart';
-import 'package:kmkshoppinglist/models/CategoryModel.dart';
+import 'package:kmkshoppinglist/dao/CategoryDao.dart';
 
 class CategoryWidget {
 
   //Adiciona categoria na lista
   static setCategory(BuildContext ctx, String cat) {
     String category = cat.substring(0,1).toUpperCase()+cat.substring(1);
-    CategoryModel categoryModel = CategoryModel();
+    CategoryDao categoryDao = CategoryDao();
 
-    categoryModel.insert({
+    categoryDao.insert({
       'categorys': category
     }).then((recId){
       Navigator.of(ctx).pop();
@@ -98,8 +98,8 @@ class CategoryWidget {
               color: LayoutWidget.primary(),
               child: Text('Salva', style: TextStyle(color: LayoutWidget.light())),
               onPressed: (){
-                CategoryModel categoryModel = CategoryModel();
-                categoryModel.update({
+                CategoryDao categoryDao = CategoryDao();
+                categoryDao.update({
                   'categorys': _c.text.substring(0,1).toUpperCase()+_c.text.substring(1)
                 }, category['recid']).then((saved){
                   Navigator.of(ctx).pop();

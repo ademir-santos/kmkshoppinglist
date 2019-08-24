@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/material.dart' as prefix0;
 import 'package:kmkshoppinglist/page/category/category-widget.dart';
 import 'package:kmkshoppinglist/page/home/home-widget.dart';
 import 'package:kmkshoppinglist/page/home/home.dart';
 import 'package:kmkshoppinglist/page/home/list-category/mirror-category.dart';
 import 'package:kmkshoppinglist/page/home/list-home/list-mirror-category.dart';
+import 'package:kmkshoppinglist/page/home/list-utils/list-category-bloc-temp.dart';
+import 'package:kmkshoppinglist/utils/list-Category-util.dart';
 
 class LayoutWidget extends StatelessWidget {
   
@@ -58,8 +59,11 @@ class LayoutWidget extends StatelessWidget {
           actions: <Widget>[
             GestureDetector(
               onTap: () {
+                ListCategoryBlocTemp listBlocTemp = ListCategoryBlocTemp();
+                listBlocTemp.getList(HomePage.refId);
+                loadCategoryList(listBlocTemp.lists);
                 Navigator.of(ctx).pop();
-                Navigator.of(ctx).pushReplacementNamed(ListMirrorCategory.tag);
+                Navigator.of(ctx).popAndPushNamed(ListMirrorCategory.tag);
               },
               child: Icon(Icons.arrow_back),
             ),
@@ -100,10 +104,9 @@ class LayoutWidget extends StatelessWidget {
       case 'list-mirror-category':
         floatbottom = FloatingActionButton(
           onPressed:(){
-            //Navigator.of(context).pop();
             MirrorCategory.listName = HomePage.listName;
             MirrorCategory.refIdList = HomePage.refId;
-            prefix0.Navigator.of(context).pop();
+            Navigator.of(context).pop();
             Navigator.of(context).pushReplacementNamed(MirrorCategory.tag);
           },
           tooltip: 'Increment',

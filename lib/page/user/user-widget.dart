@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kmkshoppinglist/models/UserModel.dart';
+import 'package:kmkshoppinglist/dao/UserDao.dart';
 import 'package:kmkshoppinglist/page/layout-base/layout-widget.dart';
 import 'package:kmkshoppinglist/page/user/user.dart';
 
@@ -7,9 +7,9 @@ class UserWidget {
 
   static setUser(BuildContext ctx, String users, String password, String name) {
 
-    UserModel userModel = UserModel();
+    UserDao userDao = UserDao();
 
-    userModel.insert({
+    userDao.insert({
       'users': users,
       'password': password,
       'name': name
@@ -139,8 +139,8 @@ class UserWidget {
               color: LayoutWidget.primary(),
               child: Text('Salva', style: TextStyle(color: LayoutWidget.light())),
               onPressed: (){
-                UserModel userModel = UserModel();
-                userModel.update({
+                UserDao userDao = UserDao();
+                userDao.update({
                   'users': _u.text.toLowerCase(),
                   'password': _p.text,
                   'name': _n.text.substring(0,1).toUpperCase()+_n.text.substring(1)

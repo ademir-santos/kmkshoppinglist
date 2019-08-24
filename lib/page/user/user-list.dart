@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:kmkshoppinglist/models/UserModel.dart';
+import 'package:kmkshoppinglist/dao/UserDao.dart';
 import 'package:kmkshoppinglist/page/layout-base/layout-widget.dart';
 import 'package:kmkshoppinglist/page/user/user-widget.dart';
 import 'package:kmkshoppinglist/page/user/user.dart';
@@ -17,7 +17,7 @@ class UserListPage extends StatefulWidget {
 class UserListPageState extends State<UserListPage> {
   
   List<Widget> value = List<Widget>();
-  UserModel userModel = UserModel();
+  UserDao userDao = UserDao();
 
   @override
   Widget build(BuildContext context) {
@@ -103,7 +103,7 @@ class UserListPageState extends State<UserListPage> {
                         icon: Icons.delete,
                         color: Colors.red,
                         onTap: () {
-                          userModel.delete(user['recid']).then((deleted){
+                          userDao.delete(user['recid']).then((deleted){
                             if(deleted) {
                               Navigator.of(context).pop();
                               Navigator.of(context).pushReplacementNamed(UserPage.tag);

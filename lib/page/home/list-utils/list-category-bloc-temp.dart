@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:kmkshoppinglist/models/ShoppingListCategoryTempModel.dart';
+import 'package:kmkshoppinglist/dao/ShoppingListCategoryTempDao.dart';
 
 
 
@@ -11,7 +11,7 @@ class ListCategoryBlocTemp {
 
   final _controller = StreamController<List<Map>>.broadcast();
 
-  ShoppingListCategoryTempModel shoppingListCategoryTempModel = ShoppingListCategoryTempModel();
+  ShoppingListCategoryTempDao shoppingListCategoryTempModel = ShoppingListCategoryTempDao();
 
   get lists => _controller.stream;
 
@@ -19,8 +19,8 @@ class ListCategoryBlocTemp {
     _controller.close();
   }
 
-  getList() async{
-    _controller.sink.add(await shoppingListCategoryTempModel.list(0));
+  getList(int refId) async{
+    _controller.sink.add(await shoppingListCategoryTempModel.list(refId));
   }
 
   setValue(int refIdList, String listName){

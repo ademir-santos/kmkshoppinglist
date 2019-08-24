@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:intl/intl.dart';
-import 'package:kmkshoppinglist/models/UserShoppingListModel.dart';
+import 'package:kmkshoppinglist/dao/UserShoppingListDao.dart';
 import 'package:kmkshoppinglist/page/home/home-widget.dart';
 import 'package:kmkshoppinglist/page/home/list-home/list-mirror-category.dart';
 import 'package:kmkshoppinglist/utils/application.dart';
@@ -90,9 +90,9 @@ class HomeListPageState extends State<HomeListPage> {
                       icon: Icons.delete,
                       color: Colors.red,
                       onTap: () {
-                        UserShoppingListModel userShoppingListModel = UserShoppingListModel();
+                        UserShoppingListDao userShoppingListDao = UserShoppingListDao();
 
-                        userShoppingListModel.delete(shoppList['recid']).then((deleted){
+                        userShoppingListDao.delete(shoppList['recid']).then((deleted){
                           if(deleted) {
                             Navigator.of(context).pushReplacementNamed(HomePage.tag);
                           }
