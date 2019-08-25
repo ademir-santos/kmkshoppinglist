@@ -4,52 +4,43 @@ import 'package:kmkshoppinglist/page/home/home.dart';
 import 'package:kmkshoppinglist/page/home/list-category/list-category.dart';
 import 'package:kmkshoppinglist/page/home/list-utils/list-category-bloc-temp.dart';
 import 'package:kmkshoppinglist/page/layout-base/layout-widget.dart';
-import 'package:kmkshoppinglist/utils/application.dart';
 import 'package:kmkshoppinglist/utils/list-Category-util.dart';
 
 class MirrorCategory extends StatefulWidget {
   
   static final tag = 'mirror-category';
-  static int refIdList;
-  static String listName;
+  final int refIdList = HomePage.refId;
+  final String listName = HomePage.listName;
+
+  String filterText = "";
+
+  final ListCategoryBlocTemp listCategoryBlocTemp = ListCategoryBlocTemp();
+  final CategoryListBloc categoryBlocList = CategoryListBloc();
 
    @override
   _MirrorCategoryState createState() => _MirrorCategoryState();
 }
 
 class _MirrorCategoryState extends State<MirrorCategory> {
-
-  String filterText = "";
-
-  ListCategoryBlocTemp listCategoryBlocTemp = ListCategoryBlocTemp();
-  CategoryListBloc categoryBlocList = CategoryListBloc();
   
   @override
   void dispose() {
-    listCategoryBlocTemp.dipose();
+    widget.listCategoryBlocTemp.dipose();
     super.dispose();
   }
   
   @override
   Widget build(BuildContext context) {
-    categoryBlocList.getList();
+    widget.categoryBlocList.getList();
     
-    loadCategoryListTemp(categoryBlocList.lists);
+    loadCategoryListTemp(widget.categoryBlocList.lists);
 
-    listCategoryBlocTemp.getList(HomePage.refId);
+    widget.listCategoryBlocTemp.getList(HomePage.refId);
     
     final content = SingleChildScrollView(
       child: Column(
         children: <Widget> [
-          Container(
-            width: MediaQuery.of(context).size.width,
-            color: Color.fromRGBO(230, 230, 230, 0.5),
-            padding: EdgeInsets.only(left: 15, top: 10),
-            child: Text('Lista: ' + MirrorCategory.listName, style: TextStyle(
-              fontSize: 16,
-              color: LayoutWidget.primary()
-            )),
-          ),
+          Padding(padding: EdgeInsets.only(top: 10)),
           Container(
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -68,7 +59,7 @@ class _MirrorCategoryState extends State<MirrorCategory> {
                     ),
                     onChanged: (text) {
                       setState(() {
-                        filterText = text.toUpperCase();
+                        widget.filterText = text.toUpperCase();
                       });
                     },
                   ),
@@ -78,9 +69,9 @@ class _MirrorCategoryState extends State<MirrorCategory> {
           ),
 
           Container(
-            height: MediaQuery.of(context).size.height,
+            height: MediaQuery.of(context).size.height - 180,
             child: StreamBuilder<List<Map>>(
-              stream: listCategoryBlocTemp.lists,
+              stream: widget.listCategoryBlocTemp.lists,
               builder: (BuildContext context, AsyncSnapshot snapshot) {
                 switch (snapshot.connectionState) {
                   case ConnectionState.none:
@@ -95,8 +86,8 @@ class _MirrorCategoryState extends State<MirrorCategory> {
 
                       return ListCategoryPage(
                         listCategorys: snapshot.data,
-                        filter: filterText,
-                        listCategoryBlocTemp: listCategoryBlocTemp
+                        filter: widget.filterText,
+                        listCategoryBlocTemp: widget.listCategoryBlocTemp
                       );
 
                     }
@@ -104,7 +95,28 @@ class _MirrorCategoryState extends State<MirrorCategory> {
               },
             ),
           ),
-        ],
+          
+          Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(10),
+                topRight: Radius.circular(10)
+              ),
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: <Color>[
+                  Color.fromRGBO(100, 150, 255, 0.3),
+                  Color.fromRGBO(255, 150, 240, 0.3)
+                ]
+              ),
+            ),
+            height: 50,
+            child: Center(child: Text(widget.listName, style:  TextStyle(
+              fontSize: 16,
+              color: LayoutWidget.primary()
+            )))
+          )]
       )
     );
 

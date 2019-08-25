@@ -1,13 +1,16 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:kmkshoppinglist/page/category/category.dart';
 import 'package:kmkshoppinglist/page/home/home.dart';
 import 'package:kmkshoppinglist/page/layout-base/layout-widget.dart';
+import 'package:kmkshoppinglist/page/login/login-page.dart';
 import 'package:kmkshoppinglist/page/user/user.dart';
 
 class Layout {
+  static final tag = 'Exit'; 
   static BuildContext scaffoldContext;
   static int currItem = 0;
-
 
   static Scaffold getContent(BuildContext context, content, [bool showbottom = false, String page = 'home-page']) {
 
@@ -56,7 +59,17 @@ class Layout {
                 Navigator.of(context).pop();
                 Navigator.of(context).pushReplacementNamed(UserPage.tag);
               },
-            )
+            ),
+            Divider(),
+            Padding(padding: EdgeInsets.only(top: 210)),
+            ListTile(
+              leading: Icon(Icons.close),
+              title: Text('Sair'),
+              onTap: (){
+                Navigator.of(context).pushNamedAndRemoveUntil(LoginPage.tag, (Route<dynamic> route) => false);
+                exit(0);
+              },
+            ),
           ],
         ),
       ),

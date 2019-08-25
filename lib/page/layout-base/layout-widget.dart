@@ -5,6 +5,7 @@ import 'package:kmkshoppinglist/page/home/home.dart';
 import 'package:kmkshoppinglist/page/home/list-category/mirror-category.dart';
 import 'package:kmkshoppinglist/page/home/list-home/list-mirror-category.dart';
 import 'package:kmkshoppinglist/page/home/list-utils/list-category-bloc-temp.dart';
+import 'package:kmkshoppinglist/page/home/list-utils/list-category-bloc.dart';
 import 'package:kmkshoppinglist/utils/list-Category-util.dart';
 
 class LayoutWidget extends StatelessWidget {
@@ -45,11 +46,20 @@ class LayoutWidget extends StatelessWidget {
             GestureDetector(
               onTap: () {
                 Navigator.of(ctx).pop();
+                Navigator.of(ctx).pushReplacementNamed(MirrorCategory.tag);
+              },
+              child: Icon(Icons.add_circle_outline),
+            ),
+            Padding(padding: EdgeInsets.only(right: 50)),
+            GestureDetector(
+              onTap: () {
+                Navigator.of(ctx).pop();
                 Navigator.of(ctx).pushReplacementNamed(HomePage.tag);
               },
-              child: Icon(Icons.arrow_back),
+              child: Icon(Icons.arrow_back_ios),
             ),
-            Padding(padding: EdgeInsets.only(right: 20))
+            Padding(padding: EdgeInsets.only(right: 20)),
+            
           ],          
         );
         break;
@@ -60,15 +70,41 @@ class LayoutWidget extends StatelessWidget {
             GestureDetector(
               onTap: () {
                 ListCategoryBlocTemp listBlocTemp = ListCategoryBlocTemp();
+                ListCategoryBloc listCategoryBloc = ListCategoryBloc(HomePage.refId, HomePage.listName);
                 listBlocTemp.getList(HomePage.refId);
                 loadCategoryList(listBlocTemp.lists);
+                listCategoryBloc.getList(HomePage.refId);
+
                 Navigator.of(ctx).pop();
-                Navigator.of(ctx).popAndPushNamed(ListMirrorCategory.tag);
+                Navigator.of(ctx).pushReplacementNamed(ListMirrorCategory.tag);
               },
-              child: Icon(Icons.arrow_back),
+              child: Icon(Icons.arrow_back_ios),
             ),
             Padding(padding: EdgeInsets.only(right: 20))
           ],   
+        );
+        break;
+      case 'list-mirror-product':
+        return AppBar(
+          title: Text(' Lista de Produtos'),
+          actions: <Widget>[
+            GestureDetector(
+              onTap: () {
+                //Navigator.of(ctx).pop();
+                //Navigator.of(ctx).pushReplacementNamed(MirrorCategory.tag);
+              },
+              child: Icon(Icons.add_circle_outline),
+            ),
+            Padding(padding: EdgeInsets.only(right: 50)),
+            GestureDetector(
+              onTap: () {
+                Navigator.of(ctx).pop();
+                Navigator.of(ctx).pushReplacementNamed(ListMirrorCategory.tag);
+              },
+              child: Icon(Icons.arrow_back_ios),
+            ),
+            Padding(padding: EdgeInsets.only(right: 20)),
+          ],          
         );
         break;  
       default:
@@ -100,18 +136,6 @@ class LayoutWidget extends StatelessWidget {
           tooltip: 'Increment',
           child: Icon(Icons.add),
         ); // This trailing com
-        break;
-      case 'list-mirror-category':
-        floatbottom = FloatingActionButton(
-          onPressed:(){
-            MirrorCategory.listName = HomePage.listName;
-            MirrorCategory.refIdList = HomePage.refId;
-            Navigator.of(context).pop();
-            Navigator.of(context).pushReplacementNamed(MirrorCategory.tag);
-          },
-          tooltip: 'Increment',
-          child: Icon(Icons.add),
-        );
         break;
       default:
         floatbottom = null;

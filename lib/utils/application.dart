@@ -66,7 +66,26 @@ List<String> dbCreate = [
       value_unitary DECIMAL(10,2), 
       quantity_total INTEGER, 
       value_total DECIMAL(10,2),
-      created TEXT    
+      created TEXT,
+      checked INTEGER DEFAULT 0    
+    )
+  """,
+
+  """
+    CREATE TABLE shopplist_category_product_temp(
+      recid INTEGER PRIMARY KEY,
+      refid_shopplist INTEGER,
+      list_name TEXT,
+      refid_category INTEGER,      
+      categorys TEXT,
+      refid_product INTEGER,
+      products TEXT,
+      quantity INTEGER,
+      value_unitary DECIMAL(10,2), 
+      quantity_total INTEGER, 
+      value_total DECIMAL(10,2),
+      created TEXT,
+      checked INTEGER DEFAULT 0 
     )
   """,
 
@@ -88,7 +107,9 @@ List<String> dbCreate = [
       recid INTEGER PRIMARY KEY,
       users TEXT,
       password TEXT,
-      name TEXT
+      name TEXT,
+      email TEXT,
+      active INT
     )
   """,
 

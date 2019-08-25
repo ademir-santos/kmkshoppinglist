@@ -124,4 +124,24 @@ class ShoppingListCategoryTempDao extends AbstractDataBase {
 
     return await db.rawQuery('SELECT * FROM shopplist_category_temp WHERE refid_shopplist = $refIdList');
   }
+
+  Future<bool> updateSelectedCategory(dynamic refId, dynamic category, int checked) async{
+    Database db = await this.getDb();
+    int rows = 0;
+    int recid = 0;
+
+    List<Map> categoryTable = await db.rawQuery("""
+                                                  SELECT recid FROM shopplist_category_temp 
+                                                  WHERE refid_shopplist = ? 
+                                                  AND categorys = ?""", [refId,category]);
+    if(categoryTable.isNotEmpty){
+      categoryTable.forEach((map){
+        recid = map['recid'];
+      });
+
+      rows = await db.rawUpdate("""UPDATE shopplist_category_temp SET checked = ? WHERE recid = ?""", [checked,recid]);
+    }
+
+    return (rows != 0);
+  }
 }

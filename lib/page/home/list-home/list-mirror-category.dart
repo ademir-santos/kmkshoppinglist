@@ -9,38 +9,29 @@ class ListMirrorCategory extends StatefulWidget {
 
   static final tag = 'list-mirror-category';
 
+  final String listName = HomePage.listName;
+
   final GlobalKey formKey = GlobalKey();
 
-  final listName = HomePage.listName;
-
-  final ListCategoryBloc listBloc = ListCategoryBloc(HomePage.refId, HomePage.listName);
-
-  String filterText = "";
+  final ListCategoryBloc listCategoryBloc = ListCategoryBloc(HomePage.refId, HomePage.listName);
 
   @override
   _ListMirrorCategoryState createState() => _ListMirrorCategoryState();
 }
 
 class _ListMirrorCategoryState extends State<ListMirrorCategory> {
-  
+  String filterText = "";
+
   @override
   Widget build(BuildContext context) {
 
-    widget.listBloc.getList(HomePage.refId);
+    widget.listCategoryBloc.getList(HomePage.refId);
 
     final content = SingleChildScrollView(
       child: Column(
         children: <Widget> [
-                    Container(
-            width: MediaQuery.of(context).size.width,
-            color: Color.fromRGBO(230, 230, 230, 0.5),
-            padding: EdgeInsets.only(left: 15, top: 10),
-            child: Text('Lista: ' + widget.listName ?? widget.listBloc.getListName(), style: TextStyle(
-              fontSize: 16,
-              color: LayoutWidget.primary()
-            )),
-          ),
-                    Container(
+          Padding(padding: EdgeInsets.only(top: 10)),
+          Container(
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
@@ -57,17 +48,17 @@ class _ListMirrorCategoryState extends State<ListMirrorCategory> {
                       ),
                     ),
                     onChanged: (text) {
-                      widget.filterText = text;
+                      filterText = text;
                     },
                   ),
                 ),
               ]
             )
           ),
-                    Container(
-            height: MediaQuery.of(context).size.height - 249,
+          Container(
+            height: MediaQuery.of(context).size.height - 235,
             child: StreamBuilder<List<Map>>(
-              stream: widget.listBloc.lists,
+              stream: widget.listCategoryBloc.lists,
               builder: (BuildContext context, AsyncSnapshot snapshot) {
                 switch (snapshot.connectionState) {
                   case ConnectionState.none:
@@ -82,8 +73,8 @@ class _ListMirrorCategoryState extends State<ListMirrorCategory> {
 
                       return HomeListCategoryPage(
                         listCategorys: snapshot.data,
-                        filter: widget.filterText,
-                        listCategoryBloc: widget.listBloc
+                        filter: filterText,
+                        listCategoryBloc: widget.listCategoryBloc
                       );
                     }
                 }
@@ -107,7 +98,7 @@ class _ListMirrorCategoryState extends State<ListMirrorCategory> {
             ),
             height: 80,
             child: StreamBuilder<List<Map>>(
-              stream: widget.listBloc.lists,
+              stream: widget.listCategoryBloc.lists,
               builder: (BuildContext context, AsyncSnapshot snapshot) {
                 switch (snapshot.connectionState) {
                   case ConnectionState.none:
@@ -190,8 +181,25 @@ class _ListMirrorCategoryState extends State<ListMirrorCategory> {
                     }   
                 }
               }
-            )
-          )
+            ),
+          ),
+          Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: <Color>[
+                  Color.fromRGBO(100, 150, 255, 0.3),
+                  Color.fromRGBO(255, 150, 240, 0.3)
+                ]
+              ),
+            ),
+            height: 20,
+            child: Center(child: Text(widget.listName, style:  TextStyle(
+              fontSize: 16,
+              color: LayoutWidget.primary()
+            )))
+          ),
         ]
       )
       
@@ -200,7 +208,7 @@ class _ListMirrorCategoryState extends State<ListMirrorCategory> {
     return Scaffold(
       appBar: LayoutWidget.getAppBar(ListMirrorCategory.tag, context),
       body: content,
-      floatingActionButton: LayoutWidget.activeButtom(ListMirrorCategory.tag, context)
+      //floatingActionButton: LayoutWidget.activeButtom(ListMirrorCategory.tag, context)
     );
   }
 }
