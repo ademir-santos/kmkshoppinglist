@@ -212,4 +212,28 @@ class ShoppingListCategoryDao extends AbstractDataBase {
 
     return (rows != 0);
   }
+
+  deleteAllForCategory(dynamic refId, dynamic category) async{
+    Database db = await this.getDb();
+    int rows = 0;
+
+    rows = await db.rawDelete("""
+                                DELETE shopplist_category 
+                                WHERE refid_shopplist = ? 
+                                AND categorys = ? """, [refId,category]);
+
+    rows = await db.rawDelete("""
+                                DELETE shopplist_category_product 
+                                WHERE refid_shopplist = ? 
+                                AND categorys = ? """, [refId,category]);
+    if(rows != 0) {
+      rows = await db.rawUpdate("""
+                                  UPDATE shopplist_category_product_temp
+                                  SET checked = 0
+                                  WHERE refid_shopplist = ?
+                                  AND categorys = ? """, [refId,category]);
+    }                             
+
+    return (rows != 0);
+  }
 }

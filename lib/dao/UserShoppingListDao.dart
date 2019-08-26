@@ -107,7 +107,6 @@ class UserShoppingListDao extends AbstractDataBase {
     Map map = await getItemSelect(recId, vl);
 
     if(map.isNotEmpty){
-      int recId = map['recid'];
       
       if(vl > 0){
         rows = await db.rawUpdate("""
@@ -115,6 +114,12 @@ class UserShoppingListDao extends AbstractDataBase {
                                     SET value_total = ?
                                     WHERE recid = ? """, [vl,recId]);
       } 
+      
+    } else if(vl > 0){
+      rows = await db.rawUpdate("""
+                                    UPDATE user_shopplist 
+                                    SET value_total = ?
+                                    WHERE recid = ? """, [vl,recId]);
     }
 
     return (rows != 0);

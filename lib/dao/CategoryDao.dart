@@ -96,7 +96,18 @@ class CategoryDao extends AbstractDataBase {
     }
   }
 
-  deleteProduct() {
+  Future<bool> deleteAllForCategory(dynamic category) async{
+    Database db = await this.getDb();
+    int rows = 0;
 
-  } 
+    rows = await db.rawDelete("""
+                                DELETE category 
+                                WHERE categorys = ? """, [category]);
+
+    rows = await db.rawDelete("""
+                                DELETE product 
+                                WHERE categorys = ? """, [category]);  
+
+    return (rows != 0);
+  }
 }

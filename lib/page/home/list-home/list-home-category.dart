@@ -8,6 +8,7 @@ import 'package:kmkshoppinglist/page/home/list-home/list-mirror-product.dart';
 import 'package:kmkshoppinglist/page/home/list-utils/list-category-bloc.dart';
 import 'package:kmkshoppinglist/page/layout-base/layout-widget.dart';
 import 'package:kmkshoppinglist/utils/application.dart';
+import 'package:kmkshoppinglist/utils/list-category-util.dart';
 
 class ListHomeCategory extends StatefulWidget {
 
@@ -96,17 +97,16 @@ class ListHomeCategoryState extends State<ListHomeCategory> {
                 icon: Icons.delete,
                 color: Colors.red,
                 onTap: () {
-                  ShoppingListCategoryDao shoppingListCategoryDao = ShoppingListCategoryDao();
                   String cat = item['categorys'];
 
-                  shoppingListCategoryDao.delete(item['recid']).then((deleted){
-                    if(deleted) {
-                      ShoppingListCategoryTempDao shoppingListCategoryTempDao = ShoppingListCategoryTempDao();
-                      shoppingListCategoryTempDao.updateSelectedCategory(HomePage.refId, cat, 0).then((update){
-                        Navigator.of(context).pushReplacementNamed(ListMirrorCategoryPage.tag);
-                      });
-                    }
-                  });
+                  bool deleted = deleteAllForCategory(cat);
+
+                  if(deleted) {
+                    ShoppingListCategoryTempDao shoppingListCategoryTempDao = ShoppingListCategoryTempDao();
+                    shoppingListCategoryTempDao.updateSelectedCategory(HomePage.refId, cat, 0).then((update){
+                      Navigator.of(context).pushReplacementNamed(ListMirrorCategoryPage.tag);
+                    });
+                  }
                 }
               )
             ]

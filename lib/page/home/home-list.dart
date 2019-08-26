@@ -50,7 +50,10 @@ class HomeListPageState extends State<HomeListPage> {
               shrinkWrap: true,
               itemCount: widget.shoppList.length,
               itemBuilder: (BuildContext context, int index) {
+
                 Map shoppList = widget.shoppList[index];
+                //double valueTotal = double.parse(shoppList['value_total'].toString()?? '0.00');
+
                 return  Container(child:Slidable(
                   actionPane: SlidableDrawerActionPane(),
                   actionExtentRatio: 0.25,

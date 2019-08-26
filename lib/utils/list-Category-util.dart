@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:kmkshoppinglist/dao/ShoppingListCategoryDao.dart';
 import 'package:kmkshoppinglist/dao/ShoppingListCategoryTempDao.dart';
 import 'package:kmkshoppinglist/page/home/home.dart';
@@ -119,4 +118,10 @@ updateVlProduct(dynamic category, dynamic vl) async{
     if(!valid)
       shoppingListCategoryDao.updateSelect(HomePage.refId, category, vl);
   }
+}
+
+deleteAllForCategory(dynamic category){
+  ShoppingListCategoryDao shoppingListCategoryDao = ShoppingListCategoryDao();
+
+  return shoppingListCategoryDao.deleteAllForCategory(HomePage.refId, category);
 }

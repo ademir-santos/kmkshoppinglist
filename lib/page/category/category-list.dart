@@ -7,6 +7,7 @@ import 'package:kmkshoppinglist/page/category/category-widget.dart';
 import 'package:kmkshoppinglist/page/layout-base/layout-widget.dart';
 import 'package:kmkshoppinglist/page/category/category.dart';
 import 'package:kmkshoppinglist/page/product/product.dart';
+import 'package:kmkshoppinglist/utils/list-category-util.dart';
 
 class CategoryListPage extends StatefulWidget {
 
@@ -88,7 +89,9 @@ class CategoryListPageState extends State<CategoryListPage> {
                       icon: Icons.delete,
                       color: Colors.red,
                       onTap: () {
-                        categoryDao.delete(category['categorys']).then((deleted){
+                        String categorys = category['categorys'];
+
+                        categoryDao.deleteAllForCategory(category['categorys']).then((deleted){
                           if(deleted) {
                             Navigator.of(context).pushReplacementNamed(CategoryPage.tag);
                           }
