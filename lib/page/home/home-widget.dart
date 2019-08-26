@@ -12,7 +12,7 @@ class HomeWidget {
     userShoppingListDao.insert({
       'list_name': shoppList.toUpperCase(),
       'created': DateTime.now().toString(),
-      'refid_user': 1
+      'refid_user': HomePage.userRecId
     }).then((recId){
       Navigator.of(ctx).pop();
       Navigator.of(ctx).pushReplacementNamed(HomePage.tag);

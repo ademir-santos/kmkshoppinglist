@@ -30,15 +30,12 @@ class _LoginAddPageState extends State<LoginAddPage> {
   @override
   Widget build(BuildContext context) {
 
-    final inputName = TextFormField(
+    final inputLogin = TextFormField(
       controller: _uLogin,
       autofocus: true,
       decoration: InputDecoration(
         hintText: 'Informe usuário',
         contentPadding: EdgeInsets.fromLTRB(20, 10, 20, 10),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(5)
-        )
       ),
       validator: (value) {
         if (value.isEmpty) {
@@ -55,9 +52,6 @@ class _LoginAddPageState extends State<LoginAddPage> {
       decoration: InputDecoration(
         hintText: 'Informe senha',
         contentPadding: EdgeInsets.fromLTRB(20, 10, 20, 10),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(5)
-        )
       ),
       validator: (value) {
         if (value.isEmpty) {
@@ -73,9 +67,6 @@ class _LoginAddPageState extends State<LoginAddPage> {
       decoration: InputDecoration(
         hintText: 'Informe nome',
         contentPadding: EdgeInsets.fromLTRB(20, 10, 20, 10),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(5)
-        )
       ),
       validator: (value) {
         if (value.isEmpty) {
@@ -91,9 +82,6 @@ class _LoginAddPageState extends State<LoginAddPage> {
       decoration: InputDecoration(
         hintText: 'Informe e-mail',
         contentPadding: EdgeInsets.fromLTRB(20, 10, 20, 10),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(5)
-        )
       ),
       validator: (value) {
         if (value.isEmpty) {
@@ -120,7 +108,7 @@ class _LoginAddPageState extends State<LoginAddPage> {
               ),
               SizedBox(height: 10),
               Text('Informe usuário'),
-              inputName,
+              inputLogin,
               SizedBox(height: 10),
               Text('Informe a Senha'),
               inputPassword,
@@ -170,23 +158,20 @@ class _LoginAddPageState extends State<LoginAddPage> {
                   child: Text('Salvar', style:TextStyle(color: LayoutWidget.light())),
                   padding: EdgeInsets.only(left: 50, right: 50),
                   onPressed: () {
-                    if (_formKey.currentState.validate()) {
+                    // Instancia model
+                    LoginDao loginDao = LoginDao();
 
-                      // Instancia model
-                      LoginDao loginDao = LoginDao();
-
-                      // Adiciona no banco de dados
-                      loginDao.insert({
-                        'users': _uLogin.text.toLowerCase(),
-                        'password': _uPassword.text.toLowerCase(),
-                        'name': _uNameFull.text,
-                        'email': _uEmail.text.toLowerCase(),
-                        'active': this.isSelected
-                      }).then((saved) {
-                        Navigator.of(context).pop();
-                        Navigator.of(context).pushReplacementNamed(LoginPage.tag);
-                      });
-                    }
+                    // Adiciona no banco de dados
+                    loginDao.insert({
+                      'users': _uLogin.text.toLowerCase(),
+                      'password': _uPassword.text.toLowerCase(),
+                      'name': _uNameFull.text,
+                      'email': _uEmail.text.toLowerCase(),
+                      'active': this.isSelected
+                    }).then((saved) {
+                      Navigator.of(context).pop();
+                      Navigator.of(context).pushReplacementNamed(LoginPage.tag);
+                    });
                   },
                 )
               ])

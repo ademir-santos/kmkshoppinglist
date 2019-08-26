@@ -4,21 +4,22 @@ import 'package:kmkshoppinglist/page/home/home.dart';
 import 'package:kmkshoppinglist/page/home/list-utils/list-category-bloc-temp.dart';
 import 'package:kmkshoppinglist/page/layout-base/layout-widget.dart';
 
-class ListCategoryPage extends StatefulWidget {
+class ListCategory extends StatefulWidget {
 
   final List<Map> listCategorys;
   final String filter;
   final ListCategoryBlocTemp listCategoryBlocTemp;
 
-  const ListCategoryPage({Key key, this.listCategorys, this.filter, this.listCategoryBlocTemp}) : super(key: key);
+  const ListCategory({Key key, this.listCategorys, this.filter, this.listCategoryBlocTemp}) : super(key: key);
 
   @override
-  ListCategoryPageState createState() => ListCategoryPageState();
+  ListCategoryState createState() => ListCategoryState();
 }
 
-class ListCategoryPageState extends State<ListCategoryPage> {
+class ListCategoryState extends State<ListCategory> {
   
   ShoppingListCategoryTempDao shoppingListCategoryTempDao = ShoppingListCategoryTempDao();
+  
   @override
   Widget build(BuildContext context) {
 

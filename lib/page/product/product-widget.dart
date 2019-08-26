@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kmkshoppinglist/dao/CategoryDao.dart';
 import 'package:kmkshoppinglist/dao/ProductDao.dart';
 import 'package:kmkshoppinglist/page/category/category.dart';
 import 'package:kmkshoppinglist/page/layout-base/layout-widget.dart';
@@ -20,6 +21,8 @@ class ProductWidget {
       'refid_category': refidcat,
       'categorys': cat
     }).then((recId){
+      CategoryDao categoryDao = CategoryDao();
+      categoryDao.updateProductCount(cat);
       Navigator.of(ctx).pop();
       Navigator.of(ctx).popAndPushNamed(ProductPage.tag);
     });

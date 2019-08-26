@@ -4,6 +4,7 @@ import 'package:kmkshoppinglist/page/home/home.dart';
 import 'package:kmkshoppinglist/page/home/list-category/mirror-category.dart';
 import 'package:kmkshoppinglist/page/home/list-home/list-mirror-category.dart';
 import 'package:kmkshoppinglist/page/home/list-home/list-mirror-product.dart';
+import 'package:kmkshoppinglist/page/home/list-product/mirror-product.dart';
 import 'package:kmkshoppinglist/page/layout-base/layout-widget.dart';
 import 'package:kmkshoppinglist/page/login/login-add.dart';
 import 'package:kmkshoppinglist/page/login/login-page.dart';
@@ -18,9 +19,10 @@ class KMKShoppingList extends StatelessWidget {
     LoginPage.tag: (context) => LoginPage(),
     LoginAddPage.tag: (context) => LoginAddPage(),
     HomePage.tag: (context) => HomePage(),
-    ListMirrorCategory.tag: (context) => ListMirrorCategory(),
+    ListMirrorCategoryPage.tag: (context) => ListMirrorCategoryPage(),
     ListMirrorProductPage.tag: (context) => ListMirrorProductPage(),
-    MirrorCategory.tag: (context) => MirrorCategory(),
+    MirrorCategoryPage.tag: (context) => MirrorCategoryPage(),
+    MirroProductPage.tag: (context) => MirroProductPage(),
     CategoryPage.tag: (context) => CategoryPage(),
     ProductPage.tag: (context) => ProductPage(),
     UserPage.tag: (context) => UserPage(),
@@ -40,7 +42,7 @@ class KMKShoppingList extends StatelessWidget {
           body1: TextStyle(fontSize: 14)
         )
       ),
-      home: LoginPage(),
+      home: LoginPage(), // HomePage(),//
       routes: routes,
     );
   }

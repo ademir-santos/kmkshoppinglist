@@ -9,7 +9,8 @@ List<String> dbCreate = [
   """
     CREATE TABLE category(
       recid INTEGER PRIMARY KEY,
-      categorys TEXT
+      categorys TEXT,
+      qty_product INTEGER
     )
   """,
 

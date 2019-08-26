@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:kmkshoppinglist/dao/CategoryDao.dart';
@@ -47,6 +49,7 @@ class CategoryListPageState extends State<CategoryListPage> {
               itemCount: widget.category.length,
               itemBuilder: (BuildContext context, int index) {
                 Map category = widget.category[index];
+
                 return  Container(child:Slidable(
                   actionPane: SlidableDrawerActionPane(),
                   actionExtentRatio: 0.25,
@@ -59,7 +62,7 @@ class CategoryListPageState extends State<CategoryListPage> {
                         foregroundColor: Colors.white,
                       ),
                       title: Text(category['categorys']),
-                      subtitle: Text('Produtos vinculados 76'),
+                      subtitle: Text('Produtos vinculados: ${category['qty_product']}'),
                       trailing: Icon(Icons.arrow_forward_ios),
                       onTap: (){
                         CategoryPage.recId = category['recid'];
@@ -85,7 +88,7 @@ class CategoryListPageState extends State<CategoryListPage> {
                       icon: Icons.delete,
                       color: Colors.red,
                       onTap: () {
-                        categoryDao.delete(category['recid']).then((deleted){
+                        categoryDao.delete(category['categorys']).then((deleted){
                           if(deleted) {
                             Navigator.of(context).pushReplacementNamed(CategoryPage.tag);
                           }

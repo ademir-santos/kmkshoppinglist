@@ -68,11 +68,35 @@ class CategoryDao extends AbstractDataBase {
   }
 
   @override
-  Future<bool> delete(dynamic recId) async{
+  Future<bool> delete(dynamic cat) async{
     Database db = await this.getDb();
 
-    int rows = await db.delete('category', where: 'recid = ?', whereArgs: [recId]);
+    int rows = await db.delete('category', where: 'categorys = ?', whereArgs: [cat]);
+
+    if((rows != 0)) {
+      await db.delete('product', where: 'categorys = ?', whereArgs: [cat]);
+    }
 
     return (rows != 0);
   }
+
+  updateProductCount(dynamic category) async{
+    Database db = await this.getDb();
+    List<Map> list;
+    int count = 0;
+
+    list = await db.query('product', where: 'categorys = ?', whereArgs: [category]);
+
+    if(list.isNotEmpty) {
+      int rows = await await db.rawUpdate("""
+                                          UPDATE  category SET qty_product = ? 
+                                          WHERE categorys = ? """, [list.length,category]);
+
+      if(rows > 0){}
+    }
+  }
+
+  deleteProduct() {
+
+  } 
 }

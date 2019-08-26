@@ -13,8 +13,7 @@ class ProductPage extends StatefulWidget {
 }
 
 class _ProductPageState extends State<ProductPage> {
-  ProductListBloc listBloc = ProductListBloc(CategoryPage.recId);
-
+  ProductListBloc listBloc = ProductListBloc(CategoryPage.categorys);
 
   @override
   void dispose() {
@@ -49,6 +48,5 @@ class _ProductPageState extends State<ProductPage> {
       appBar: LayoutWidget.getAppBar(ProductPage.tag, context),
       body: content
     );
-    //return Layout.getContent(context, content, false, ProductPage.tag);
   }
 }

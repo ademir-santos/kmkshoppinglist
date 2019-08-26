@@ -13,7 +13,7 @@ class ListProductBloc {
     _controller.close();
   }
 
-  getList(int refIdList) async{
-    _controller.sink.add(await shopplistCategoryProductDao.list(refIdList));
+  getList(dynamic refIdList, dynamic category) async{
+    _controller.sink.add(await shopplistCategoryProductDao.loadList(refIdList, category));
   }
 }

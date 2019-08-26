@@ -5,7 +5,7 @@ import 'package:kmkshoppinglist/page/home/list-utils/list-category-bloc.dart';
 import 'package:kmkshoppinglist/page/layout-base/layout-widget.dart';
 import 'package:kmkshoppinglist/utils/application.dart';
 
-class ListMirrorCategory extends StatefulWidget {
+class ListMirrorCategoryPage extends StatefulWidget {
 
   static final tag = 'list-mirror-category';
 
@@ -16,10 +16,10 @@ class ListMirrorCategory extends StatefulWidget {
   final ListCategoryBloc listCategoryBloc = ListCategoryBloc(HomePage.refId, HomePage.listName);
 
   @override
-  _ListMirrorCategoryState createState() => _ListMirrorCategoryState();
+  _ListMirrorCategoryPageState createState() => _ListMirrorCategoryPageState();
 }
 
-class _ListMirrorCategoryState extends State<ListMirrorCategory> {
+class _ListMirrorCategoryPageState extends State<ListMirrorCategoryPage> {
   String filterText = "";
 
   @override
@@ -71,7 +71,7 @@ class _ListMirrorCategoryState extends State<ListMirrorCategory> {
                       return Text('Error: ${snapshot.error}');
                     } else {
 
-                      return HomeListCategoryPage(
+                      return ListHomeCategory(
                         listCategorys: snapshot.data,
                         filter: filterText,
                         listCategoryBloc: widget.listCategoryBloc
@@ -132,7 +132,7 @@ class _ListMirrorCategoryState extends State<ListMirrorCategory> {
                           && item['quantity_total'] != null)
                           && (item['value_total'] > 0
                           && item['quantity_total'] > 0))
-                          vlr = currencyToFloat(item['value_total']) * item['quantity_total'];
+                          vlr = double.parse(item['value_total'].toString());
 
                         subTotal += vlr;
                         
@@ -197,7 +197,8 @@ class _ListMirrorCategoryState extends State<ListMirrorCategory> {
             height: 20,
             child: Center(child: Text(widget.listName, style:  TextStyle(
               fontSize: 16,
-              color: LayoutWidget.primary()
+              color: LayoutWidget.primary(),
+              fontWeight: FontWeight.bold
             )))
           ),
         ]
@@ -206,9 +207,8 @@ class _ListMirrorCategoryState extends State<ListMirrorCategory> {
     );
 
     return Scaffold(
-      appBar: LayoutWidget.getAppBar(ListMirrorCategory.tag, context),
+      appBar: LayoutWidget.getAppBar(ListMirrorCategoryPage.tag, context),
       body: content,
-      //floatingActionButton: LayoutWidget.activeButtom(ListMirrorCategory.tag, context)
     );
   }
 }

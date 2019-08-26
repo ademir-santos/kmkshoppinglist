@@ -69,8 +69,8 @@ class ShoppingListCategoryDao extends AbstractDataBase {
     
     //exists = await getItemExist(values['categorys'].toString());
     
-    if(exists){
-      rows = await db.update('shopplist_category', values, where: 'recid = ?', whereArgs: [where]);
+    if(!exists){
+      rows = await db.update('shopplist_category', values, where: 'categorys = ?', whereArgs: [where]);
     }
 
     return (rows != 0);
@@ -85,13 +85,9 @@ class ShoppingListCategoryDao extends AbstractDataBase {
     return (rows != 0);
   }
 
-    Future<bool> getItemExist(dynamic refId, dynamic category) async{
+  Future<bool> getItemExist(dynamic refId, dynamic category) async{
     Database db = await this.getDb();
 
-    /*List<Map> categoryTable = await db.rawQuery("""
-                                              SELECT * FROM shopplist_category 
-                                              WHERE refid_shopplist = ${refId} 
-                                              AND categorys = ${category}""");*/
     List<Map> categoryTable = await db.rawQuery("""
                                           SELECT * FROM shopplist_category 
                                           WHERE refid_shopplist = ? 
@@ -107,8 +103,6 @@ class ShoppingListCategoryDao extends AbstractDataBase {
   Future<int> getRecIdCategory(dynamic refId, dynamic category) async{
     Database db = await this.getDb();
     int recId = 0;
-
-    //List<Map> results = await db.query("shopplist_category", where: 'refid_shopplist = ?', whereArgs: [refId], and: 'categorys = ?' andArgs: [category]);
 
     List<Map> categoryTable = await db.rawQuery("""
                                               SELECT * FROM shopplist_category 
@@ -134,6 +128,88 @@ class ShoppingListCategoryDao extends AbstractDataBase {
       rows = await db.update('shopplist_category_temp', values, where: 'recid = ?', whereArgs: [where]);
     }*/
     
+    return (rows != 0);
+  }
+
+  Future<Map> getItemSelect(dynamic refId, dynamic category) async{
+    Database db = await this.getDb();
+    List<Map> categoryTable;
+    
+    categoryTable = await db.rawQuery("""
+                                        SELECT * FROM shopplist_category 
+                                        WHERE refid_shopplist = ? 
+                                        AND categorys = ?""", [refId,category]);
+
+    Map result = Map();
+
+    if(categoryTable.isNotEmpty){
+      result = categoryTable.first;
+    }
+
+    return result;
+  }
+
+  Future<bool> modifQtySelect(dynamic refId, dynamic category, dynamic qty) async{
+    Database db = await this.getDb();
+    List<Map> categoryTable;
+    
+    categoryTable = await db.rawQuery("""
+                                        SELECT * FROM shopplist_category 
+                                        WHERE refid_shopplist = ? 
+                                        AND categorys = ?
+                                        AND quantity_total = ?""", [refId,category,qty]);
+
+    bool result = false;
+
+    if(categoryTable.isNotEmpty){
+      result = true;
+    }
+
+    return result;
+  }
+
+  Future<bool> modifVlSelect(dynamic refId, dynamic category, dynamic vl) async{
+    Database db = await this.getDb();
+    List<Map> categoryTable;
+    
+    categoryTable = await db.rawQuery("""
+                                        SELECT * FROM shopplist_category 
+                                        WHERE refid_shopplist = ? 
+                                        AND categorys = ?
+                                        AND value_total = ?""", [refId,category,vl]);
+
+    bool result = false;
+
+    if(categoryTable.isNotEmpty){
+      result = true;
+    }
+
+    return result;
+  }
+
+  Future<bool> updateSelect(dynamic refId, dynamic category, [dynamic vl = 0.00, dynamic qt = 0]) async{
+    Database db = await this.getDb();
+    int rows = 0;
+    
+    Map map = await getItemSelect(refId, category);
+
+    if(map.isNotEmpty){
+      int recId = map['recid'];
+      if(vl > 0){
+        rows = await db.rawUpdate("""
+                                    UPDATE shopplist_category 
+                                    SET value_total = ?
+                                    WHERE recid = ? """, [vl,recId]);
+      } 
+      
+      if(qt > 0) {
+        rows = await db.rawUpdate("""
+                                    UPDATE shopplist_category 
+                                    SET quantity_total = ?
+                                    WHERE recid = ? """, [qt,recId]);
+      }
+    }
+
     return (rows != 0);
   }
 }

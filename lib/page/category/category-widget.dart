@@ -11,7 +11,8 @@ class CategoryWidget {
     CategoryDao categoryDao = CategoryDao();
 
     categoryDao.insert({
-      'categorys': category
+      'categorys': category,
+      'qty_product': 0
     }).then((recId){
       Navigator.of(ctx).pop();
       Navigator.of(ctx).popAndPushNamed(CategoryPage.tag);

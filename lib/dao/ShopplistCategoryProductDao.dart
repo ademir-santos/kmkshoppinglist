@@ -33,13 +33,13 @@ class ShopplistCategoryProductDao extends AbstractDataBase {
   @override
   Future<List<Map>> list(dynamic where) async{
     Database db = await this.getDb();
-    return db.rawQuery('SELECT * FROM shopplist_category_product_temp WHERE refid_category = $where ORDER BY products ASC');
+    return db.rawQuery('SELECT * FROM shopplist_category_product WHERE categorys = $where ORDER BY products ASC');
   }
 
   @override
   Future<Map> getItem(dynamic where) async{
     Database db = await this.getDb();
-    List<Map> categoryTable = await db.rawQuery('SELECT TOP 1* FROM shopplist_category_product_temp WHERE recid = $where LIMIT');
+    List<Map> categoryTable = await db.rawQuery('SELECT TOP 1* FROM shopplist_category_product WHERE recid = $where LIMIT');
 
     Map result = Map();
 
@@ -53,7 +53,7 @@ class ShopplistCategoryProductDao extends AbstractDataBase {
   @override
   Future<int> insert(Map<String, dynamic> values) async{
     Database db = await this.getDb();
-    int newRecId = await db.insert('shopplist_category_product_temp', values);
+    int newRecId = await db.insert('shopplist_category_product', values);
 
     return newRecId;
   }
@@ -62,7 +62,7 @@ class ShopplistCategoryProductDao extends AbstractDataBase {
   Future<bool> update(Map<String, dynamic> values, where) async{
     Database db = await this.getDb();
 
-    int rows = await db.update('shopplist_category_product_temp', values, where: 'recid = ?', whereArgs: [where]);
+    int rows = await db.update('shopplist_category_product', values, where: 'recid = ?', whereArgs: [where]);
 
     return (rows != 0);
   }
@@ -71,8 +71,35 @@ class ShopplistCategoryProductDao extends AbstractDataBase {
   Future<bool> delete(dynamic recId) async{
     Database db = await this.getDb();
 
-    int rows = await db.delete('shopplist_category_product_temp', where: 'recid = ?', whereArgs: [recId]);
+    int rows = await db.delete('shopplist_category_product', where: 'recid = ?', whereArgs: [recId]);
 
     return (rows != 0);
+  }
+
+  Future<List<Map>> loadList(dynamic refId, dynamic category) async{
+    Database db = await this.getDb();
+
+    List<Map> productsTable = await db.rawQuery("""
+                                          SELECT * FROM shopplist_category_product 
+                                          WHERE refid_shopplist = ? 
+                                          AND categorys = ?""", [refId,category]);
+
+    return productsTable;
+  }
+
+  Future<bool> getItemExist(dynamic refId, dynamic category, dynamic product) async{
+    Database db = await this.getDb();
+
+    List<Map> productsTable = await db.rawQuery("""
+                                          SELECT * FROM shopplist_category_product 
+                                          WHERE refid_shopplist = ? 
+                                          AND categorys = ?
+                                          AND products = ?""", [refId,category,product]);
+
+    if(productsTable.isNotEmpty){
+      return true; 
+    }
+
+    return false;
   }
 }

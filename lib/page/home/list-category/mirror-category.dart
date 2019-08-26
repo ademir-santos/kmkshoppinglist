@@ -6,7 +6,7 @@ import 'package:kmkshoppinglist/page/home/list-utils/list-category-bloc-temp.dar
 import 'package:kmkshoppinglist/page/layout-base/layout-widget.dart';
 import 'package:kmkshoppinglist/utils/list-Category-util.dart';
 
-class MirrorCategory extends StatefulWidget {
+class MirrorCategoryPage extends StatefulWidget {
   
   static final tag = 'mirror-category';
   final int refIdList = HomePage.refId;
@@ -18,10 +18,10 @@ class MirrorCategory extends StatefulWidget {
   final CategoryListBloc categoryBlocList = CategoryListBloc();
 
    @override
-  _MirrorCategoryState createState() => _MirrorCategoryState();
+  _MirrorCategoryPageState createState() => _MirrorCategoryPageState();
 }
 
-class _MirrorCategoryState extends State<MirrorCategory> {
+class _MirrorCategoryPageState extends State<MirrorCategoryPage> {
   
   @override
   void dispose() {
@@ -84,7 +84,7 @@ class _MirrorCategoryState extends State<MirrorCategory> {
                       return Text('Error: ${snapshot.error}');
                     } else {
 
-                      return ListCategoryPage(
+                      return ListCategory(
                         listCategorys: snapshot.data,
                         filter: widget.filterText,
                         listCategoryBlocTemp: widget.listCategoryBlocTemp
@@ -114,14 +114,15 @@ class _MirrorCategoryState extends State<MirrorCategory> {
             height: 50,
             child: Center(child: Text(widget.listName, style:  TextStyle(
               fontSize: 16,
-              color: LayoutWidget.primary()
+              color: LayoutWidget.primary(),
+              fontWeight: FontWeight.bold
             )))
           )]
       )
     );
 
     return Scaffold(
-      appBar: LayoutWidget.getAppBar(MirrorCategory.tag, context),
+      appBar: LayoutWidget.getAppBar(MirrorCategoryPage.tag, context),
       body: content
     );
   }

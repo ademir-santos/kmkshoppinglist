@@ -4,9 +4,14 @@ import 'package:kmkshoppinglist/page/home/home-widget.dart';
 import 'package:kmkshoppinglist/page/home/home.dart';
 import 'package:kmkshoppinglist/page/home/list-category/mirror-category.dart';
 import 'package:kmkshoppinglist/page/home/list-home/list-mirror-category.dart';
+import 'package:kmkshoppinglist/page/home/list-home/list-mirror-product.dart';
+import 'package:kmkshoppinglist/page/home/list-product/mirror-product.dart';
 import 'package:kmkshoppinglist/page/home/list-utils/list-category-bloc-temp.dart';
 import 'package:kmkshoppinglist/page/home/list-utils/list-category-bloc.dart';
+import 'package:kmkshoppinglist/page/home/list-utils/list-product-bloc-temp.dart';
+import 'package:kmkshoppinglist/page/home/list-utils/list-product-bloc.dart';
 import 'package:kmkshoppinglist/utils/list-Category-util.dart';
+import 'package:kmkshoppinglist/utils/list-product-util.dart';
 
 class LayoutWidget extends StatelessWidget {
   
@@ -46,7 +51,7 @@ class LayoutWidget extends StatelessWidget {
             GestureDetector(
               onTap: () {
                 Navigator.of(ctx).pop();
-                Navigator.of(ctx).pushReplacementNamed(MirrorCategory.tag);
+                Navigator.of(ctx).pushReplacementNamed(MirrorCategoryPage.tag);
               },
               child: Icon(Icons.add_circle_outline),
             ),
@@ -65,7 +70,7 @@ class LayoutWidget extends StatelessWidget {
         break;
       case 'mirror-category':
         return AppBar(
-          title: Text(' Selecionar de Categoria'),
+          title: Text(' Selecionar Categoria'),
           actions: <Widget>[
             GestureDetector(
               onTap: () {
@@ -76,7 +81,7 @@ class LayoutWidget extends StatelessWidget {
                 listCategoryBloc.getList(HomePage.refId);
 
                 Navigator.of(ctx).pop();
-                Navigator.of(ctx).pushReplacementNamed(ListMirrorCategory.tag);
+                Navigator.of(ctx).pushReplacementNamed(ListMirrorCategoryPage.tag);
               },
               child: Icon(Icons.arrow_back_ios),
             ),
@@ -90,23 +95,47 @@ class LayoutWidget extends StatelessWidget {
           actions: <Widget>[
             GestureDetector(
               onTap: () {
-                //Navigator.of(ctx).pop();
-                //Navigator.of(ctx).pushReplacementNamed(MirrorCategory.tag);
+                Navigator.of(ctx).pop();
+                Navigator.of(ctx).pushReplacementNamed(MirroProductPage.tag);
               },
               child: Icon(Icons.add_circle_outline),
             ),
             Padding(padding: EdgeInsets.only(right: 50)),
             GestureDetector(
               onTap: () {
+                ListProductBloc listProductBloc = ListProductBloc();
+                listProductBloc.getList(HomePage.refId, ListMirrorProductPage.categoryName);
+                //updateQtyProduct(listProductBloc.lists);
                 Navigator.of(ctx).pop();
-                Navigator.of(ctx).pushReplacementNamed(ListMirrorCategory.tag);
+                Navigator.of(ctx).pushReplacementNamed(ListMirrorCategoryPage.tag);
               },
               child: Icon(Icons.arrow_back_ios),
             ),
             Padding(padding: EdgeInsets.only(right: 20)),
           ],          
         );
-        break;  
+        break;
+      case 'mirror-product': 
+        return AppBar(
+          title: Text(' Selecionar Produto'),
+          actions: <Widget>[
+            GestureDetector(
+              onTap: () {
+                ListProductBlocTemp listBlocTemp = ListProductBlocTemp();
+                ListProductBloc listProductBloc = ListProductBloc();
+                listBlocTemp.getList(HomePage.refId, ListMirrorProductPage.categoryName);
+                loadProductList(listBlocTemp.lists);
+                listProductBloc.getList(HomePage.refId, ListMirrorProductPage.categoryName);
+
+                Navigator.of(ctx).pop();
+                Navigator.of(ctx).pushReplacementNamed(ListMirrorProductPage.tag);
+              },
+              child: Icon(Icons.arrow_back_ios),
+            ),
+            Padding(padding: EdgeInsets.only(right: 20))
+          ],   
+        );
+        break;
       default:
         return AppBar(
           title: Text(' Lista de Compras'),

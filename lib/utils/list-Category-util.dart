@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+import 'dart:async';
+
 import 'package:kmkshoppinglist/dao/ShoppingListCategoryDao.dart';
 import 'package:kmkshoppinglist/dao/ShoppingListCategoryTempDao.dart';
 import 'package:kmkshoppinglist/page/home/home.dart';
@@ -93,5 +94,29 @@ loadCategoryList(Stream<List<Map>> futureList) async{
     else{
       return;
     }
+  }
+}
+
+updateQtyProduct(dynamic category, dynamic qty) async{
+  ShoppingListCategoryDao shoppingListCategoryDao = ShoppingListCategoryDao();
+
+  if(category != null && qty > 0){
+
+    bool valid = await shoppingListCategoryDao.modifQtySelect(HomePage.refId, category, qty);
+
+    if(!valid)
+      shoppingListCategoryDao.updateSelect(HomePage.refId, category, 0.00, qty);
+  }
+}
+
+updateVlProduct(dynamic category, dynamic vl) async{
+  ShoppingListCategoryDao shoppingListCategoryDao = ShoppingListCategoryDao();
+
+  if(category != null && vl > 0) {
+
+    bool valid = await shoppingListCategoryDao.modifQtySelect(HomePage.refId, category, vl);
+
+    if(!valid)
+      shoppingListCategoryDao.updateSelect(HomePage.refId, category, vl);
   }
 }

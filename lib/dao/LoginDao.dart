@@ -25,19 +25,21 @@ class LoginDao extends AbstractDataBase {
   @override
   int get dbversion => dbVersion;
 
-  Future<bool> login(String login, String password) async{
+  Future<Map> login(String login, String password, [dynamic active = 1]) async{
     Database db = await this.getDb();
+    Map user = Map();
 
     List<Map> userTable = await db.rawQuery("""
                                               SELECT * FROM user 
                                               WHERE users = ? 
-                                              AND password = ?""", [login,password]);
+                                              AND password = ?
+                                              AND active = ?""", [login,password,active]);                                     
 
-    if(userTable.isNotEmpty){
-      return true;
+    if(userTable.isNotEmpty) {
+      user = userTable.first;
     }
 
-    return false;
+    return user;
   }
 
   @override

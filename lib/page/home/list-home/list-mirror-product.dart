@@ -5,12 +5,14 @@ import 'package:kmkshoppinglist/page/home/list-home/list-home-product.dart';
 import 'package:kmkshoppinglist/page/home/list-utils/list-product-bloc.dart';
 import 'package:kmkshoppinglist/page/layout-base/layout-widget.dart';
 import 'package:kmkshoppinglist/utils/application.dart';
+import 'package:kmkshoppinglist/utils/list-Category-util.dart';
 
 class ListMirrorProductPage extends StatefulWidget {
 
   static final tag = 'list-mirror-product';
   
-  static String categoryName = HomeListCategoryPage.categoryName;
+  static String categoryName = ListHomeCategory.categoryName;
+  static int refIdCategory = ListHomeCategory.refIdCategory;
 
   ListProductBloc listProductBloc = ListProductBloc();
 
@@ -24,6 +26,8 @@ class _ListMirrorProductPageState extends State<ListMirrorProductPage> {
 
   @override
   Widget build(BuildContext context) {
+
+    widget.listProductBloc.getList(HomePage.refId,ListHomeCategory.categoryName);
 
     final content = SingleChildScrollView(
       child: Column(
@@ -71,9 +75,9 @@ class _ListMirrorProductPageState extends State<ListMirrorProductPage> {
                     } else {
 
                       return ListHomeProduct(
-                        //listCategorys: snapshot.data,
-                        //filter: filterText,
-                        //listCategoryBloc: widget.listCategoryBloc
+                        listProducts: snapshot.data,
+                        filter: filterText,
+                        listProductBloc: widget.listProductBloc
                       );
                     }
                 }
@@ -115,10 +119,15 @@ class _ListMirrorProductPageState extends State<ListMirrorProductPage> {
                       List<Map> items = snapshot.data;
 
                       // Total de itens
+                      int quatComp = 0;
                       int qtdTotal = items.length;
+                      //String atyValue = 
+                      int qtyTotalProduct = 0;
 
                       // Total de itens marcados
                       int qtdChecked = 0;
+
+                      updateQtyProduct(ListMirrorProductPage.categoryName, qtdTotal);
 
                       // Valor total quando todos os items estiverem marcados
                       double subTotal = 0.0;
@@ -126,19 +135,32 @@ class _ListMirrorProductPageState extends State<ListMirrorProductPage> {
                       // Valor total de items marcados
                       double vlrTotal = 0.0;
 
+                      
+
                       for (Map item in items) {
                         double vlr = 0.00;
                         if((item['value_total'] != null 
                           && item['quantity_total'] != null)
                           && (item['value_total'] > 0
-                          && item['quantity_total'] > 0))
-                          vlr = currencyToFloat(item['value_total']) * item['quantity_total'];
+                          && item['quantity_total'] > 0)) {
+                            
+                            qtyTotalProduct = item['quantity_total'];
+                            vlr = double.parse(item['value_unitary'].toString());
+                            vlr = qtyTotalProduct * vlr;
+                          }
+                          
 
                         subTotal += vlr;
                         
                         if (item['checked'] == 1) {
                           qtdChecked++;
                           vlrTotal += vlr;
+                        }
+
+                        if(qtdTotal == quatComp+1){
+                          updateVlProduct(ListMirrorProductPage.categoryName, vlrTotal);
+                        } else {
+                          quatComp++;
                         }
                       }
                       bool isClosed = (subTotal == vlrTotal);  
@@ -150,7 +172,7 @@ class _ListMirrorProductPageState extends State<ListMirrorProductPage> {
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: <Widget>[
-                              Column(children: <Widget>[Text('Categorias'), Text(qtdTotal.toString() ?? 0, textScaleFactor: 1.2)]),
+                              Column(children: <Widget>[Text('Produtos'), Text(qtdTotal.toString() ?? 0, textScaleFactor: 1.2)]),
                               Column(children: <Widget>[Text('Carrinho'), Text(qtdChecked.toString(), textScaleFactor: 1.2)]),
                               Column(children: <Widget>[Text('Faltando'), Text((qtdTotal - qtdChecked).toString(), textScaleFactor: 1.2)]),
                             ],
@@ -198,7 +220,8 @@ class _ListMirrorProductPageState extends State<ListMirrorProductPage> {
             height: 20,
             child: Center(child: Text(HomePage.listName +' <|> '+ ListMirrorProductPage.categoryName, style:  TextStyle(
               fontSize: 16,
-              color: LayoutWidget.primary()
+              color: LayoutWidget.primary(),
+              fontWeight: FontWeight.bold
             )))
           ),
         ]

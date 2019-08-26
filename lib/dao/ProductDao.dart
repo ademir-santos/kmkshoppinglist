@@ -33,7 +33,9 @@ class ProductDao extends AbstractDataBase {
   @override
   Future<List<Map>> list(dynamic where) async{
     Database db = await this.getDb();
-    return db.rawQuery('SELECT * FROM product WHERE refid_category = $where ORDER BY products ASC');
+
+    return db.query('product', where: 'categorys = ?', whereArgs: [where]);
+    //return db.rawQuery('SELECT * FROM product WHERE categorys = $where ORDER BY products ASC');
   }
 
   @override
