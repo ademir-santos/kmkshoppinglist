@@ -75,4 +75,48 @@ class UserShoppingListDao extends AbstractDataBase {
 
     return (rows != 0);
   }
+
+  Future<Map> getItemSelect(dynamic recId, [dynamic vl = 0.00]) async{
+    Database db = await this.getDb();
+    List<Map> table;
+    
+    if(vl > 0) {
+      table = await db.rawQuery("""
+                                  SELECT * FROM user_shopplist 
+                                  WHERE recid = ?
+                                  AND value_total = ? """, [recId,vl]);
+    } else {
+      table = await db.rawQuery("""
+                                  SELECT * FROM user_shopplist 
+                                  WHERE recid = ? """, [recId]);
+    }
+
+    Map result = Map();
+
+    if(table.isNotEmpty){
+      result = table.first;
+    }
+
+    return result;
+  }
+
+  Future<bool> updateSelect(dynamic recId, [dynamic vl = 0.00]) async{
+    Database db = await this.getDb();
+    int rows = 0;
+    
+    Map map = await getItemSelect(recId, vl);
+
+    if(map.isNotEmpty){
+      int recId = map['recid'];
+      
+      if(vl > 0){
+        rows = await db.rawUpdate("""
+                                    UPDATE user_shopplist 
+                                    SET value_total = ?
+                                    WHERE recid = ? """, [vl,recId]);
+      } 
+    }
+
+    return (rows != 0);
+  }
 }

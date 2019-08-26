@@ -12,7 +12,7 @@ class HomeListBloc {
 
   final _controller = StreamController<List<Map>>.broadcast();
 
-  UserShoppingListDao userShoppingListModel = UserShoppingListDao();
+  UserShoppingListDao userShoppingListDao = UserShoppingListDao();
 
   get lists => _controller.stream;
 
@@ -21,6 +21,6 @@ class HomeListBloc {
   }
 
   getList() async{
-    _controller.sink.add(await userShoppingListModel.list(1));
+    _controller.sink.add(await userShoppingListDao.list(1));
   }
 }

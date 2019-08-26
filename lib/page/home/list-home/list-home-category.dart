@@ -7,6 +7,7 @@ import 'package:kmkshoppinglist/page/home/list-home/list-mirror-category.dart';
 import 'package:kmkshoppinglist/page/home/list-home/list-mirror-product.dart';
 import 'package:kmkshoppinglist/page/home/list-utils/list-category-bloc.dart';
 import 'package:kmkshoppinglist/page/layout-base/layout-widget.dart';
+import 'package:kmkshoppinglist/utils/application.dart';
 
 class ListHomeCategory extends StatefulWidget {
 
@@ -62,6 +63,7 @@ class ListHomeCategoryState extends State<ListHomeCategory> {
         Map item = filteredList[i];
 
         int qtyTotal = item['quantity_total'];
+        double vlTotal = double.parse(item['value_total'].toString());
 
         return Container(
           child: Slidable(
@@ -76,7 +78,7 @@ class ListHomeCategoryState extends State<ListHomeCategory> {
                   foregroundColor: Colors.white,
                 ),
                 title: Text(item['categorys']),
-                subtitle: Text('Quantidade: $qtyTotal  | | Valor: ${item['value_total']}'),
+                subtitle: Text('Quantidade: $qtyTotal  | | Valor: ' + doubleToCurrency(vlTotal)),
                 trailing: Icon(Icons.arrow_forward_ios),
                 onTap: (){
                   ListHomeCategory.categoryName = item['categorys'];

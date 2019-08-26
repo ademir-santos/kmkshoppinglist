@@ -51,12 +51,18 @@ loadProductList(Stream<List<Map>> futureList) async{
       for(var map in mapList){
         String category = map['categorys'];
         String product = map['products'];
+        int checked = map['checked'];
         int refId = HomePage.refId;
 
         if(category.isNotEmpty){
           exists = await shopplistCategoryProductDao.getItemExist(refId, category, product);
 
-          if(!exists){
+          if(checked == 0 && exists){
+            int recId = await shopplistCategoryProductDao.getRecId(refId, category, product);
+            shopplistCategoryProductDao.delete(recId).then((delete){ 
+              shopplistCategoryProductDao.list(HomePage.refId);
+            });
+          } else if(checked > 0 && !exists){
             shopplistCategoryProductDao.insert({
               'refid_shopplist': map['refid_shopplist'],
               'list_name': map['list_name'],

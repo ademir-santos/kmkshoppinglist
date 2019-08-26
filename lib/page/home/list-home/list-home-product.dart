@@ -56,7 +56,7 @@ class _ListHomeProductState extends State<ListHomeProduct> {
 
         int qtyTotal = item['quantity_total'];
         double vlUnit = double.parse(item['value_unitary'].toString());
-        double vlTotal = double.parse(item['value_total'].toString());;
+        double vlTotal = double.parse(item['value_total'].toString());
 
         return Container(
           child: Slidable(

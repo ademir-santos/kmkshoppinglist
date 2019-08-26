@@ -114,7 +114,7 @@ updateVlProduct(dynamic category, dynamic vl) async{
 
   if(category != null && vl > 0) {
 
-    bool valid = await shoppingListCategoryDao.modifQtySelect(HomePage.refId, category, vl);
+    bool valid = await shoppingListCategoryDao.modifVlSelect(HomePage.refId, category, vl);
 
     if(!valid)
       shoppingListCategoryDao.updateSelect(HomePage.refId, category, vl);

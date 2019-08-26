@@ -24,11 +24,11 @@ class Layout {
         child: ListView(
           children: <Widget>[
             new UserAccountsDrawerHeader(
-              accountName: new Text('Ademir Santos'),
-              accountEmail: new Text('ademirap.santos@outlook.com'),
+              accountName: new Text(HomePage.user),
+              accountEmail: new Text(HomePage.email),
               currentAccountPicture: new CircleAvatar(
                 backgroundColor: Colors.white,
-                child: Text('A'),
+                child: Text(HomePage.user.substring(0,1)),
               ),
             ),
             ListTile(

@@ -102,4 +102,23 @@ class ShopplistCategoryProductDao extends AbstractDataBase {
 
     return false;
   }
+
+  Future<int> getRecId(dynamic refId, dynamic category, dynamic product) async{
+    Database db = await this.getDb();
+    int recId = 0;
+
+    List<Map> productTable = await db.rawQuery("""
+                                              SELECT * FROM shopplist_category_product 
+                                              WHERE refid_shopplist = ? 
+                                              AND categorys = ?
+                                              AND products = ?""", [refId,category,product]);
+    Map map = Map();
+
+    if(productTable.isNotEmpty){
+      map = productTable.first;
+      recId = map['recid']; 
+    }
+
+    return recId;
+  }
 }

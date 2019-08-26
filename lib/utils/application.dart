@@ -118,7 +118,7 @@ List<String> dbCreate = [
     CREATE TABLE user_shopplist(
       recid INTEGER PRIMARY KEY,
       refid_user INTEGER,
-      list_name TEXT,
+      list_name TEXT, 
       value_total DECIMAL(10,2),
       created TEXT
     )

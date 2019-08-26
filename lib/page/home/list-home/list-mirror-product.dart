@@ -121,6 +121,7 @@ class _ListMirrorProductPageState extends State<ListMirrorProductPage> {
                       // Total de itens
                       int quatComp = 0;
                       int qtdTotal = items.length;
+                      
                       //String atyValue = 
                       int qtyTotalProduct = 0;
 
@@ -154,14 +155,14 @@ class _ListMirrorProductPageState extends State<ListMirrorProductPage> {
                         
                         if (item['checked'] == 1) {
                           qtdChecked++;
+                          quatComp++;
                           vlrTotal += vlr;
                         }
 
                         if(qtdTotal == quatComp+1){
                           updateVlProduct(ListMirrorProductPage.categoryName, vlrTotal);
-                        } else {
-                          quatComp++;
-                        }
+
+                        } 
                       }
                       bool isClosed = (subTotal == vlrTotal);  
                       return Row(children: <Widget>[

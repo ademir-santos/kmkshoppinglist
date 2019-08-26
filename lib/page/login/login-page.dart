@@ -89,7 +89,7 @@ class _LoginPageState extends State<LoginPage> {
                           FlatButton(child: Text("Cadastrar Usuário", textAlign: TextAlign.center),
                             onPressed: (){
                               Navigator.of(context).pop();
-                              Navigator.of(context).pushNamed(LoginAddPage.tag);
+                              Navigator.of(context).pushReplacementNamed(LoginAddPage.tag);
                             }
                           ),
                         ]

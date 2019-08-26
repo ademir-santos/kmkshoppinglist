@@ -4,6 +4,7 @@ import 'package:kmkshoppinglist/page/home/list-home/list-home-category.dart';
 import 'package:kmkshoppinglist/page/home/list-utils/list-category-bloc.dart';
 import 'package:kmkshoppinglist/page/layout-base/layout-widget.dart';
 import 'package:kmkshoppinglist/utils/application.dart';
+import 'package:kmkshoppinglist/utils/list-home-util.dart';
 
 class ListMirrorCategoryPage extends StatefulWidget {
 
@@ -115,6 +116,7 @@ class _ListMirrorCategoryPageState extends State<ListMirrorCategoryPage> {
                       List<Map> items = snapshot.data;
 
                       // Total de itens
+                      int quatComp = 0;
                       int qtdTotal = items.length;
 
                       // Total de itens marcados
@@ -138,8 +140,13 @@ class _ListMirrorCategoryPageState extends State<ListMirrorCategoryPage> {
                         
                         if (item['checked'] == 1) {
                           qtdChecked++;
+                          quatComp++;
                           vlrTotal += vlr;
                         }
+
+                        if(qtdTotal == quatComp){
+                          updateQtyVlList(vlrTotal, 0);
+                        } 
                       }
                       bool isClosed = (subTotal == vlrTotal);  
                       return Row(children: <Widget>[
