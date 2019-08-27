@@ -37,13 +37,13 @@ class KMKShoppingList extends StatelessWidget {
         primaryColor: LayoutWidget.primary(),
         accentColor: LayoutWidget.secondary(),
         textTheme: TextTheme(
-          headline: TextStyle(fontSize: 72, fontWeight: FontWeight.bold),
+          headline: TextStyle(fontSize: 48, fontWeight: FontWeight.bold),
           title: TextStyle(fontSize: 24, fontStyle: FontStyle.italic, color: LayoutWidget.primary()),
           body1: TextStyle(fontSize: 14)
         )
       ),
       home: LoginPage(), // HomePage(),//
-      routes: routes,
+      routes: HomePage.userRecId > 0 ? routes : (context) => LoginPage(),
     );
   }
 }
