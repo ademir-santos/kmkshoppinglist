@@ -113,15 +113,13 @@ class UserShoppingListDao extends AbstractDataBase {
                                     UPDATE user_shopplist 
                                     SET value_total = ?
                                     WHERE recid = ? """, [vl,recId]);
-      } 
-      
-    } else if(vl > 0){
-      rows = await db.rawUpdate("""
-                                    UPDATE user_shopplist 
-                                    SET value_total = ?
-                                    WHERE recid = ? """, [vl,recId]);
+      } else if(map['value_total'] > vl){
+        rows = await db.rawUpdate("""
+                                      UPDATE user_shopplist 
+                                      SET value_total = ?
+                                      WHERE recid = ? """, [vl,recId]);
+      }
     }
-
     return (rows != 0);
   }
 }

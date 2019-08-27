@@ -151,15 +151,15 @@ class _ListMirrorProductPageState extends State<ListMirrorProductPage> {
                           }
                           
 
-                        subTotal += vlr;
+                        subTotal += num.parse(vlr.toStringAsPrecision(3));
                         
                         if (item['checked'] == 1) {
                           qtdChecked++;
                           quatComp++;
-                          vlrTotal += vlr;
+                          vlrTotal += num.parse(vlr.toStringAsPrecision(3));
                         }
 
-                        if(qtdTotal == quatComp+1){
+                        if(qtdTotal == quatComp){
                           updateVlProduct(ListMirrorProductPage.categoryName, vlrTotal);
 
                         } 

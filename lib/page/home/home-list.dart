@@ -50,9 +50,9 @@ class HomeListPageState extends State<HomeListPage> {
               shrinkWrap: true,
               itemCount: widget.shoppList.length,
               itemBuilder: (BuildContext context, int index) {
-
+                NumberFormat formatter = NumberFormat("000,000.00");
                 Map shoppList = widget.shoppList[index];
-                //double valueTotal = double.parse(shoppList['value_total'].toString()?? '0.00');
+                //double valueTotal = num.parse(double.parse(shoppList['value_total'].toString()?? '0.00').toStringAsPrecision(2));
 
                 return  Container(child:Slidable(
                   actionPane: SlidableDrawerActionPane(),
@@ -66,7 +66,7 @@ class HomeListPageState extends State<HomeListPage> {
                         foregroundColor: Colors.white,
                       ),
                       title: Text(shoppList['list_name']),
-                      subtitle: Text('Valor Total: ' + doubleToCurrency(shoppList['value_total']) + ' | | ' + create.format(DateTime.parse(shoppList['created'])).toString()),
+                      subtitle: Text('Valor Total: ' + doubleToCurrency(double.parse(shoppList['value_total'].toString()?? '0.00')) + ' | | ' + create.format(DateTime.parse(shoppList['created'])).toString()),
                       trailing: Icon(Icons.arrow_forward_ios),
                       onTap: (){
                         HomePage.listName = shoppList['list_name'];

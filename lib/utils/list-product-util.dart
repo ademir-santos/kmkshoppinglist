@@ -1,4 +1,3 @@
-
 import 'package:kmkshoppinglist/dao/ShopplistCategoryProductDao.dart';
 import 'package:kmkshoppinglist/dao/ShopplistCategoryProductTempDao.dart';
 import 'package:kmkshoppinglist/page/home/home.dart';
@@ -12,10 +11,10 @@ loadProductListTemp(Stream<List<Map>> futureList) async{
       for(var map in mapList){
         String category = map['categorys'];
         String product = map['products'];
-        int refId = HomePage.refId;
+        int refIdList = HomePage.refId;
 
         if(category.isNotEmpty){
-          exists = await shopplistCategoryProductTempDao.getItemExist(refId, category, product);
+          exists = await shopplistCategoryProductTempDao.getItemExist(refIdList, category, product);
 
           if(!exists){
             shopplistCategoryProductTempDao.insert({

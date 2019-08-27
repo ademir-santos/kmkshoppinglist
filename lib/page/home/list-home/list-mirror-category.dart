@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:kmkshoppinglist/page/home/home.dart';
 import 'package:kmkshoppinglist/page/home/list-home/list-home-category.dart';
 import 'package:kmkshoppinglist/page/home/list-utils/list-category-bloc.dart';
@@ -118,6 +119,9 @@ class _ListMirrorCategoryPageState extends State<ListMirrorCategoryPage> {
                       // Total de itens
                       int quatComp = 0;
                       int qtdTotal = items.length;
+
+                      if(qtdTotal == 0)
+                        updateQtyVlList(0, 0);
 
                       // Total de itens marcados
                       int qtdChecked = 0;

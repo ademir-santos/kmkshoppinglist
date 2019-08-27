@@ -138,12 +138,12 @@ double currencyToFloat(String value){
 }
 
 String doubleToCurrency(double value){
-  NumberFormat nf = NumberFormat.compactCurrency(locale: 'pt-BR', symbol: 'R\$');
+  //NumberFormat nf = NumberFormat.compactCurrency(locale: 'pt-BR', symbol: 'R\$ ');
+  NumberFormat nfCent = NumberFormat("00.00");
+  NumberFormat nfMil = NumberFormat("0,000.00");
+  String R$ = 'R\$ ';
 
-  //if(value == 0.0 || value == null)
-    //return 'R\$ 0,00';
-
-  return nf.format(value ?? 0.00);
+  return R$ + nfCent.format(value ?? 0.00);
 }
 
 Map<String, int> unity = Map.from({ 'Un': 0, 'Kg': 3 });

@@ -69,9 +69,7 @@ class ShoppingListCategoryDao extends AbstractDataBase {
     
     //exists = await getItemExist(values['categorys'].toString());
     
-    if(!exists){
-      rows = await db.update('shopplist_category', values, where: 'categorys = ?', whereArgs: [where]);
-    }
+    rows = await db.update('shopplist_category', values, where: 'categorys = ?', whereArgs: [where]);
 
     return (rows != 0);
   }
@@ -116,19 +114,6 @@ class ShoppingListCategoryDao extends AbstractDataBase {
     }
 
     return recId;
-  }
-
-  Future<bool> updateTemp(Map<String, dynamic> values, where) async{
-    Database db = await this.getDb();
-    int rows = 0;
-
-    //bool exists = await getItemExist(values['categorys'].toString());
-    /*
-    if(exists){
-      rows = await db.update('shopplist_category_temp', values, where: 'recid = ?', whereArgs: [where]);
-    }*/
-    
-    return (rows != 0);
   }
 
   Future<Map> getItemSelect(dynamic refId, dynamic category) async{
@@ -216,24 +201,77 @@ class ShoppingListCategoryDao extends AbstractDataBase {
   deleteAllForCategory(dynamic refId, dynamic category) async{
     Database db = await this.getDb();
     int rows = 0;
+    int rowsProd = 0;
+    int recId = 0;
+    List<Map> tableTempProd = new List<Map>();
+    List<Map> tableTempCat = new List<Map>();
 
-    rows = await db.rawDelete("""
-                                DELETE shopplist_category 
-                                WHERE refid_shopplist = ? 
-                                AND categorys = ? """, [refId,category]);
+    Map table = await getItemSelect(refId, category);
 
-    rows = await db.rawDelete("""
-                                DELETE shopplist_category_product 
-                                WHERE refid_shopplist = ? 
-                                AND categorys = ? """, [refId,category]);
-    if(rows != 0) {
-      rows = await db.rawUpdate("""
-                                  UPDATE shopplist_category_product_temp
-                                  SET checked = 0
-                                  WHERE refid_shopplist = ?
-                                  AND categorys = ? """, [refId,category]);
-    }                             
+    if(table.isNotEmpty){
 
+      recId = table['recid'];
+
+      rows = await db.delete('shopplist_category', where: 'recid = ?', whereArgs: [recId]);
+
+      rowsProd = await db.delete('shopplist_category_product', where: 'refid_category = ?', whereArgs: [recId]);
+
+      if(rows != 0) {
+
+
+        tableTempProd = await db.rawQuery("""
+                                        SELECT * FROM shopplist_category_product_temp 
+                                        WHERE refid_shopplist = ? 
+                                        AND categorys = ?""", [refId,category]);                              
+
+        if(tableTempProd.isNotEmpty) {
+          Iterator interatorProd = tableTempProd.iterator;
+
+          while(interatorProd.moveNext()) {
+            Map map = interatorProd.current;
+            int recIdList = map['recid'];
+
+            updateTempProd({ 'checked': 0 }, recIdList);
+          }
+        }
+
+        tableTempCat = await db.rawQuery("""
+                                        SELECT * FROM shopplist_category_temp 
+                                        WHERE refid_shopplist = ? 
+                                        AND categorys = ?""", [refId,category]);          
+
+        if(tableTempCat.isNotEmpty) {
+          Iterator interatorCat = tableTempCat.iterator;
+
+          while(interatorCat.moveNext()) {
+            Map map = interatorCat.current;
+
+            int recIdList = map['recid'];
+
+            updateTempCat({ 'checked': 0 }, recIdList);
+          }
+        }
+      }
+    }                            
+
+    return (rows != 0);
+  }
+
+  Future<bool> updateTempCat(Map<String, dynamic> valuesCat, dynamic recIdTempCat) async{
+    Database db = await this.getDb();
+    int rows = 0;
+
+    rows = await db.update('shopplist_category_temp', valuesCat, where: 'recid = ?', whereArgs: [recIdTempCat]);
+    
+    return (rows != 0);
+  }
+
+  Future<bool> updateTempProd(Map<String, dynamic> valuesProd, dynamic recIdTempProd) async{
+    Database db = await this.getDb();
+    int rows = 0;
+
+    rows = await db.update('shopplist_category_product_temp', valuesProd, where: 'recid = ?', whereArgs: [recIdTempProd]);
+    
     return (rows != 0);
   }
 }

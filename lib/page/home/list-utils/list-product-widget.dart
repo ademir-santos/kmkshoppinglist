@@ -58,11 +58,19 @@ class ListProductWidget {
               child: Text('Salva', style: TextStyle(color: LayoutWidget.light())),
               onPressed: (){
                 ShopplistCategoryProductDao shopplistCategoryProductDao = ShopplistCategoryProductDao();
-                double valueAsDouble = _vl.numberValue;
                 int qtyTotal = (int.tryParse(_qt.text) ?? 1);
-                double vlTotal = qtyTotal * valueAsDouble;
                 int recId = shoppListCategory['recid'];
+                double valueAsDouble;
+                double vlTotal;
 
+                try{
+                  valueAsDouble = num.parse(_vl.numberValue.toStringAsPrecision(3));
+                  vlTotal = qtyTotal * num.parse(valueAsDouble.toStringAsPrecision(3));
+                } catch (exception, stack) {
+                  valueAsDouble = _vl.numberValue;
+                   vlTotal = qtyTotal * valueAsDouble;
+                }
+               
                 shopplistCategoryProductDao.update({
                   'value_unitary': valueAsDouble,
                   'quantity_total': qtyTotal,
