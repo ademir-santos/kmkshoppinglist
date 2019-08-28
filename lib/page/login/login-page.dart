@@ -47,8 +47,9 @@ class _LoginPageState extends State<LoginPage> {
     );
 
     return Scaffold(
+      backgroundColor: Color.fromRGBO(184, 202, 212, 0.8),
       body: Container(
-        color:  Color.fromRGBO(184, 202, 212, 0.8),
+        //color:  Color.fromRGBO(184, 202, 212, 0.8),
         padding: EdgeInsets.only(
           top: 60,
           left: 40,

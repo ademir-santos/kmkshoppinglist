@@ -23,7 +23,7 @@
         android:name="io.flutter.app.FlutterApplication"
         android:debuggable="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="kmkshoppinglist" >
+        android:label="(K.M.K) Lista de Compras" >
         <activity
             android:name="com.example.kmkshoppinglist.MainActivity"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
