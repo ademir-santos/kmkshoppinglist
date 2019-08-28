@@ -72,6 +72,7 @@ List<String> dbCreate = [
     )
   """,
 
+  // TABELA TEMPORARIA
   """
     CREATE TABLE shopplist_category_product_temp(
       recid INTEGER PRIMARY KEY,
@@ -90,6 +91,7 @@ List<String> dbCreate = [
     )
   """,
 
+ // TABELA DE PREÇOS
   """
     CREATE TABLE table_price(
       recid INTEGER PRIMARY KEY,
