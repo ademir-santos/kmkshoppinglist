@@ -32,10 +32,17 @@ dependencies:
   flutter_masked_text: ^0.8.0
   url_launcher: any
   font_awesome_flutter: any
+  flutter_launcher_icons: any
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
+flutter_icons:
+  image_path: "icon/icon.png" 
+  android: true
+  ios: true
+      
 
 
 # For information on the generic Dart part of this file, see the
