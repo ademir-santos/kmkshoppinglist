@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -7,13 +6,12 @@ import 'package:kmkshoppinglist/page/category/category-widget.dart';
 import 'package:kmkshoppinglist/page/layout-base/layout-widget.dart';
 import 'package:kmkshoppinglist/page/category/category.dart';
 import 'package:kmkshoppinglist/page/product/product.dart';
-import 'package:kmkshoppinglist/utils/list-category-util.dart';
 
 class CategoryListPage extends StatefulWidget {
 
   final List<Map> category;
 
-  CategoryListPage({this.category}): super();
+  CategoryListPage({Key key, this.category}): super(key: key);
 
   @override
   CategoryListPageState createState() => CategoryListPageState();         

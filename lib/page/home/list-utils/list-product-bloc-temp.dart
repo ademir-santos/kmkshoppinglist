@@ -1,11 +1,18 @@
 import 'dart:async';
 
 import 'package:kmkshoppinglist/dao/ShopplistCategoryProductTempDao.dart';
+import 'package:kmkshoppinglist/page/home/home.dart';
+import 'package:kmkshoppinglist/page/home/list-home/list-mirror-product.dart';
 
 class ListProductBlocTemp {
+
+  ListProductBlocTemp(){
+    getList();
+  }
+  
   final _controller = StreamController<List<Map>>.broadcast();
 
-  ShopplistCategoryProductTempDao shopplistCategoryProductTempDao = ShopplistCategoryProductTempDao();
+  final ShopplistCategoryProductTempDao shopplistCategoryProductTempDao = new ShopplistCategoryProductTempDao();
 
   get lists => _controller.stream;
 
@@ -13,7 +20,7 @@ class ListProductBlocTemp {
     _controller.close();
   }
 
-  getList(dynamic refIdList, dynamic category) async{
-    _controller.sink.add(await shopplistCategoryProductTempDao.loadList(refIdList, category));
+  getList() async{
+    _controller.sink.add(await shopplistCategoryProductTempDao.loadList(HomePage.refId, ListMirrorProductPage.categoryName));
   }
 }

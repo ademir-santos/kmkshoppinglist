@@ -1,8 +1,7 @@
 import 'dart:async';
 
 import 'package:kmkshoppinglist/dao/UserShoppingListDao.dart';
-
-
+import 'package:kmkshoppinglist/page/home/home.dart';
 
 class HomeListBloc {
 
@@ -12,7 +11,7 @@ class HomeListBloc {
 
   final _controller = StreamController<List<Map>>.broadcast();
 
-  UserShoppingListDao userShoppingListDao = UserShoppingListDao();
+  final UserShoppingListDao userShoppingListDao = UserShoppingListDao();
 
   get lists => _controller.stream;
 
@@ -21,6 +20,6 @@ class HomeListBloc {
   }
 
   getList() async{
-    _controller.sink.add(await userShoppingListDao.list(1));
+    _controller.sink.add(await userShoppingListDao.list(HomePage.userRecId));
   }
 }

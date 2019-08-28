@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:kmkshoppinglist/page/category/category-widget.dart';
 
@@ -9,10 +8,7 @@ import 'package:kmkshoppinglist/page/home/list-category/mirror-category.dart';
 import 'package:kmkshoppinglist/page/home/list-home/list-mirror-category.dart';
 import 'package:kmkshoppinglist/page/home/list-home/list-mirror-product.dart';
 import 'package:kmkshoppinglist/page/home/list-product/mirror-product.dart';
-import 'package:kmkshoppinglist/page/home/list-utils/list-category-bloc-temp.dart';
-import 'package:kmkshoppinglist/page/home/list-utils/list-category-bloc.dart';
 import 'package:kmkshoppinglist/page/home/list-utils/list-product-bloc-temp.dart';
-import 'package:kmkshoppinglist/page/home/list-utils/list-product-bloc.dart';
 import 'package:kmkshoppinglist/page/layout-base/layout-widget.dart';
 import 'package:kmkshoppinglist/page/login/login-page.dart';
 import 'package:kmkshoppinglist/page/user/user.dart';
@@ -77,8 +73,8 @@ class LayoutBase {
               leading: Icon(Icons.close),
               title: Text('Sair'),
               onTap: (){
-                Navigator.of(context).pushNamedAndRemoveUntil(LoginPage.tag, (Route<dynamic> route) => false);
-                exit(0);
+                Navigator.of(context).pop();
+                Navigator.of(context).pushNamed(LoginPage.tag);
               },
             ),
           ],
@@ -115,6 +111,7 @@ class LayoutBase {
           actions: <Widget>[
             GestureDetector(
               onTap: () {
+                loadCategoryListTemp();
                 Navigator.of(ctx).pop();
                 Navigator.of(ctx).pushReplacementNamed(MirrorCategoryPage.tag);
               },
@@ -138,13 +135,8 @@ class LayoutBase {
           title: Text(' Selecionar Categoria'),
           actions: <Widget>[
             GestureDetector(
-              onTap: () {
-                ListCategoryBlocTemp listBlocTemp = ListCategoryBlocTemp();
-                ListCategoryBloc listCategoryBloc = ListCategoryBloc(HomePage.refId, HomePage.listName);
-                listBlocTemp.getList(HomePage.refId);
-                loadCategoryList(listBlocTemp.lists);
-                listCategoryBloc.getList(HomePage.refId);
-
+              onTap: () {                
+                loadCategoryList();
                 Navigator.of(ctx).pop();
                 Navigator.of(ctx).pushReplacementNamed(ListMirrorCategoryPage.tag);
               },
@@ -160,6 +152,9 @@ class LayoutBase {
           actions: <Widget>[
             GestureDetector(
               onTap: () {
+                loadProductListTemp();
+                ListProductBlocTemp listProductBlocTemp = new ListProductBlocTemp();
+                listProductBlocTemp.getList();
                 Navigator.of(ctx).pop();
                 Navigator.of(ctx).pushReplacementNamed(MirroProductPage.tag);
               },
@@ -168,8 +163,8 @@ class LayoutBase {
             Padding(padding: EdgeInsets.only(right: 50)),
             GestureDetector(
               onTap: () {
-                ListProductBloc listProductBloc = ListProductBloc();
-                listProductBloc.getList(HomePage.refId, ListMirrorProductPage.categoryName);
+                //ListProductBloc listProductBloc = ListProductBloc();
+                //listProductBloc.getList(HomePage.refId, ListMirrorProductPage.categoryName);
                 //updateQtyProduct(listProductBloc.lists);
                 Navigator.of(ctx).pop();
                 Navigator.of(ctx).pushReplacementNamed(ListMirrorCategoryPage.tag);
@@ -186,12 +181,7 @@ class LayoutBase {
           actions: <Widget>[
             GestureDetector(
               onTap: () {
-                ListProductBlocTemp listBlocTemp = ListProductBlocTemp();
-                ListProductBloc listProductBloc = ListProductBloc();
-                listBlocTemp.getList(HomePage.refId, ListMirrorProductPage.categoryName);
-                loadProductList(listBlocTemp.lists);
-                listProductBloc.getList(HomePage.refId, ListMirrorProductPage.categoryName);
-
+                loadProductList();
                 Navigator.of(ctx).pop();
                 Navigator.of(ctx).pushReplacementNamed(ListMirrorProductPage.tag);
               },

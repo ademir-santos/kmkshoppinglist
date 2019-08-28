@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:kmkshoppinglist/page/category/category-list-bloc.dart';
+
 import 'package:kmkshoppinglist/page/home/home.dart';
 import 'package:kmkshoppinglist/page/home/list-category/list-category.dart';
 import 'package:kmkshoppinglist/page/home/list-utils/list-category-bloc-temp.dart';
+import 'package:kmkshoppinglist/page/layout-base/layout-base.dart';
 import 'package:kmkshoppinglist/page/layout-base/layout-widget.dart';
-import 'package:kmkshoppinglist/utils/list-Category-util.dart';
 
 class MirrorCategoryPage extends StatefulWidget {
   
@@ -12,30 +12,28 @@ class MirrorCategoryPage extends StatefulWidget {
   final int refIdList = HomePage.refId;
   final String listName = HomePage.listName;
 
-  String filterText = "";
-
-  final ListCategoryBlocTemp listCategoryBlocTemp = ListCategoryBlocTemp();
-  final CategoryListBloc categoryBlocList = CategoryListBloc();
-
    @override
   _MirrorCategoryPageState createState() => _MirrorCategoryPageState();
 }
 
 class _MirrorCategoryPageState extends State<MirrorCategoryPage> {
   
+  String filterText = "";
+
+  final ListCategoryBlocTemp listCategoryBlocTemp = new ListCategoryBlocTemp();
+
   @override
   void dispose() {
-    widget.listCategoryBlocTemp.dipose();
+    listCategoryBlocTemp.dipose();
     super.dispose();
   }
   
   @override
   Widget build(BuildContext context) {
-    widget.categoryBlocList.getList();
-    
-    loadCategoryListTemp(widget.categoryBlocList.lists);
 
-    widget.listCategoryBlocTemp.getList(HomePage.refId);
+    LayoutBase.appBarBase(MirrorCategoryPage.tag, context);
+
+    listCategoryBlocTemp.getList();
     
     final content = SingleChildScrollView(
       child: Column(
@@ -59,7 +57,7 @@ class _MirrorCategoryPageState extends State<MirrorCategoryPage> {
                     ),
                     onChanged: (text) {
                       setState(() {
-                        widget.filterText = text.toUpperCase();
+                        filterText = text.toUpperCase();
                       });
                     },
                   ),
@@ -71,7 +69,7 @@ class _MirrorCategoryPageState extends State<MirrorCategoryPage> {
           Container(
             height: MediaQuery.of(context).size.height - 180,
             child: StreamBuilder<List<Map>>(
-              stream: widget.listCategoryBlocTemp.lists,
+              stream: listCategoryBlocTemp.lists,
               builder: (BuildContext context, AsyncSnapshot snapshot) {
                 switch (snapshot.connectionState) {
                   case ConnectionState.none:
@@ -86,10 +84,9 @@ class _MirrorCategoryPageState extends State<MirrorCategoryPage> {
 
                       return ListCategory(
                         listCategorys: snapshot.data,
-                        filter: widget.filterText,
-                        listCategoryBlocTemp: widget.listCategoryBlocTemp
+                        filter: filterText,
+                        listCategoryBlocTemp: listCategoryBlocTemp
                       );
-
                     }
                 }
               },
@@ -122,7 +119,7 @@ class _MirrorCategoryPageState extends State<MirrorCategoryPage> {
     );
 
     return Scaffold(
-      appBar: LayoutWidget.getAppBar(MirrorCategoryPage.tag, context),
+      appBar: LayoutBase.appBar,
       body: content
     );
   }

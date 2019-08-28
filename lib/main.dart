@@ -42,8 +42,8 @@ class KMKShoppingList extends StatelessWidget {
           body1: TextStyle(fontSize: 14)
         )
       ),
-      home: LoginPage(), // HomePage(),//
-      routes: HomePage.userRecId > 0 ? routes : (context) => LoginPage(),
+      home: LoginPage(),
+      routes: routes
     );
   }
 }

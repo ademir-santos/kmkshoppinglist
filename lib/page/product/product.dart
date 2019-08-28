@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:kmkshoppinglist/page/category/category.dart';
 import 'package:kmkshoppinglist/page/layout-base/layout-widget.dart';
 import 'package:kmkshoppinglist/page/product/product-list-bloc.dart';
@@ -13,7 +14,8 @@ class ProductPage extends StatefulWidget {
 }
 
 class _ProductPageState extends State<ProductPage> {
-  ProductListBloc listBloc = ProductListBloc(CategoryPage.categorys);
+
+  final ProductListBloc listBloc = ProductListBloc(CategoryPage.categorys);
 
   @override
   void dispose() {
@@ -23,7 +25,9 @@ class _ProductPageState extends State<ProductPage> {
 
   @override
   Widget build(BuildContext context) {
+
     final content = StreamBuilder<List<Map>>(
+
       stream: listBloc.lists,
       builder: (BuildContext context, AsyncSnapshot snapshot){
         switch(snapshot.connectionState){

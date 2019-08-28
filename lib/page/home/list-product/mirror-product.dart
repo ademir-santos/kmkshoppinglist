@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:kmkshoppinglist/page/home/home.dart';
+
 import 'package:kmkshoppinglist/page/home/list-home/list-mirror-product.dart';
 import 'package:kmkshoppinglist/page/home/list-product/list-product.dart';
 import 'package:kmkshoppinglist/page/home/list-utils/list-product-bloc-temp.dart';
+import 'package:kmkshoppinglist/page/layout-base/layout-base.dart';
 import 'package:kmkshoppinglist/page/layout-base/layout-widget.dart';
-import 'package:kmkshoppinglist/page/product/product-list-bloc.dart';
-import 'package:kmkshoppinglist/utils/list-product-util.dart';
 
 class MirroProductPage extends StatefulWidget {
 
@@ -13,10 +12,7 @@ class MirroProductPage extends StatefulWidget {
 
   final String categoryName = ListMirrorProductPage.categoryName;
 
-  String filterText = "";
-
-  final ListProductBlocTemp listProductBlocTemp = ListProductBlocTemp();
-  final ProductListBloc productListBloc = ProductListBloc(ListMirrorProductPage.categoryName);
+  
 
   @override
   _MirroProductPageState createState() => _MirroProductPageState();
@@ -24,19 +20,22 @@ class MirroProductPage extends StatefulWidget {
 
 class _MirroProductPageState extends State<MirroProductPage> {
 
+  String filterText = "";
+
+  final ListProductBlocTemp listProductBlocTemp = new ListProductBlocTemp();
+
   @override
   void dispose() {
-    widget.listProductBlocTemp.dipose();
-    widget.productListBloc.dipose();
+    listProductBlocTemp.dipose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    
-    loadProductListTemp(widget.productListBloc.lists);
 
-    widget.listProductBlocTemp.getList(HomePage.refId, ListMirrorProductPage.categoryName);
+    LayoutBase.appBarBase(MirroProductPage.tag, context);
+    
+    listProductBlocTemp.getList();
 
     final content = SingleChildScrollView(
       child: Column(
@@ -60,7 +59,7 @@ class _MirroProductPageState extends State<MirroProductPage> {
                     ),
                     onChanged: (text) {
                       setState(() {
-                        widget.filterText = text.toUpperCase();
+                        filterText = text.toUpperCase();
                       });
                     },
                   ),
@@ -72,7 +71,7 @@ class _MirroProductPageState extends State<MirroProductPage> {
           Container(
             height: MediaQuery.of(context).size.height - 180,
             child: StreamBuilder<List<Map>>(
-              stream: widget.listProductBlocTemp.lists,
+              stream: listProductBlocTemp.lists,
               builder: (BuildContext context, AsyncSnapshot snapshot) {
                 switch (snapshot.connectionState) {
                   case ConnectionState.none:
@@ -87,8 +86,8 @@ class _MirroProductPageState extends State<MirroProductPage> {
 
                       return ListProduct(
                         listProducts: snapshot.data,
-                        filter: widget.filterText,
-                        listProductBlocTemp: widget.listProductBlocTemp
+                        filter: filterText,
+                        listProductBlocTemp: listProductBlocTemp
                       );
 
                     }
@@ -123,7 +122,7 @@ class _MirroProductPageState extends State<MirroProductPage> {
     );
 
     return Scaffold(
-      appBar: LayoutWidget.getAppBar(MirroProductPage.tag, context),
+      appBar: LayoutBase.appBar,
       body: content
     );
   }

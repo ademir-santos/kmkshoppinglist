@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+
 import 'package:kmkshoppinglist/dao/ShoppingListCategoryTempDao.dart';
-import 'package:kmkshoppinglist/page/home/home.dart';
 import 'package:kmkshoppinglist/page/home/list-utils/list-category-bloc-temp.dart';
 import 'package:kmkshoppinglist/page/layout-base/layout-widget.dart';
+import 'package:kmkshoppinglist/utils/list-Category-util.dart';
 
 class ListCategory extends StatefulWidget {
 
@@ -10,7 +11,7 @@ class ListCategory extends StatefulWidget {
   final String filter;
   final ListCategoryBlocTemp listCategoryBlocTemp;
 
-  const ListCategory({Key key, this.listCategorys, this.filter, this.listCategoryBlocTemp}) : super(key: key);
+  const ListCategory({Key key,this.listCategorys, this.filter, this.listCategoryBlocTemp}) : super(key:key);
 
   @override
   ListCategoryState createState() => ListCategoryState();
@@ -18,7 +19,7 @@ class ListCategory extends StatefulWidget {
 
 class ListCategoryState extends State<ListCategory> {
   
-  ShoppingListCategoryTempDao shoppingListCategoryTempDao = ShoppingListCategoryTempDao();
+  final ShoppingListCategoryTempDao shoppingListCategoryTempDao = ShoppingListCategoryTempDao();
   
   @override
   Widget build(BuildContext context) {
@@ -31,7 +32,7 @@ class ListCategoryState extends State<ListCategory> {
     
     List<Map> filteredList = List<Map>();
 
-    widget.listCategoryBlocTemp.getList(HomePage.refId);
+    widget.listCategoryBlocTemp.getList();
 
     if (widget.filter.isNotEmpty) {
       for (dynamic cat in widget.listCategorys) {
@@ -70,13 +71,15 @@ class ListCategoryState extends State<ListCategory> {
               if((checked == 0)){
                 shoppingListCategoryTempDao.update({ 'checked': 1 }, item['recid']).then((bool updated) {
                   if (updated) {
-                    widget.listCategoryBlocTemp.getList(HomePage.refId);
+                    widget.listCategoryBlocTemp.getList();
+                    loadCategoryList();
                   }
                 });
               } else {
                 shoppingListCategoryTempDao.update({ 'checked': 0 }, item['recid']).then((updated) {
                   if (updated) {
-                    widget.listCategoryBlocTemp.getList(HomePage.refId);
+                    widget.listCategoryBlocTemp.getList();
+                    loadCategoryList();
                   }
                 });
               }

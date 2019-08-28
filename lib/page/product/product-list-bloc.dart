@@ -4,8 +4,8 @@ import 'package:kmkshoppinglist/dao/ProductDao.dart';
 
 class ProductListBloc{
 
-  ProductListBloc(dynamic category){
-    getList(category);
+  ProductListBloc(categorys){
+    getList(categorys);
   }
 
   final _controller = StreamController<List<Map>>.broadcast();
@@ -18,7 +18,7 @@ class ProductListBloc{
     _controller.close();
   }
 
-  getList(dynamic category) async{
-    _controller.sink.add(await productDao.list(category));
+  getList(categorys) async{
+    _controller.sink.add(await productDao.list(categorys));
   }
 }

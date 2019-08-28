@@ -9,7 +9,7 @@ class HomePage extends StatefulWidget{
   static String user = '';
   static int userRecId = 0;
 
-  HomePage({Key key, this.title}) : super(key: key);
+  HomePage({Key key, this.title}) : super(key:key);
 
   final String title;
   static int refId = 0;
@@ -22,7 +22,7 @@ class HomePage extends StatefulWidget{
 
 class _HomePageState extends State<HomePage> {
 
-  HomeListBloc listBloc = HomeListBloc();
+  final HomeListBloc listBloc = HomeListBloc();
 
   @override
   void dispose() {
@@ -48,7 +48,7 @@ class _HomePageState extends State<HomePage> {
               return Text('Erro: ${snapshot.error}');
             }
             else{
-              return HomeListPage(shoppList: snapshot.data);
+              return HomeListPage(key: widget.key,shoppList: snapshot.data);
             }
             break;
         }

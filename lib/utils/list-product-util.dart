@@ -1,10 +1,21 @@
 import 'package:kmkshoppinglist/dao/ShopplistCategoryProductDao.dart';
 import 'package:kmkshoppinglist/dao/ShopplistCategoryProductTempDao.dart';
 import 'package:kmkshoppinglist/page/home/home.dart';
+import 'package:kmkshoppinglist/page/home/list-home/list-home-category.dart';
+import 'package:kmkshoppinglist/page/home/list-utils/list-product-bloc-temp.dart';
+import 'package:kmkshoppinglist/page/product/product-list-bloc.dart';
 
-loadProductListTemp(Stream<List<Map>> futureList) async{
+loadProductListTemp() async{
+  
   ShopplistCategoryProductTempDao shopplistCategoryProductTempDao = ShopplistCategoryProductTempDao();
+
+  ProductListBloc productListBloc = ProductListBloc(ListHomeCategory.categoryName);
+
   bool exists = false;
+
+  productListBloc.getList(ListHomeCategory.categoryName);
+
+  Stream<List<Map>> futureList = productListBloc.lists;
 
   await for(var mapList in futureList){
     if(mapList.isNotEmpty){
@@ -41,9 +52,17 @@ loadProductListTemp(Stream<List<Map>> futureList) async{
   }
 }
 
-loadProductList(Stream<List<Map>> futureList) async{
+loadProductList() async{
+
   ShopplistCategoryProductDao shopplistCategoryProductDao = ShopplistCategoryProductDao();
+
+  ListProductBlocTemp listProducBlocTemp = ListProductBlocTemp();
+  
   bool exists = false;
+
+  listProducBlocTemp.getList();
+
+  Stream<List<Map>> futureList = listProducBlocTemp.lists;
 
   await for(var mapList in futureList){
     if(mapList.isNotEmpty){

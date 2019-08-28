@@ -51,7 +51,7 @@ class LayoutWidget extends StatelessWidget {
             GestureDetector(
               onTap: () {
                 Navigator.of(ctx).pop();
-                Navigator.of(ctx).pushReplacementNamed(MirrorCategoryPage.tag);
+                Navigator.of(ctx).pushNamed(MirrorCategoryPage.tag);
               },
               child: Icon(Icons.add_circle_outline),
             ),
@@ -75,12 +75,12 @@ class LayoutWidget extends StatelessWidget {
             GestureDetector(
               onTap: () {
                 ListCategoryBlocTemp listBlocTemp = ListCategoryBlocTemp();
-                ListCategoryBloc listCategoryBloc = ListCategoryBloc(HomePage.refId, HomePage.listName);
-                listBlocTemp.getList(HomePage.refId);
-                loadCategoryList(listBlocTemp.lists);
-                listCategoryBloc.getList(HomePage.refId);
+                ListCategoryBloc listCategoryBloc = ListCategoryBloc();
+                listBlocTemp.getList();
+                loadCategoryList();
+                listCategoryBloc.getList();
 
-                Navigator.of(ctx).pop();
+                Navigator.of(ctx).pop(true);
                 Navigator.of(ctx).pushReplacementNamed(ListMirrorCategoryPage.tag);
               },
               child: Icon(Icons.arrow_back_ios),
@@ -104,7 +104,7 @@ class LayoutWidget extends StatelessWidget {
             GestureDetector(
               onTap: () {
                 ListProductBloc listProductBloc = ListProductBloc();
-                listProductBloc.getList(HomePage.refId, ListMirrorProductPage.categoryName);
+                //listProductBloc.getList(HomePage.refId, ListMirrorProductPage.categoryName);
                 //updateQtyProduct(listProductBloc.lists);
                 Navigator.of(ctx).pop();
                 Navigator.of(ctx).pushReplacementNamed(ListMirrorCategoryPage.tag);
@@ -123,9 +123,9 @@ class LayoutWidget extends StatelessWidget {
               onTap: () {
                 ListProductBlocTemp listBlocTemp = ListProductBlocTemp();
                 ListProductBloc listProductBloc = ListProductBloc();
-                listBlocTemp.getList(HomePage.refId, ListMirrorProductPage.categoryName);
-                loadProductList(listBlocTemp.lists);
-                listProductBloc.getList(HomePage.refId, ListMirrorProductPage.categoryName);
+                //listBlocTemp.getList(HomePage.refId, ListMirrorProductPage.categoryName);
+                //loadProductList(listBlocTemp.lists);
+                //listProductBloc.getList(HomePage.refId, ListMirrorProductPage.categoryName);
 
                 Navigator.of(ctx).pop();
                 Navigator.of(ctx).pushReplacementNamed(ListMirrorProductPage.tag);

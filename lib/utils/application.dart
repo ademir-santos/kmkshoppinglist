@@ -165,3 +165,9 @@ bool validateInt(int value){
   return false;
 }
 
+double execeptioDoubleValue(Map value){
+
+  double ret;
+
+}
+

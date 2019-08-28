@@ -24,9 +24,10 @@ class _CategoryPageState extends State<CategoryPage> {
     super.dispose();
   }
 
-
   @override
   Widget build(BuildContext context) {
+
+    listBloc.getList();
 
     final content = StreamBuilder<List<Map>>(
       stream: listBloc.lists,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:kmkshoppinglist/dao/LoginDao.dart';
 import 'package:kmkshoppinglist/page/layout-base/layout-widget.dart';
 import 'package:kmkshoppinglist/page/login/login-page.dart';
@@ -22,8 +23,6 @@ class _LoginAddPageState extends State<LoginAddPage> {
   final TextEditingController _uNameFull = TextEditingController();
 
   final TextEditingController _uEmail = TextEditingController();
-
-  final TextEditingController _uChecked = TextEditingController();
 
   bool isSelected = false;
 
@@ -79,6 +78,7 @@ class _LoginAddPageState extends State<LoginAddPage> {
     final inputEmail = TextFormField(
       controller: _uEmail,
       autofocus: true,
+      keyboardType: TextInputType.emailAddress,
       decoration: InputDecoration(
         hintText: 'Informe e-mail',
         contentPadding: EdgeInsets.fromLTRB(20, 10, 20, 10),
@@ -99,26 +99,26 @@ class _LoginAddPageState extends State<LoginAddPage> {
             shrinkWrap: true,
             padding: EdgeInsets.all(20),
             children: <Widget>[
+              SizedBox(height: 30),
               Text(
-                'Adicionar Item',
+                'Cadastro de usuário'.toUpperCase(),
+                textAlign: TextAlign.center,
                 style: TextStyle(
                 fontWeight: FontWeight.bold,
-                fontSize: 24
+                fontSize: 24,
                 ),
               ),
               SizedBox(height: 10),
-              Text('Informe usuário'),
+              Divider(height: 50, color: LayoutWidget.dark(),),
+              SizedBox(height: 30),
               inputLogin,
-              SizedBox(height: 10),
-              Text('Informe a Senha'),
+              SizedBox(height: 30),
               inputPassword,
-              SizedBox(height: 10),
-              Text('Informe o nome completo'),
+              SizedBox(height: 30),
               inputNameFull,
-              SizedBox(height: 10),
-              Text('Informe o e-mail'),
+              SizedBox(height: 30),
               inputEmail,
-              SizedBox(height: 10),
+              SizedBox(height: 30),
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
@@ -170,7 +170,7 @@ class _LoginAddPageState extends State<LoginAddPage> {
                       'active': this.isSelected
                     }).then((saved) {
                       Navigator.of(context).pop();
-                      Navigator.of(context).pushReplacementNamed(LoginPage.tag);
+                      Navigator.of(context).maybePop(LoginPage);
                     });
                   },
                 )

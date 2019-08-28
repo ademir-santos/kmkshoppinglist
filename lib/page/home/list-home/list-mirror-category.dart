@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+
 import 'package:kmkshoppinglist/page/home/home.dart';
 import 'package:kmkshoppinglist/page/home/list-home/list-home-category.dart';
 import 'package:kmkshoppinglist/page/home/list-utils/list-category-bloc.dart';
+import 'package:kmkshoppinglist/page/layout-base/layout-base.dart';
 import 'package:kmkshoppinglist/page/layout-base/layout-widget.dart';
 import 'package:kmkshoppinglist/utils/application.dart';
 import 'package:kmkshoppinglist/utils/list-home-util.dart';
@@ -15,19 +16,22 @@ class ListMirrorCategoryPage extends StatefulWidget {
 
   final GlobalKey formKey = GlobalKey();
 
-  final ListCategoryBloc listCategoryBloc = ListCategoryBloc(HomePage.refId, HomePage.listName);
-
   @override
   _ListMirrorCategoryPageState createState() => _ListMirrorCategoryPageState();
 }
 
 class _ListMirrorCategoryPageState extends State<ListMirrorCategoryPage> {
+
   String filterText = "";
+
+  final ListCategoryBloc listCategoryBloc = new ListCategoryBloc();
 
   @override
   Widget build(BuildContext context) {
 
-    widget.listCategoryBloc.getList(HomePage.refId);
+    LayoutBase.appBarBase(ListMirrorCategoryPage.tag, context);
+
+    listCategoryBloc.getList();
 
     final content = SingleChildScrollView(
       child: Column(
@@ -60,7 +64,7 @@ class _ListMirrorCategoryPageState extends State<ListMirrorCategoryPage> {
           Container(
             height: MediaQuery.of(context).size.height - 235,
             child: StreamBuilder<List<Map>>(
-              stream: widget.listCategoryBloc.lists,
+              stream: listCategoryBloc.lists,
               builder: (BuildContext context, AsyncSnapshot snapshot) {
                 switch (snapshot.connectionState) {
                   case ConnectionState.none:
@@ -76,7 +80,7 @@ class _ListMirrorCategoryPageState extends State<ListMirrorCategoryPage> {
                       return ListHomeCategory(
                         listCategorys: snapshot.data,
                         filter: filterText,
-                        listCategoryBloc: widget.listCategoryBloc
+                        listCategoryBloc: listCategoryBloc
                       );
                     }
                 }
@@ -100,7 +104,7 @@ class _ListMirrorCategoryPageState extends State<ListMirrorCategoryPage> {
             ),
             height: 80,
             child: StreamBuilder<List<Map>>(
-              stream: widget.listCategoryBloc.lists,
+              stream: listCategoryBloc.lists,
               builder: (BuildContext context, AsyncSnapshot snapshot) {
                 switch (snapshot.connectionState) {
                   case ConnectionState.none:
@@ -218,7 +222,7 @@ class _ListMirrorCategoryPageState extends State<ListMirrorCategoryPage> {
     );
 
     return Scaffold(
-      appBar: LayoutWidget.getAppBar(ListMirrorCategoryPage.tag, context),
+      appBar: LayoutBase.appBar,
       body: content,
     );
   }

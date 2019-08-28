@@ -3,9 +3,14 @@ import 'package:kmkshoppinglist/page/layout-base/layout-widget.dart';
 import 'package:kmkshoppinglist/page/login/login-add.dart';
 import 'package:kmkshoppinglist/page/login/login-services.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
   static String tag = 'login-page';
 
+  @override
+  _LoginPageState createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   final TextEditingController _uLogin = TextEditingController();
@@ -65,9 +70,7 @@ class LoginPage extends StatelessWidget {
               inputLogin,
               SizedBox(height: 30),
               inputPassword,
-              SizedBox(height: 50),
-              Divider(height: 10,color: LayoutWidget.primary(),),
-              SizedBox(height: 20),
+              SizedBox(height: 60),
               Container(
                 height: 40,
                 alignment: Alignment.centerLeft,
@@ -77,7 +80,7 @@ class LoginPage extends StatelessWidget {
                     end: Alignment.bottomRight,
                     stops: [0.3, 1],
                     colors: [
-                      Color.fromRGBO(119, 136, 153, 0.8),
+                      Color.fromRGBO(100, 149, 237, 0.8),
                       Color.fromRGBO(72, 61, 139, 0.9)
                     ]
                   ),
@@ -115,7 +118,7 @@ class LoginPage extends StatelessWidget {
                    )
                 )
               ),
-              SizedBox(height: 40),
+              SizedBox(height: 30),
               Container(
                 height: 40,
                 alignment: Alignment.centerLeft,
@@ -125,7 +128,7 @@ class LoginPage extends StatelessWidget {
                     end: Alignment.bottomRight,
                     stops: [0.3, 1],
                     colors: [
-                      Color.fromRGBO(119, 136, 153, 0.8),
+                      Color.fromRGBO(95, 158, 160, 0.8),
                       Color.fromRGBO(72, 61, 139, 0.9)
                     ]
                   ),
@@ -149,7 +152,7 @@ class LoginPage extends StatelessWidget {
                         ),
                         Container(
                           child: SizedBox(
-                            child: Icon(Icons.vpn_key),
+                            child: Icon(Icons.account_circle),
                             height: 28,
                             width: 28,
                           ),
@@ -157,9 +160,53 @@ class LoginPage extends StatelessWidget {
                       ]
                     ),
                     onPressed: (){
-                      Navigator.of(context).pop();
-                      Navigator.of(context).pushReplacementNamed(LoginAddPage.tag);
+                      Navigator.of(context).pushNamed(LoginAddPage.tag);
                     },
+                   )
+                )
+              ),
+              SizedBox(height: 30),
+              Container(
+                height: 40,
+                alignment: Alignment.centerLeft,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    stops: [0.3, 1],
+                    colors: [
+                      Color.fromRGBO(160, 50, 80, 0.6),
+                      Color.fromRGBO(72, 61, 139, 0.9)
+                    ]
+                  ),
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(8)
+                  ),
+                ),
+                child: SizedBox.expand(
+                   child: FlatButton(
+                     child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Text(
+                          "Esqueci minha senha?",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: LayoutWidget.dark(),
+                            fontSize: 16
+                          ),
+                          textAlign: TextAlign.left,
+                        ),
+                        Container(
+                          child: SizedBox(
+                            child: Icon(Icons.dehaze),
+                            height: 28,
+                            width: 28,
+                          ),
+                        )
+                      ]
+                    ),
+                    onPressed: (){},
                    )
                 )
               ),

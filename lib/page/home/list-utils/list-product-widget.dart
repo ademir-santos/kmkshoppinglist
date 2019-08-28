@@ -25,6 +25,7 @@ class ListProductWidget {
         final inputLitQty = TextFormField(
           controller: _qt,
           autofocus: true,
+          keyboardType: TextInputType.number,
           decoration: InputDecoration(
             hintText: 'Quantidade',
             contentPadding: EdgeInsets.fromLTRB(20, 10, 20, 10)

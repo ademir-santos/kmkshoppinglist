@@ -85,6 +85,12 @@ class UserShoppingListDao extends AbstractDataBase {
                                   SELECT * FROM user_shopplist 
                                   WHERE recid = ?
                                   AND value_total = ? """, [recId,vl]);
+
+      if(table.isEmpty && recId > 0)
+        table = await db.rawQuery("""
+                                    SELECT * FROM user_shopplist 
+                                    WHERE recid = ?""", [recId]);
+
     } else {
       table = await db.rawQuery("""
                                   SELECT * FROM user_shopplist 
@@ -107,19 +113,28 @@ class UserShoppingListDao extends AbstractDataBase {
     Map map = await getItemSelect(recId, vl);
 
     if(map.isNotEmpty){
+
+      double value;
+
+      try{
+        value = map['value_total'];
+      } catch (exception, stack){
+        value = 0.00;
+      }
       
       if(vl > 0){
         rows = await db.rawUpdate("""
                                     UPDATE user_shopplist 
                                     SET value_total = ?
                                     WHERE recid = ? """, [vl,recId]);
-      } else if(map['value_total'] > vl){
+      } else if(value != vl){
         rows = await db.rawUpdate("""
                                       UPDATE user_shopplist 
                                       SET value_total = ?
                                       WHERE recid = ? """, [vl,recId]);
       }
     }
+    
     return (rows != 0);
   }
 }

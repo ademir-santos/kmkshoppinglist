@@ -3,6 +3,7 @@ import 'package:kmkshoppinglist/page/home/home.dart';
 import 'package:kmkshoppinglist/page/home/list-home/list-home-category.dart';
 import 'package:kmkshoppinglist/page/home/list-home/list-home-product.dart';
 import 'package:kmkshoppinglist/page/home/list-utils/list-product-bloc.dart';
+import 'package:kmkshoppinglist/page/layout-base/layout-base.dart';
 import 'package:kmkshoppinglist/page/layout-base/layout-widget.dart';
 import 'package:kmkshoppinglist/utils/application.dart';
 import 'package:kmkshoppinglist/utils/list-Category-util.dart';
@@ -14,8 +15,6 @@ class ListMirrorProductPage extends StatefulWidget {
   static String categoryName = ListHomeCategory.categoryName;
   static int refIdCategory = ListHomeCategory.refIdCategory;
 
-  ListProductBloc listProductBloc = ListProductBloc();
-
   @override
   _ListMirrorProductPageState createState() => _ListMirrorProductPageState();
 }
@@ -24,10 +23,14 @@ class _ListMirrorProductPageState extends State<ListMirrorProductPage> {
 
   String filterText = "";
 
+  final ListProductBloc listProductBloc = new ListProductBloc();
+
   @override
   Widget build(BuildContext context) {
 
-    widget.listProductBloc.getList(HomePage.refId,ListHomeCategory.categoryName);
+    LayoutBase.appBarBase(ListMirrorProductPage.tag, context);
+
+    listProductBloc.getList();
 
     final content = SingleChildScrollView(
       child: Column(
@@ -61,7 +64,7 @@ class _ListMirrorProductPageState extends State<ListMirrorProductPage> {
           Container(
             height: MediaQuery.of(context).size.height - 235,
             child: StreamBuilder<List<Map>>(
-              stream: widget.listProductBloc.lists,
+              stream: listProductBloc.lists,
               builder: (BuildContext context, AsyncSnapshot snapshot) {
                 switch (snapshot.connectionState) {
                   case ConnectionState.none:
@@ -77,7 +80,7 @@ class _ListMirrorProductPageState extends State<ListMirrorProductPage> {
                       return ListHomeProduct(
                         listProducts: snapshot.data,
                         filter: filterText,
-                        listProductBloc: widget.listProductBloc
+                        listProductBloc: listProductBloc
                       );
                     }
                 }
@@ -102,7 +105,7 @@ class _ListMirrorProductPageState extends State<ListMirrorProductPage> {
             ),
             height: 80,
             child: StreamBuilder<List<Map>>(
-              stream: widget.listProductBloc.lists,
+              stream: listProductBloc.lists,
               builder: (BuildContext context, AsyncSnapshot snapshot) {
                 switch (snapshot.connectionState) {
                   case ConnectionState.none:
@@ -231,7 +234,7 @@ class _ListMirrorProductPageState extends State<ListMirrorProductPage> {
 
 
     return Scaffold(
-      appBar: LayoutWidget.getAppBar(ListMirrorProductPage.tag, context),
+      appBar: LayoutBase.appBar,
       body: content 
     );
   }

@@ -12,7 +12,7 @@ class HomeListPage extends StatefulWidget {
 
   final List<Map> shoppList;
 
-  HomeListPage({this.shoppList}): super();
+  HomeListPage({Key key, this.shoppList}): super(key:key);
 
   static Widget valueWidget;
   static int cont = 0;
@@ -22,6 +22,7 @@ class HomeListPage extends StatefulWidget {
 }
 
 class HomeListPageState extends State<HomeListPage> {
+  
   final create = new DateFormat('dd-MM-yyyy');
 
   @override
@@ -50,9 +51,19 @@ class HomeListPageState extends State<HomeListPage> {
               shrinkWrap: true,
               itemCount: widget.shoppList.length,
               itemBuilder: (BuildContext context, int index) {
-                NumberFormat formatter = NumberFormat("000,000.00");
+
                 Map shoppList = widget.shoppList[index];
-                //double valueTotal = num.parse(double.parse(shoppList['value_total'].toString()?? '0.00').toStringAsPrecision(2));
+                double valueTotal;
+
+                try {
+
+                  valueTotal = double.parse(shoppList['value_total'].toString());
+                  
+                } catch (exception, stack) {
+
+                  valueTotal = 0.00;
+                
+                }
 
                 return  Container(child:Slidable(
                   actionPane: SlidableDrawerActionPane(),
@@ -66,7 +77,7 @@ class HomeListPageState extends State<HomeListPage> {
                         foregroundColor: Colors.white,
                       ),
                       title: Text(shoppList['list_name']),
-                      subtitle: Text('Valor Total: ' + doubleToCurrency(double.parse(shoppList['value_total'].toString()?? '0.00')) + ' | | ' + create.format(DateTime.parse(shoppList['created'])).toString()),
+                      subtitle: Text('Valor Total: ' + doubleToCurrency(valueTotal) + ' | | ' + create.format(DateTime.parse(shoppList['created'])).toString()),
                       trailing: Icon(Icons.arrow_forward_ios),
                       onTap: (){
                         HomePage.listName = shoppList['list_name'];

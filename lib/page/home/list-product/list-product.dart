@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+
 import 'package:kmkshoppinglist/dao/ShopplistCategoryProductTempDao.dart';
-import 'package:kmkshoppinglist/page/home/home.dart';
-import 'package:kmkshoppinglist/page/home/list-home/list-mirror-product.dart';
 import 'package:kmkshoppinglist/page/home/list-utils/list-product-bloc-temp.dart';
 import 'package:kmkshoppinglist/page/layout-base/layout-widget.dart';
+import 'package:kmkshoppinglist/utils/list-product-util.dart';
 
 class ListProduct extends StatefulWidget {
 
@@ -11,7 +11,7 @@ class ListProduct extends StatefulWidget {
   final String filter;
   final ListProductBlocTemp listProductBlocTemp;
 
-  const ListProduct({Key key, this.listProducts, this.filter, this.listProductBlocTemp}) : super(key: key);
+  const ListProduct({Key key, this.listProducts, this.filter, this.listProductBlocTemp}) : super(key:key);
 
   @override
   _ListProductState createState() => _ListProductState();
@@ -70,13 +70,15 @@ class _ListProductState extends State<ListProduct> {
               if((checked == 0)){
                 shopplistCategoryProductTempDao.update({ 'checked': 1 }, item['recid']).then((bool updated) {
                   if (updated) {
-                    widget.listProductBlocTemp.getList(HomePage.refId, ListMirrorProductPage.categoryName);
+                    widget.listProductBlocTemp.getList();
+                    loadProductList();
                   }
                 });
               } else {
                 shopplistCategoryProductTempDao.update({ 'checked': 0 }, item['recid']).then((updated) {
                   if (updated) {
-                     widget.listProductBlocTemp.getList(HomePage.refId, ListMirrorProductPage.categoryName);
+                     widget.listProductBlocTemp.getList();
+                     loadProductList();
                   }
                 });
               }
