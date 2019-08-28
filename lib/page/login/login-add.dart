@@ -20,6 +20,8 @@ class _LoginAddPageState extends State<LoginAddPage> {
 
   final TextEditingController _uPassword = TextEditingController();
 
+  final TextEditingController _uValidPassword = TextEditingController();
+
   final TextEditingController _uNameFull = TextEditingController();
 
   final TextEditingController _uEmail = TextEditingController();
@@ -33,7 +35,7 @@ class _LoginAddPageState extends State<LoginAddPage> {
       controller: _uLogin,
       autofocus: true,
       decoration: InputDecoration(
-        hintText: 'Informe usuário',
+        hintText: 'Informe o usuário',
         contentPadding: EdgeInsets.fromLTRB(20, 10, 20, 10),
       ),
       validator: (value) {
@@ -49,7 +51,23 @@ class _LoginAddPageState extends State<LoginAddPage> {
       autofocus: true,
       obscureText: true,
       decoration: InputDecoration(
-        hintText: 'Informe senha',
+        hintText: 'Informe a senha',
+        contentPadding: EdgeInsets.fromLTRB(20, 10, 20, 10),
+      ),
+      validator: (value) {
+        if (value.isEmpty) {
+          return 'Obrigatório';
+        }
+        return null;
+      },
+    );
+
+    final inputValidPassword = TextFormField(
+      controller: _uValidPassword,
+      autofocus: true,
+      obscureText: true,
+      decoration: InputDecoration(
+        hintText: 'Confirme a senha',
         contentPadding: EdgeInsets.fromLTRB(20, 10, 20, 10),
       ),
       validator: (value) {
@@ -64,7 +82,7 @@ class _LoginAddPageState extends State<LoginAddPage> {
       controller: _uNameFull,
       autofocus: true,
       decoration: InputDecoration(
-        hintText: 'Informe nome',
+        hintText: 'Informe seu nome',
         contentPadding: EdgeInsets.fromLTRB(20, 10, 20, 10),
       ),
       validator: (value) {
@@ -115,6 +133,8 @@ class _LoginAddPageState extends State<LoginAddPage> {
               SizedBox(height: 30),
               inputPassword,
               SizedBox(height: 30),
+              inputValidPassword,
+              SizedBox(height: 30,),
               inputNameFull,
               SizedBox(height: 30),
               inputEmail,
@@ -158,20 +178,51 @@ class _LoginAddPageState extends State<LoginAddPage> {
                   child: Text('Salvar', style:TextStyle(color: LayoutWidget.light())),
                   padding: EdgeInsets.only(left: 50, right: 50),
                   onPressed: () {
-                    // Instancia model
-                    LoginDao loginDao = LoginDao();
 
-                    // Adiciona no banco de dados
-                    loginDao.insert({
-                      'users': _uLogin.text.toLowerCase(),
-                      'password': _uPassword.text.toLowerCase(),
-                      'name': _uNameFull.text,
-                      'email': _uEmail.text.toLowerCase(),
-                      'active': this.isSelected
-                    }).then((saved) {
-                      Navigator.of(context).pop();
-                      Navigator.of(context).maybePop(LoginPage);
-                    });
+                    if(_uPassword.text == _uValidPassword.text) {
+                      
+                    // Instancia model
+                      LoginDao loginDao = LoginDao();
+
+                      // Adiciona no banco de dados
+                      loginDao.insert({
+                        'users': _uLogin.text.toLowerCase(),
+                        'password': _uPassword.text.toLowerCase(),
+                        'name': _uNameFull.text,
+                        'email': _uEmail.text.toLowerCase(),
+                        'active': this.isSelected
+                      }).then((saved) {
+                        Navigator.of(context).pop();
+                        Navigator.of(context).maybePop(LoginPage);
+                      });
+                    } else  {
+
+                      return showDialog<void>(
+                        context: context,
+                        barrierDismissible: false, // user must tap button!
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text('Informação de alerta!'),
+                            content: SingleChildScrollView(
+                              child: ListBody(
+                                children: <Widget>[
+                                  Text('O campo senha de ser igual ao confirmar senha!'),
+                                ],
+                              ),
+                            ),
+                            actions: <Widget>[
+                              FlatButton(
+                                child: Text('Fechar'),
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                            ],
+                          );
+                        },
+                      );
+
+                    }
                   },
                 )
               ])

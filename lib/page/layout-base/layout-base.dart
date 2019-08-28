@@ -70,11 +70,11 @@ class LayoutBase {
             Divider(),
             Padding(padding: EdgeInsets.only(top: 210)),
             ListTile(
-              leading: Icon(Icons.close),
+              leading: Icon(Icons.exit_to_app),
               title: Text('Sair'),
               onTap: (){
-                Navigator.of(context).pop();
-                Navigator.of(context).pushNamed(LoginPage.tag);
+                Navigator.of(context).pop(true);
+                Navigator.of(context).pushNamedAndRemoveUntil(LoginPage.tag, (Route<dynamic> route) => false);
               },
             ),
           ],
