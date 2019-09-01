@@ -5,8 +5,13 @@ import 'package:kmkshoppinglist/page/layout-base/layout.dart';
 
 class HomePage extends StatefulWidget{
   static String tag = 'home-page';
-  static String email = '';
+  
   static String user = '';
+
+  static String password = '';
+  
+  static String email = '';
+  
   static int userRecId = 0;
 
   HomePage({Key key, this.title}) : super(key:key);

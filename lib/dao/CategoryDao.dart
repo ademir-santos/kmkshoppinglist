@@ -107,4 +107,22 @@ class CategoryDao extends AbstractDataBase {
 
     return (rowsC != 0);
   }
+
+  Future<Map> getItemSelect(dynamic refId, dynamic category) async{
+    Database db = await this.getDb();
+    List<Map> categoryTable;
+    
+    categoryTable = await db.rawQuery("""
+                                        SELECT * FROM category 
+                                        WHERE recid = ? 
+                                        AND categorys = ?""", [refId,category]);
+
+    Map result = Map();
+
+    if(categoryTable.isNotEmpty){
+      result = categoryTable.first;
+    }
+
+    return result;
+  }
 }

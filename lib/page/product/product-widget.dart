@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:kmkshoppinglist/dao/CategoryDao.dart';
 import 'package:kmkshoppinglist/dao/ProductDao.dart';
+import 'package:kmkshoppinglist/json-class/login/login-model-json.dart';
+import 'package:kmkshoppinglist/json-class/product/product-json.dart';
 import 'package:kmkshoppinglist/page/category/category.dart';
+import 'package:kmkshoppinglist/page/home/home.dart';
 import 'package:kmkshoppinglist/page/layout-base/layout-widget.dart';
 import 'package:kmkshoppinglist/page/product/product.dart';
 
@@ -171,5 +174,70 @@ class ProductWidget {
         );
       }
     );
+  }
+
+  static List<Widget> syncAction(context) {
+    TextEditingController _c1 = TextEditingController();
+    List<Widget> items = List<Widget>();
+
+    final Widget value = showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext ctx) {
+        return AlertDialog(
+          title: Text(
+            'ATUALIZAR TABELA PRODUTO',
+            style: TextStyle(
+              fontSize: 15,
+              color: LayoutWidget.primary() ,
+              fontWeight: FontWeight.bold
+            )
+          ) ,
+          actions: <Widget>[
+            FlatButton(
+              color: LayoutWidget.primary(),
+              child: Text('Download', style: TextStyle(color: LayoutWidget.light())),
+              onPressed: (){
+                LoginModelJson loginJson = LoginModelJson();
+                
+                loginJson.users = HomePage.user;
+                loginJson.password = HomePage.password;;
+                loginJson.email = HomePage.email;
+
+                ProductJson.getAll(context, loginJson);
+                Navigator.of(context).pop();
+              },
+            ),
+
+            FlatButton(
+              color: LayoutWidget.danger(),
+              child: Text('UpLoad', style: TextStyle(color: LayoutWidget.light())),
+              onPressed: (){
+                
+                LoginModelJson loginJson = LoginModelJson();
+                
+                loginJson.users = HomePage.user;
+                loginJson.password = HomePage.password;;
+                loginJson.email = HomePage.email;
+
+                ProductJson.post(context, loginJson, CategoryPage.categorys);
+              },
+            ),
+
+            FlatButton(
+              color: LayoutWidget.dark(),
+              child: Text('Sair', style: TextStyle(color: LayoutWidget.light())),
+              onPressed: (){
+                Navigator.of(context).pop();
+              },
+            )
+          ],
+        );
+      },
+    ) as Widget;
+    
+    items.add(value);
+
+    return items;
   }
 }

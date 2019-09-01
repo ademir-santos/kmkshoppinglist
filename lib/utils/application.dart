@@ -9,8 +9,10 @@ List<String> dbCreate = [
   """
     CREATE TABLE category(
       recid INTEGER PRIMARY KEY,
+      id TEXT,
       categorys TEXT,
-      qty_product INTEGER
+      createAt TEXT,
+      updateAt TEXT
     )
   """,
 
@@ -18,17 +20,21 @@ List<String> dbCreate = [
   """
     CREATE TABLE product(
       recid INTEGER PRIMARY KEY,
+      id TEXT,
       products TEXT,
       brand TEXT,
       unit_measurement TEXT,
       refid_category INTEGER,
-      categorys TEXT
+      categorys TEXT,
+      createAt TEXT,
+      updateAt TEXT
     )
   """,
 
   """
     CREATE TABLE shopplist_category(
       recid INTEGER PRIMARY KEY,
+      id TEXT,
       refid_shopplist INTEGER,
       list_name TEXT,
       refid_category INTEGER,      
@@ -36,7 +42,8 @@ List<String> dbCreate = [
       quantity_total INTEGER, 
       value_total DECIMAL(10,2),
       checked INTEGER DEFAULT 0,
-      created TEXT    
+      createAt TEXT,
+      updateAt TEXT  
     )
   """,
 
@@ -57,6 +64,7 @@ List<String> dbCreate = [
   """
     CREATE TABLE shopplist_category_product(
       recid INTEGER PRIMARY KEY,
+      id TEXT,
       refid_shopplist INTEGER,
       list_name TEXT,
       refid_category INTEGER,      
@@ -68,7 +76,9 @@ List<String> dbCreate = [
       quantity_total INTEGER, 
       value_total DECIMAL(10,2),
       created TEXT,
-      checked INTEGER DEFAULT 0    
+      checked INTEGER DEFAULT 0  
+      createAt TEXT,
+      updateAt TEXT  
     )
   """,
 
@@ -95,12 +105,15 @@ List<String> dbCreate = [
   """
     CREATE TABLE table_price(
       recid INTEGER PRIMARY KEY,
+      id TEXT,
       refid_category INTEGER,      
       categorys TEXT,
       refid_product INTEGER,
       products TEXT,
       price DECIMAL(10,2),
       created TEXT
+      createAt TEXT,
+      updateAt TEXT
     )
   """,
 
@@ -108,21 +121,28 @@ List<String> dbCreate = [
   """
     CREATE TABLE user(
       recid INTEGER PRIMARY KEY,
+      id TEXT,
       users TEXT,
       password TEXT,
       name TEXT,
       email TEXT,
       active INT
+      createAt TEXT,
+      updateAt TEXT
     )
   """,
 
   """
     CREATE TABLE user_shopplist(
       recid INTEGER PRIMARY KEY,
+      id TEXT,
       refid_user INTEGER,
       list_name TEXT, 
       value_total DECIMAL(10,2),
-      created TEXT
+      created TEXT,
+      completed INTEGER
+      createAt TEXT,
+      updateAt TEXT
     )
   """
 ];

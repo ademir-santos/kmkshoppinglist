@@ -11,6 +11,7 @@ import 'package:kmkshoppinglist/page/home/list-product/mirror-product.dart';
 import 'package:kmkshoppinglist/page/home/list-utils/list-product-bloc-temp.dart';
 import 'package:kmkshoppinglist/page/layout-base/layout-widget.dart';
 import 'package:kmkshoppinglist/page/login/login-page.dart';
+import 'package:kmkshoppinglist/page/sync/data-sync-category.dart';
 import 'package:kmkshoppinglist/page/user/user.dart';
 import 'package:kmkshoppinglist/utils/list-Category-util.dart';
 import 'package:kmkshoppinglist/utils/list-product-util.dart';
@@ -68,7 +69,17 @@ class LayoutBase {
               },
             ),
             Divider(),
-            Padding(padding: EdgeInsets.only(top: 210)),
+            ListTile(
+              leading: Icon(Icons.account_circle),
+              title: Text('Sinconização de dados'),
+              trailing: new Icon(Icons.arrow_back),
+              onTap: (){
+                Navigator.of(context).pop();
+                Navigator.of(context).pushReplacementNamed(DataSyncCaTegoryPage.tag);
+              },
+            ),
+            Divider(),
+            Padding(padding: EdgeInsets.only(top: 100)),
             ListTile(
               leading: Icon(Icons.exit_to_app),
               title: Text('Sair'),
@@ -191,6 +202,11 @@ class LayoutBase {
           ],   
         );
         break;
+      case 'data-sync-category-page':
+        appBar = new AppBar(
+          title: Text(' Sincronizar Categoria'),
+        );
+        break;
       default:
         appBar = new AppBar(
           title: Text(' Lista de Compras'),
@@ -200,20 +216,29 @@ class LayoutBase {
 
   }
   
-  static void btmNavBarBase(BuildContext context, currItem, pages){
-    bottomNavBar = new BottomNavigationBar(
-      currentIndex: currItem,
-      fixedColor: LayoutWidget.primary(),
-      items: <BottomNavigationBarItem>[
-        BottomNavigationBarItem(icon: Icon(Icons.home), title: Text('Home')),
-        BottomNavigationBarItem(icon: Icon(Icons.question_answer), title: Text('Sobre')),
-        // BottomNavigationBarItem(icon: Icon(Icons.settings), title: Text('Configurações'))
-      ],
-      onTap: (int i) {
-        currItem = i;
-        Navigator.of(context).pushReplacementNamed(pages[i]);
-      },
-    );
+  static BottomNavigationBar btmNavBarBase(BuildContext context, currItem, pages){
+    if((pages == 'home-page') || (pages == "historic-page")) {
+      
+      return new BottomNavigationBar(
+        currentIndex: currItem,
+        fixedColor: LayoutWidget.primary(),
+        items: <BottomNavigationBarItem>[
+          BottomNavigationBarItem(icon: Icon(Icons.home), title: Text('Home')),
+          BottomNavigationBarItem(icon: Icon(Icons.question_answer), title: Text('Historico de lista')),
+          BottomNavigationBarItem(icon: Icon(Icons.settings), title: Text('Sobre'))
+        ],
+        onTap: (int i) {
+          currItem = i;
+          Navigator.of(context).pushReplacementNamed(pages[i]);
+        },
+      );
+
+    } else {
+
+      return null;
+      
+    }
+    
   }
 
   static void floatingActionButtonBase(String page, BuildContext context){

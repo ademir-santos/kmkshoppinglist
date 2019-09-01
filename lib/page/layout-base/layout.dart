@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:kmkshoppinglist/page/category/category.dart';
+import 'package:kmkshoppinglist/page/home/historic.dart';
 import 'package:kmkshoppinglist/page/home/home.dart';
 import 'package:kmkshoppinglist/page/home/list-category/mirror-category.dart';
 import 'package:kmkshoppinglist/page/home/list-home/list-mirror-category.dart';
@@ -19,16 +20,14 @@ class Layout extends LayoutBase{
   static BuildContext scaffoldContext;
 
   static final pages = [
-    LoginPage.tag,
-    LoginAddPage.tag,
     HomePage.tag,
-    ListMirrorCategoryPage.tag,
-    ListMirrorProductPage.tag,
-    MirrorCategoryPage.tag,
-    MirroProductPage.tag,
-    CategoryPage.tag,
-    ProductPage.tag,
-    UserPage.tag
+    //AboutPage.tag,
+    //SettingsPage.tag
+  ];
+
+  static final pagesHome = [
+    HomePage.tag,
+    HistoricoPage.tag,
   ];
 
   static final tag = 'Exit'; 
@@ -40,9 +39,32 @@ class Layout extends LayoutBase{
 
     LayoutBase.appBarBase(page, context);
 
+    BottomNavigationBar bottomNavBar = null;
+
     if(showbottom == true) {
-      LayoutWidget.activeButtom(page, context);
+      //LayoutBase.activeButtom(page, context);
+    } else {
+
     }
+  
+    if((page == 'home-page') || (page == "historic-page")) {
+      
+      bottomNavBar = BottomNavigationBar(
+        currentIndex: currItem,
+        fixedColor: LayoutWidget.primary(),
+        items: <BottomNavigationBarItem>[
+          BottomNavigationBarItem(icon: Icon(Icons.home), title: Text('Home')),
+          BottomNavigationBarItem(icon: Icon(Icons.question_answer), title: Text('Historico de lista')),
+          BottomNavigationBarItem(icon: Icon(Icons.settings), title: Text('Sobre'))
+        ],
+        onTap: (int i) {
+          currItem = i;
+          Navigator.of(context).pushReplacementNamed(pagesHome[i]);
+        },
+      );
+
+    } 
+
 
     return Scaffold(
 
@@ -50,9 +72,11 @@ class Layout extends LayoutBase{
 
       drawer:  LayoutBase.drawer,
 
+      bottomNavigationBar: bottomNavBar,
+
       body: new Builder( builder: (BuildContext context) { Layout.scaffoldContext = context; return content; }, ),
 
-      floatingActionButton: LayoutWidget.floatbottom,
+      //floatingActionButton: LayoutWidget.floatbottom,
     );
   }
 }

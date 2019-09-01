@@ -11,7 +11,6 @@ import 'package:kmkshoppinglist/page/home/list-utils/list-category-bloc.dart';
 import 'package:kmkshoppinglist/page/home/list-utils/list-product-bloc-temp.dart';
 import 'package:kmkshoppinglist/page/home/list-utils/list-product-bloc.dart';
 import 'package:kmkshoppinglist/utils/list-Category-util.dart';
-import 'package:kmkshoppinglist/utils/list-product-util.dart';
 
 class LayoutWidget extends StatelessWidget {
   

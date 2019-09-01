@@ -77,4 +77,23 @@ class ProductDao extends AbstractDataBase {
 
     return (rows != 0);
   }
+
+  Future<Map> getItemSelect(refId, category, product) async{
+    Database db = await this.getDb();
+    List<Map> productTable;
+    
+    productTable = await db.rawQuery("""
+                                        SELECT * FROM product 
+                                        WHERE recid = ? 
+                                        AND categorys = ?
+                                        AND products = ?""", [refId,category,product]);
+
+    Map result = Map();
+
+    if(productTable.isNotEmpty){
+      result = productTable.first;
+    }
+
+    return result;
+  }
 }

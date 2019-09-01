@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:kmkshoppinglist/json-class/category/category-json.dart';
+import 'package:kmkshoppinglist/json-class/login/login-model-json.dart';
 import 'package:kmkshoppinglist/page/category/category.dart';
+import 'package:kmkshoppinglist/page/home/home.dart';
 import 'package:kmkshoppinglist/page/layout-base/layout-widget.dart';
 import 'package:kmkshoppinglist/dao/CategoryDao.dart';
 
@@ -119,6 +122,65 @@ class CategoryWidget {
           ],
         );
       }
+    );
+  }
+
+  static void syncAction(context) {
+
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext ctx) {
+        return AlertDialog(
+          title: Text(
+            'ATUALIZAR TABELA CATEGORIA',
+            style: TextStyle(
+              fontSize: 15,
+              color: LayoutWidget.primary() ,
+              fontWeight: FontWeight.bold
+            )
+          ),
+          actions: <Widget>[
+            FlatButton(
+              color: LayoutWidget.primary(),
+              child: Text('Download', style: TextStyle(color: LayoutWidget.light())),
+              onPressed: (){
+                LoginModelJson loginJson = LoginModelJson();
+                
+                loginJson.users = HomePage.user;
+                loginJson.password = HomePage.password;
+                loginJson.email = HomePage.email;
+
+                CategoryJson.getAll(context, loginJson);
+                Navigator.of(context).pop();
+              },
+            ),
+
+            FlatButton(
+              color: LayoutWidget.danger(),
+              child: Text('UpLoad', style: TextStyle(color: LayoutWidget.light())),
+              onPressed: (){
+                
+                LoginModelJson loginJson = LoginModelJson();
+                
+                loginJson.users = HomePage.user;
+                loginJson.password = HomePage.password;;
+                loginJson.email = HomePage.email;
+
+                CategoryJson.post(context, loginJson);
+              },
+            ),
+
+            FlatButton(
+              color: LayoutWidget.dark(),
+              child: Text('Sair', style: TextStyle(color: LayoutWidget.light())),
+              onPressed: (){
+                Navigator.of(context).pop();
+              },
+            )
+          ],
+        );
+      },
     );
   }
 }

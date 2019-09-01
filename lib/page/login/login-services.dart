@@ -5,6 +5,7 @@ import 'package:kmkshoppinglist/page/home/home.dart';
 class LoginServices {
   static String email = '';
   static String user = '';
+  static String password = '';
   static int userRecId = 0;
 
   validadeLogin(BuildContext context, String login, String password) async{
@@ -18,8 +19,10 @@ class LoginServices {
         user = ret['users'];
         email = ret['email'];
         userRecId = ret['recid'];
+        password = ret['password'];
         HomePage.email = email;
         HomePage.user = user;
+        HomePage.password = password;
         HomePage.userRecId = userRecId;
         Navigator.of(context).pop();
         Navigator.of(context).pushNamed(HomePage.tag);

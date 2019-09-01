@@ -86,10 +86,12 @@ class UserWidget {
     TextEditingController _u = TextEditingController();
     TextEditingController _p = TextEditingController();
     TextEditingController _n = TextEditingController();
+    TextEditingController _e = TextEditingController();
 
     _u.text = user['users'];
     _p.text = user['password'];
     _n.text = user['name'];
+    _e.text = user['email'];
 
     showDialog(
       context: context,
@@ -113,6 +115,15 @@ class UserWidget {
           ),
         );
 
+        final inputEmail= TextFormField(
+          controller: _e,
+          autofocus: true,
+          decoration: InputDecoration(
+            hintText: 'Email',
+            contentPadding: EdgeInsets.fromLTRB(20, 10, 20, 10)
+          ),
+        );
+
         final inputPassWord  = TextFormField(
           controller: _p,
           autofocus: true,
@@ -124,12 +135,24 @@ class UserWidget {
         );
 
         return AlertDialog(
-          title: Text('Editar Categoria'),
+          title: Text('Editar Usuário'),
           content: SingleChildScrollView(
             child: ListBody(
               children: <Widget>[
+                Text('Nome'),
+                SizedBox(height: 15),
                 inputName,
+                SizedBox(height: 15),
+                Text('Usuário'),
+                SizedBox(height: 15),
                 inputUsers,
+                SizedBox(height: 15),
+                Text('E-mail'),
+                SizedBox(height: 15),
+                inputEmail,
+                SizedBox(height: 15),
+                Text('Senha'),
+                SizedBox(height: 15),
                 inputPassWord
               ],
             ),
@@ -143,7 +166,8 @@ class UserWidget {
                 userDao.update({
                   'users': _u.text.toLowerCase(),
                   'password': _p.text,
-                  'name': _n.text.substring(0,1).toUpperCase()+_n.text.substring(1)
+                  'name': _n.text.substring(0,1).toUpperCase()+_n.text.substring(1),
+                  'email': _e.text
                 }, user['recid']).then((saved){
                   Navigator.of(ctx).pop();
                   Navigator.of(ctx).pushReplacementNamed(UserPage.tag);

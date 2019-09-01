@@ -41,42 +41,6 @@ class _ProductListPageState extends State<ProductListPage> {
       child: Column(
         children: <Widget>[
           Container(
-            color: Color.fromRGBO(230, 230, 230, 0.5),
-            padding: EdgeInsets.only(bottom: 20),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                SizedBox(
-                  width: MediaQuery.of(context).size.width - 80,
-                  child: TextFormField(
-                    decoration: InputDecoration(
-                      fillColor: Colors.white,
-                      filled: true,
-                      hintText: 'Pesquisar produto',
-                      contentPadding: EdgeInsets.fromLTRB(20, 10, 20, 10),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(32)
-                      )
-                    ),
-                  ),
-                ),
-                SizedBox(width: 10),
-                SizedBox(
-                  child: FloatingActionButton(
-                    mini: true,
-                    backgroundColor: LayoutWidget.info(),
-                    onPressed: (){
-                      setState(() {
-                        ProductWidget.getAction(context);
-                      });
-                    },
-                    child: Icon(Icons.add),
-                  ),
-                )
-              ],
-            ),
-          ),
-          Container(
             height: MediaQuery.of(context).size.height - 185,
             child: ListView.builder (
               shrinkWrap: true,
