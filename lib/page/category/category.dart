@@ -75,14 +75,14 @@ class _CategoryPageState extends State<CategoryPage> {
             )
           ),
           Container(
-            height: MediaQuery.of(context).size.height - 200,
+            height: MediaQuery.of(context).size.height - 220,
             child: StreamBuilder<List<Map>>(
               stream: listCategoryBloc.lists,
               builder: (BuildContext context, AsyncSnapshot snapshot) {
                 switch (snapshot.connectionState) {
                   case ConnectionState.none:
                   case ConnectionState.waiting:
-                    return const Center(child: Text('Carregando...'));
+                    return CircularProgressIndicator();
                     break; // Useless after return
                   default:
                     if (snapshot.hasError) {

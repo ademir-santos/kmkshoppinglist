@@ -3,7 +3,9 @@ import 'package:kmkshoppinglist/dao/CategoryDao.dart';
 import 'package:kmkshoppinglist/dao/ProductDao.dart';
 import 'package:kmkshoppinglist/json-class/login/login-model-json.dart';
 import 'package:kmkshoppinglist/json-class/product/product-json.dart';
+import 'package:kmkshoppinglist/json-class/variable-json.dart';
 import 'package:kmkshoppinglist/page/category/category.dart';
+import 'package:kmkshoppinglist/page/class-settings-app/product/synchronize-product-circular-progress.dart';
 import 'package:kmkshoppinglist/page/home/home.dart';
 import 'package:kmkshoppinglist/page/layout-base/layout-widget.dart';
 import 'package:kmkshoppinglist/page/product/product.dart';
@@ -201,11 +203,12 @@ class ProductWidget {
                 LoginModelJson loginJson = LoginModelJson();
                 
                 loginJson.users = HomePage.user;
-                loginJson.password = HomePage.password;;
+                loginJson.password = HomePage.password;
                 loginJson.email = HomePage.email;
-
-                ProductJson.getAll(context, loginJson);
-                Navigator.of(context).pop();
+                staticLoginJson = loginJson;
+                postOrGet = 'get';
+                
+                Navigator.pushReplacementNamed(context, SynchronizeProductCircularProgress.tag);
               },
             ),
 
@@ -213,14 +216,16 @@ class ProductWidget {
               color: LayoutWidget.danger(),
               child: Text('UpLoad', style: TextStyle(color: LayoutWidget.light())),
               onPressed: (){
-                
+
                 LoginModelJson loginJson = LoginModelJson();
                 
                 loginJson.users = HomePage.user;
-                loginJson.password = HomePage.password;;
+                loginJson.password = HomePage.password;
                 loginJson.email = HomePage.email;
-
-                ProductJson.post(context, loginJson, CategoryPage.categorys);
+                staticLoginJson = loginJson;
+                postOrGet = 'post';
+                
+                Navigator.pushReplacementNamed(context, SynchronizeProductCircularProgress.tag);
               },
             ),
 

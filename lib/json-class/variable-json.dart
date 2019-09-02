@@ -1,4 +1,6 @@
 
+import 'package:kmkshoppinglist/json-class/login/login-model-json.dart';
+
 String url(typeUrl, link) {
   switch(typeUrl){
     case "Login":
@@ -61,3 +63,12 @@ String contentType() {
 String authorization(key) {
   return "Bearer " + key;
 }
+
+//Variavel
+
+LoginModelJson staticLoginJson;
+
+dynamic statusJson;
+
+dynamic postOrGet;
+

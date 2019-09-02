@@ -13,6 +13,9 @@ import 'package:kmkshoppinglist/page/product/product.dart';
 import 'package:kmkshoppinglist/page/sync/data-sync-category.dart';
 import 'package:kmkshoppinglist/page/user/user.dart';
 
+import 'page/class-settings-app/category/synchronize-category-circular-progress.dart';
+import 'page/class-settings-app/product/synchronize-product-circular-progress.dart';
+
 void main() => runApp(KMKShoppingList());
 
 class KMKShoppingList extends StatelessWidget {
@@ -30,6 +33,10 @@ class KMKShoppingList extends StatelessWidget {
     ProductPage.tag: (context) => ProductPage(),
     UserPage.tag: (context) => UserPage(),
     DataSyncCaTegoryPage.tag: (context) => DataSyncCaTegoryPage(),
+    
+    //Sincronization tables
+    SynchronizeCategoryCircularProgress.tag: (context) => SynchronizeCategoryCircularProgress(),
+    SynchronizeProductCircularProgress.tag: (context) => SynchronizeProductCircularProgress()
   };
 
   @override

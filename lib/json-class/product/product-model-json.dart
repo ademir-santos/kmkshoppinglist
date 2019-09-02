@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:kmkshoppinglist/dao/ProductDao.dart';
+
 class ProductModelJson {
   var products;
   var brand;
@@ -56,7 +58,21 @@ class ProductModelJson {
   };
 }
 
+ProductModelJson postProductFromJson(String str) {
 
+  final jsonData = json.decode(str);
+
+  return ProductModelJson.fromJson(jsonData);
+
+}
+
+String postProductToJson(ProductModelJson data) {
+
+  final dyn = data.toJson();
+
+  return json.encode(dyn);
+
+}
 
 ProductModelJson postFromJson(String str) {
 
@@ -66,8 +82,6 @@ ProductModelJson postFromJson(String str) {
 
 }
 
-
-
 String postToJson(ProductModelJson data) {
 
   final dyn = data.toJson();
@@ -75,8 +89,6 @@ String postToJson(ProductModelJson data) {
   return json.encode(dyn);
 
 }
-
-
 
 List<ProductModelJson> allPostsFromJson(String str) {
 
@@ -86,12 +98,20 @@ List<ProductModelJson> allPostsFromJson(String str) {
 
 }
 
-
-
 String allPostsToJson(List<ProductModelJson> data) {
 
   final dyn = new List<dynamic>.from(data.map((x) => x.toJson()));
 
   return json.encode(dyn);
+}
 
+Future<List<Map>> allPostsListBloc(ProductModelJson model, category) async {
+
+  ProductDao dao = new ProductDao();
+
+  final listModel =  new List<Map>();
+
+  listModel.addAll(await dao.list(category));
+
+  return listModel;
 }

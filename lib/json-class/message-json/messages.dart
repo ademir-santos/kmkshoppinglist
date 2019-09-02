@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:kmkshoppinglist/page/category/category.dart';
 import 'package:kmkshoppinglist/page/layout-base/layout-widget.dart';
 
 code200(context, page) {
@@ -45,7 +44,7 @@ code201(context, page) {
   return showDialog<void>(
     context: context,
     barrierDismissible: false, // user must tap button!
-    builder: (BuildContext context) {
+    builder: (BuildContext ctx) {
       return AlertDialog(
         title: Text(
           'SINCRONIZAÇÃO | 201', 
@@ -70,8 +69,8 @@ code201(context, page) {
           FlatButton(
             child: Text('Fechar'),
             onPressed: () {
-              Navigator.of(context).pop();
-              Navigator.of(context).pushReplacementNamed(page);
+              Navigator.of(ctx).pop();
+              Navigator.of(ctx).pushReplacementNamed(page);
             },
           ),
         ],
@@ -246,4 +245,80 @@ code500(context, page) {
       );
     },
   );
+}
+
+codeMessageErro(context, page, message) {
+  return showDialog<void>(
+    context: context,
+    barrierDismissible: false, // user must tap button!
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text(
+          'ERRO SINCRONIZAÇÃO', 
+          style: TextStyle(
+            fontSize: 15,
+            color: LayoutWidget.primary() ,
+            fontWeight: FontWeight.bold)
+          ) ,
+        content: SingleChildScrollView(
+          child: ListBody(
+            children: <Widget>[
+              Text(message,
+              style: TextStyle(
+              fontSize: 14,
+              color: LayoutWidget.success() ,
+              fontWeight: FontWeight.bold)
+              ),
+            ],
+          ),
+        ),
+        actions: <Widget>[
+          FlatButton(
+            child: Text('Fechar'),
+            onPressed: () {
+              Navigator.of(context).pop();
+              Navigator.of(context).pushReplacementNamed(page);
+            },
+          ),
+        ],
+      );
+    },
+  );
+}
+
+
+codeMessage200() {
+  return "O recurso solicitado foi processado e retornado com sucesso.";
+}
+
+codeMessage201() {
+  return "O recurso informado foi criado com sucesso.";
+}
+
+codeMessage400() {
+  return "O recurso informado foi criado com sucesso.";
+}
+
+codeMessage401() {
+  return "O recurso informado foi criado com sucesso.";
+}
+
+codeMessage402() {
+  return "O recurso informado foi criado com sucesso.";
+}
+
+codeMessage403() {
+  return "O recurso informado foi criado com sucesso.";
+}
+
+codeMessage422() {
+  return "O recurso informado foi criado com sucesso.";
+}
+
+codeMessage429() {
+  return "O recurso informado foi criado com sucesso.";
+}
+
+codeMessage500() {
+  return "O recurso informado foi criado com sucesso.";
 }

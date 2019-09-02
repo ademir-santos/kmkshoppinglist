@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:kmkshoppinglist/dao/CategoryDao.dart';
+
 class CategoryJsonModel {
   String categorys;
   var id;
@@ -38,7 +40,7 @@ class CategoryJsonModel {
 }
 
 
-CategoryJsonModel postFromJson(String str) {
+CategoryJsonModel postCategoryFromJson(String str) {
 
   final jsonData = json.decode(str);
 
@@ -46,17 +48,13 @@ CategoryJsonModel postFromJson(String str) {
 
 }
 
-
-
-String postToJson(CategoryJsonModel data) {
+String postCategoryToJson(CategoryJsonModel data) {
 
   final dyn = data.toJson();
 
   return json.encode(dyn);
 
 }
-
-
 
 List<CategoryJsonModel> allPostsFromJson(String str) {
 
@@ -66,7 +64,16 @@ List<CategoryJsonModel> allPostsFromJson(String str) {
 
 }
 
+Future<List<Map>> allPostsListBloc(CategoryJsonModel model) async {
 
+  CategoryDao dao = new CategoryDao();
+
+  final listModel =  new List<Map>();
+
+  listModel.addAll(await dao.list(0));
+
+  return listModel;
+}
 
 String allPostsToJson(List<CategoryJsonModel> data) {
 

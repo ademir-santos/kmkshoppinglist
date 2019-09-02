@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 class LoginModelJson {
   
   var users;
@@ -44,4 +46,11 @@ class LoginModelJson {
 
     "email": email 
   };
+}
+
+LoginModelJson postFromJson(String str) {
+
+  final jsonData = json.decode(str);
+
+  return LoginModelJson.fromJson(jsonData);
 }

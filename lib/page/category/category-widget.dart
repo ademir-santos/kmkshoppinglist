@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:kmkshoppinglist/json-class/category/category-json.dart';
 import 'package:kmkshoppinglist/json-class/login/login-model-json.dart';
+import 'package:kmkshoppinglist/json-class/variable-json.dart';
 import 'package:kmkshoppinglist/page/category/category.dart';
+import 'package:kmkshoppinglist/page/class-settings-app/category/synchronize-category-circular-progress.dart';
 import 'package:kmkshoppinglist/page/home/home.dart';
 import 'package:kmkshoppinglist/page/layout-base/layout-widget.dart';
 import 'package:kmkshoppinglist/dao/CategoryDao.dart';
@@ -150,9 +152,13 @@ class CategoryWidget {
                 loginJson.users = HomePage.user;
                 loginJson.password = HomePage.password;
                 loginJson.email = HomePage.email;
+                staticLoginJson = loginJson;
+                postOrGet = 'get';
+                
+                Navigator.pushReplacementNamed(context, SynchronizeCategoryCircularProgress.tag);
 
-                CategoryJson.getAll(context, loginJson);
-                Navigator.of(context).pop();
+
+                
               },
             ),
 
@@ -164,10 +170,12 @@ class CategoryWidget {
                 LoginModelJson loginJson = LoginModelJson();
                 
                 loginJson.users = HomePage.user;
-                loginJson.password = HomePage.password;;
+                loginJson.password = HomePage.password;
                 loginJson.email = HomePage.email;
-
-                CategoryJson.post(context, loginJson);
+                staticLoginJson = loginJson;
+                postOrGet = 'post';
+                
+                Navigator.pushReplacementNamed(context, SynchronizeCategoryCircularProgress.tag);
               },
             ),
 

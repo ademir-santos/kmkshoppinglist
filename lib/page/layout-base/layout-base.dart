@@ -101,6 +101,7 @@ class LayoutBase {
           title: Text(' Lista de Compras'),
         );
         break;
+      case 'synchronize-category-circular-progress':
       case 'category-page':
         appBar = new AppBar(
           title: Text(' Categorias'),
@@ -111,6 +112,7 @@ class LayoutBase {
           title: Text(' Usuário'),
         );
         break;
+      case 'synchronize-product-circular-progress':
       case 'product-page':
         appBar = new AppBar(
           title: Text(' Produtos'),

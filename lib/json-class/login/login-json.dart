@@ -99,3 +99,37 @@ class LoginJson {
     return null;
   }
 }
+
+Future<LoginModelJson> fetchPostLogin(LoginModelJson data) async {
+  
+    final dyn = data.toJson();
+
+    final j = json.encode(dyn);
+    
+    dynamic response;
+
+    try {
+        response = await http.post(url('Login', 1),
+          headers: {
+            HttpHeaders.contentTypeHeader: contentType()
+          },
+          body: j
+        );
+      } catch(Exeception){
+        response = await http.post(url('Login', 2),
+          headers: {
+            HttpHeaders.contentTypeHeader: contentType()
+          },
+          body: j
+        );
+      }
+
+    if (response.statusCode == 200) {
+      //If the call to the server was successful, parse the JSON.
+      return postFromJson(response.body);
+    } else {
+      // If that call was not successful, throw an error.
+      throw Exception('Failed to load post');
+    }
+}
+
