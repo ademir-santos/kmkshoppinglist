@@ -20,6 +20,6 @@ class HistoricListBloc {
   }
 
   getList() async{
-    _controller.sink.add(await userShoppingListDao.listHistoric(HistoicHomePage.userRecId));
+    _controller.sink.add(await userShoppingListDao.listHistoric(HistoricHomePage.userRecId));
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kmkshoppinglist/page/category/category.dart';
 import 'package:kmkshoppinglist/page/home/historic.dart';
+import 'package:kmkshoppinglist/page/home/historic/historicHome.dart';
 import 'package:kmkshoppinglist/page/home/home.dart';
 import 'package:kmkshoppinglist/page/home/list-category/mirror-category.dart';
 import 'package:kmkshoppinglist/page/home/list-home/list-mirror-category.dart';
@@ -24,7 +25,7 @@ class KMKShoppingList extends StatelessWidget {
     LoginPage.tag: (context) => LoginPage(),
     LoginAddPage.tag: (context) => LoginAddPage(),
     HomePage.tag: (context) => HomePage(),
-    HistoricoPage.tag: (context) => HistoricoPage(), 
+    //HistoricoPage.tag: (context) => HistoricoPage(), 
     ListMirrorCategoryPage.tag: (context) => ListMirrorCategoryPage(),
     ListMirrorProductPage.tag: (context) => ListMirrorProductPage(),
     MirrorCategoryPage.tag: (context) => MirrorCategoryPage(),
@@ -36,7 +37,10 @@ class KMKShoppingList extends StatelessWidget {
     
     //Sincronization tables
     SynchronizeCategoryCircularProgress.tag: (context) => SynchronizeCategoryCircularProgress(),
-    SynchronizeProductCircularProgress.tag: (context) => SynchronizeProductCircularProgress()
+    SynchronizeProductCircularProgress.tag: (context) => SynchronizeProductCircularProgress(),
+
+    //Historicos de compras
+    HistoricHomePage.tag: (context) => HistoricHomePage()
   };
 
   @override

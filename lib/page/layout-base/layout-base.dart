@@ -101,6 +101,11 @@ class LayoutBase {
           title: Text(' Lista de Compras'),
         );
         break;
+    case 'historic-page':
+        appBar = new AppBar(
+          title: Text(' Historico de Compras'),
+        );
+        break;
       case 'synchronize-category-circular-progress':
       case 'category-page':
         appBar = new AppBar(

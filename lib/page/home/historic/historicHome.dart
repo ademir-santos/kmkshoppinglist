@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:kmkshoppinglist/page/home/home.dart';
+import 'package:kmkshoppinglist/page/layout-base/layout.dart';
 
-class HistoicHomePage extends StatefulWidget {
+import 'historic-list-bloc.dart';
+import 'historic-list.dart';
+
+class HistoricHomePage extends StatefulWidget {
 
   static String tag = 'historic-page';
   
@@ -14,14 +18,43 @@ class HistoicHomePage extends StatefulWidget {
   static int userRecId = HomePage.refId;
 
   @override
-  _HistoicHomePageState createState() => _HistoicHomePageState();
+  _HistoricHomePageState createState() => _HistoricHomePageState();
 }
 
-class _HistoicHomePageState extends State<HistoicHomePage> {
+class _HistoricHomePageState extends State<HistoricHomePage> {
+
+  final HistoricListBloc historicListBloc = HistoricListBloc();
+
+  @override
+  void dispose() {
+    historicListBloc.dipose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      
+
+    final content = StreamBuilder<List<Map>>(
+      stream: historicListBloc.lists,
+      builder: (BuildContext context, AsyncSnapshot snapshot){
+        switch(snapshot.connectionState){
+          case ConnectionState.none:
+          case ConnectionState.waiting:
+            return const Center(child: CircularProgressIndicator());
+            break;
+           default:
+            if(snapshot.hasError){
+              print(snapshot.hasError);
+              return Text('Erro: ${snapshot.error}');
+            }
+            else{
+              return HistoricListPage(key: widget.key,shoppList: snapshot.data);
+            }
+            break;
+        }
+      },
     );
+
+    return Layout.getContent(context, content, true, HistoricHomePage.tag);
   }
 }
