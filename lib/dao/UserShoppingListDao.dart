@@ -137,4 +137,11 @@ class UserShoppingListDao extends AbstractDataBase {
     
     return (rows != 0);
   }
+
+   Future<List<Map>> listHistoric(dynamic refIdUser) async{
+    Database db = await this.getDb();
+    return db.rawQuery("""SELECT * FROM user_shopplist 
+                          WHERE refid_user = ? 
+                          AND completed = 1""", [refIdUser]);
+  }
 }
