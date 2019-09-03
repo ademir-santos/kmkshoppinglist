@@ -82,7 +82,15 @@ class _CategoryPageState extends State<CategoryPage> {
                 switch (snapshot.connectionState) {
                   case ConnectionState.none:
                   case ConnectionState.waiting:
-                    return CircularProgressIndicator();
+                    return Container(
+                      width: 200.0,
+                      height: 200.0,
+                      alignment: Alignment.center,
+                      child: CircularProgressIndicator(
+                        valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                        strokeWidth: 5.0,
+                      ),
+                    );
                     break; // Useless after return
                   default:
                     if (snapshot.hasError) {
