@@ -24,8 +24,7 @@ class KMKShoppingList extends StatelessWidget {
   final routes = <String, WidgetBuilder> {
     LoginPage.tag: (context) => LoginPage(),
     LoginAddPage.tag: (context) => LoginAddPage(),
-    HomePage.tag: (context) => HomePage(),
-    //HistoricoPage.tag: (context) => HistoricoPage(), 
+    HomePage.tag: (context) => HomePage(), 
     ListMirrorCategoryPage.tag: (context) => ListMirrorCategoryPage(),
     ListMirrorProductPage.tag: (context) => ListMirrorProductPage(),
     MirrorCategoryPage.tag: (context) => MirrorCategoryPage(),

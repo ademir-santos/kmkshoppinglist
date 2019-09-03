@@ -70,33 +70,11 @@ class _SynchronizeCategoryCircularProgressState extends State<SynchronizeCategor
                             return Text('Error: ${snapshot.error}');
                       } else {
                         if (snapshot.hasData) {
-                          switch(statusJson) {
-                          case 200:
-                            //Scaffold.of(context).showSnackBar(getSnackBarLoad(codeMessage200(), SynchronizeCategoryCircularProgress.tag));
-                            //widget.scaffold_state.currentState.showSnackBar(getSnackBarLoad(codeMessage200(), SynchronizeCategoryCircularProgress.tag));
-                            return SyncBodyPage(stateCode:statusJson, map:snapshot.data);
-                            
-                            break;
-                          case 201:
-                            //widget.scaffold_state.currentState.showSnackBar(getSnackBarLoad(codeMessage201(), SynchronizeCategoryCircularProgress.tag));
-                            return SyncBodyPage(stateCode:statusJson, map:snapshot.data);
-                            break;
-                          case 400:
-                            getSnackBarLoad(codeMessage200(), SynchronizeCategoryCircularProgress.tag);
-                            break;
-                          case 401:
-                            getSnackBarLoad(codeMessage200(), SynchronizeCategoryCircularProgress.tag);
-                            break;
-                          case 402:
-                            getSnackBarLoad(codeMessage200(), SynchronizeCategoryCircularProgress.tag);
-                            break;
-                          case 500:
-                            getSnackBarLoad(codeMessage200(), SynchronizeCategoryCircularProgress.tag);
-                            break;
+                          return SyncBodyPage(stateCode:statusJson, map:snapshot.data);
                         }
-                      }
-                      break;
-                    }  
+                        
+                        break;
+                      }  
                   }
                 }
               )

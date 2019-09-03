@@ -61,7 +61,10 @@ class LoginJson {
         final jsonData = json.decode(response.body);
 
         return LoginModelJson.fromJson(jsonData);
-      }
+    } else {
+      statusJson = 404;
+      throw Exception('Failed to load post');
+    }
 
     return null;
   }
@@ -94,8 +97,11 @@ class LoginJson {
         final jsonData = json.decode(response.body);
 
         return LoginModelJson.fromJson(jsonData).acessToken;
-      }
-
+    } else {
+      statusJson = 404;
+      throw Exception('Failed to load post');
+    }
+    
     return null;
   }
 }
@@ -115,20 +121,21 @@ Future<LoginModelJson> fetchPostLogin(LoginModelJson data) async {
           },
           body: j
         );
-      } catch(Exeception){
-        response = await http.post(url('Login', 2),
-          headers: {
-            HttpHeaders.contentTypeHeader: contentType()
-          },
-          body: j
-        );
+      } catch(Exeception) {
+          response = await http.post(url('Login', 2),
+            headers: {
+              HttpHeaders.contentTypeHeader: contentType()
+            },
+            body: j
+          );
       }
 
-    if (response.statusCode == 200) {
+    if (response.statusCode == 200 || response != null) {
       //If the call to the server was successful, parse the JSON.
       return postFromJson(response.body);
     } else {
       // If that call was not successful, throw an error.
+      statusJson = 404;
       throw Exception('Failed to load post');
     }
 }

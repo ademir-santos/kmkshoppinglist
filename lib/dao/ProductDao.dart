@@ -35,7 +35,6 @@ class ProductDao extends AbstractDataBase {
     Database db = await this.getDb();
 
     return db.query('product', where: 'categorys = ?', whereArgs: [where]);
-    //return db.rawQuery('SELECT * FROM product WHERE categorys = $where ORDER BY products ASC');
   }
 
   @override
@@ -78,7 +77,7 @@ class ProductDao extends AbstractDataBase {
     return (rows != 0);
   }
 
-  Future<Map> getItemSelect(refId, category, product) async{
+  Future<Map> getItemSelect(recId, category, product) async {
     Database db = await this.getDb();
     List<Map> productTable;
     
@@ -86,7 +85,7 @@ class ProductDao extends AbstractDataBase {
                                         SELECT * FROM product 
                                         WHERE recid = ? 
                                         AND categorys = ?
-                                        AND products = ?""", [refId,category,product]);
+                                        AND products = ?""", [recId,category,product]);
 
     Map result = Map();
 

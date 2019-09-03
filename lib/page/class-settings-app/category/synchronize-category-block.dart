@@ -1,12 +1,13 @@
 import 'dart:async';
 
+import 'package:kmkshoppinglist/dao/CategoryDao.dart';
 import 'package:kmkshoppinglist/json-class/category/category-json.dart';
-import 'package:kmkshoppinglist/json-class/category/category-model-json.dart';
 import 'package:kmkshoppinglist/json-class/login/login-model-json.dart';
 import 'package:kmkshoppinglist/json-class/variable-json.dart';
 
 class SynchronizeCategoryBlock {
   final LoginModelJson _json;
+  final CategoryDao dao = CategoryDao();
 
   SynchronizeCategoryBlock(this._json) {
   }
@@ -20,9 +21,12 @@ class SynchronizeCategoryBlock {
   }
 
   getList() async{
-    if(postOrGet == "post")
-      _controller.sink.add(await allPostsListBloc(await fetchPostCategory(this._json)));
-    else
-      _controller.sink.add(await allPostsListBloc(await fetchGetCategory(this._json)));
+    if(postOrGet == "post"){
+      fetchPostCategory(this._json);
+      _controller.sink.add(await dao.list(0));
+    } else {
+      fetchGetCategory(this._json);
+      _controller.sink.add(await dao.list(0));
+    }  
   }
 }

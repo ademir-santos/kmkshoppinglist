@@ -5,7 +5,6 @@ import 'package:kmkshoppinglist/dao/CategoryDao.dart';
 import 'package:kmkshoppinglist/json-class/category/category-model-json.dart';
 import 'package:kmkshoppinglist/json-class/login/login-json.dart';
 import 'package:kmkshoppinglist/json-class/login/login-model-json.dart';
-import 'package:kmkshoppinglist/json-class/message-json/messages.dart';
 import 'package:kmkshoppinglist/json-class/variable-json.dart';
 
 import '../variable-json.dart';
@@ -254,24 +253,24 @@ Future<CategoryJsonModel> fetchGetCategory(LoginModelJson data) async {
   dynamic response;
 
   try {
-      response = await http.get(url('Category', 1),
-        headers: {
-          HttpHeaders.contentTypeHeader: contentType(),
-          HttpHeaders.authorizationHeader: authKey 
-        },
-      );
-    } catch(Exeception){
-      response = await http.get(url('Category', 2),
-        headers: {
-          HttpHeaders.contentTypeHeader: contentType(),
-          HttpHeaders.authorizationHeader: authKey 
-        },
-      );
-    }
+    response = await http.get(url('Category', 1),
+      headers: {
+        HttpHeaders.contentTypeHeader: contentType(),
+        HttpHeaders.authorizationHeader: authKey 
+      },
+    );
+  } catch(Exeception){
+    response = await http.get(url('Category', 2),
+      headers: {
+        HttpHeaders.contentTypeHeader: contentType(),
+        HttpHeaders.authorizationHeader: authKey 
+      },
+    );
+  }
 
   statusJson = response.statusCode;
 
-  if(response.statusCode == 200) {
+  if((response.statusCode == 200)) {
     
     CategoryDao dao = CategoryDao();
 
@@ -304,7 +303,9 @@ Future<CategoryJsonModel> fetchGetCategory(LoginModelJson data) async {
     }
 
     return postCategoryFromJson(response.body);
-  } 
+  } else if((response == null)) {
+    statusJson = 404;
+  }
 
   return new CategoryJsonModel();  
 }

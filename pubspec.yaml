@@ -65,6 +65,12 @@ flutter:
   assets:
     - assets/images/listabuy01.png
     - assets/images/google_concluido_1.png
+    - assets/images/400.png    
+    - assets/images/401.png   
+    - assets/images/403.png   
+    - assets/images/404.png
+    - assets/images/500.png    
+    - assets/images/503.png
   #  - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

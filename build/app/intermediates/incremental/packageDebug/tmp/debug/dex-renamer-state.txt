@@ -1,4 +1,4 @@
-#Mon Sep 02 00:18:57 BRT 2019
+#Mon Sep 02 21:40:04 BRT 2019
 base.0=C\:\\Users\\ademi\\source\\repos\\kmkshoppinglist\\build\\app\\intermediates\\transforms\\dexMerger\\debug\\0
 path.0=classes.dex
 renamed.0=classes.dex
