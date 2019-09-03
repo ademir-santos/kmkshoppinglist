@@ -108,14 +108,14 @@ class CategoryDao extends AbstractDataBase {
     return (rowsC != 0);
   }
 
-  Future<Map> getItemSelect(dynamic refId, dynamic category) async{
+  Future<Map> getItemSelect(dynamic recId, dynamic category) async{
     Database db = await this.getDb();
     List<Map> categoryTable;
     
     categoryTable = await db.rawQuery("""
                                         SELECT * FROM category 
                                         WHERE recid = ? 
-                                        AND categorys = ?""", [refId,category]);
+                                        AND categorys = ?""", [recId,category]);
 
     Map result = Map();
 

@@ -10,7 +10,7 @@ List<String> dbCreate = [
     CREATE TABLE category(
       recid INTEGER PRIMARY KEY,
       id TEXT,
-      categorys TEXT,
+      qty_product INTEGER,
       createAt TEXT,
       updateAt TEXT
     )
